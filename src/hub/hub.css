@@ -1,0 +1,191 @@
+.hub {
+  --hub-bg: #f3f2ee;
+  --hub-ink: #121211;
+  --hub-ink-2: #44443f;
+  --hub-muted: #7c7b74;
+  --hub-line: rgba(18, 18, 17, 0.1);
+  --hub-card: #fbfaf7;
+  min-height: 100vh;
+  background: var(--hub-bg);
+  color: var(--hub-ink);
+  font-family: 'Inter Tight Variable', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  padding: 0 clamp(16px, 4vw, 56px);
+}
+
+.hub-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 72px;
+  border-bottom: 1px solid var(--hub-line);
+  font-size: 13px;
+}
+.hub-mark {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.hub-meta {
+  color: var(--hub-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.hub-intro {
+  max-width: 980px;
+  padding: clamp(56px, 10vw, 128px) 0 clamp(40px, 6vw, 72px);
+}
+.hub-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hub-muted);
+  margin-bottom: 20px;
+}
+.hub-intro h1 {
+  font-size: clamp(40px, 6.4vw, 92px);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  font-weight: 500;
+  text-wrap: balance;
+}
+.hub-intro h1 em {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+.hub-lede {
+  margin-top: 28px;
+  max-width: 560px;
+  color: var(--hub-ink-2);
+  font-size: clamp(15px, 1.3vw, 17px);
+}
+
+.hub-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 clamp(56px, 8vw, 104px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 3vw, 44px) clamp(16px, 2.2vw, 32px);
+}
+
+.hub-link {
+  display: block;
+  border-radius: 18px;
+}
+.hub-link:focus-visible {
+  outline: 2px solid var(--hub-ink);
+  outline-offset: 6px;
+}
+.hub-thumb {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e7e5df, #dcd9d1);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 1px 2px rgba(0, 0, 0, 0.05), 0 18px 40px -24px rgba(30, 28, 20, 0.35);
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.hub-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.hub-link:hover .hub-thumb,
+.hub-link:focus-visible .hub-thumb {
+  transform: translateY(-4px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 2px 4px rgba(0, 0, 0, 0.05), 0 30px 60px -28px rgba(30, 28, 20, 0.45);
+}
+.hub-link:hover .hub-thumb img {
+  transform: scale(1.025);
+}
+
+.hub-info {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: start;
+  padding: 18px 2px 0;
+}
+.hub-num {
+  font-size: 12px;
+  color: var(--hub-muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: 5px;
+}
+.hub-text h2 {
+  font-size: 22px;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-weight: 550;
+}
+.hub-kind {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--hub-ink-2);
+  margin-top: 2px;
+}
+.hub-blurb {
+  margin-top: 8px;
+  color: var(--hub-muted);
+  max-width: 46ch;
+  font-size: 14px;
+}
+.hub-route {
+  font-size: 12px;
+  color: var(--hub-muted);
+  padding: 4px 10px;
+  border: 1px solid var(--hub-line);
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: background 0.3s, color 0.3s;
+}
+.hub-link:hover .hub-route {
+  background: var(--hub-ink);
+  color: var(--hub-bg);
+  border-color: var(--hub-ink);
+}
+
+.hub-foot {
+  border-top: 1px solid var(--hub-line);
+  padding: 28px 0 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 40px;
+  justify-content: space-between;
+  color: var(--hub-muted);
+  font-size: 13px;
+}
+.hub-foot p {
+  max-width: 560px;
+}
+.hub-stack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.hub-stack li {
+  padding: 3px 10px;
+  border: 1px solid var(--hub-line);
+  border-radius: 999px;
+}
+
+@media (max-width: 760px) {
+  .hub-grid {
+    grid-template-columns: 1fr;
+  }
+  .hub-route {
+    display: none;
+  }
+  .hub-info {
+    grid-template-columns: auto 1fr;
+  }
+}
