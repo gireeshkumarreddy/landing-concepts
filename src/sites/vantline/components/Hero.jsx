@@ -85,6 +85,8 @@ const Hero = forwardRef(function Hero({ onSignup }, outerRef) {
           <div className="au-hero__shade" />
         </div>
 
+        <div className="au-hero__haze" aria-hidden="true" />
+
         <div className="au-slab" aria-hidden="true">
           <div className="au-slab__drift">
             <div className="au-slab__pane">
@@ -102,7 +104,7 @@ const Hero = forwardRef(function Hero({ onSignup }, outerRef) {
           <p className="au-hero__sub">
             Vantline reads your metrics, docs and team threads, explains every shift in plain language, and suggests the next move.
           </p>
-          <PillButton className="au-hero__cta" tone="dark" onClick={onSignup}>
+          <PillButton className="au-hero__cta" tone="light" onClick={onSignup}>
             Try Vantline free
           </PillButton>
         </div>

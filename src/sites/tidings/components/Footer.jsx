@@ -3,6 +3,7 @@ import Columns from './Columns.jsx';
 import { useTidings } from '../hooks.jsx';
 import { LEARN_LINKS, PLATFORM_LINKS, REGIONS, REGION_ORDER } from '../data.js';
 import { IconArrow } from '../icons.jsx';
+import Wordmark from './Wordmark.jsx';
 
 export function FinalCta() {
   const { openWizard, openContact } = useTidings();
@@ -18,7 +19,7 @@ export function FinalCta() {
             </h2>
             <p className="ar-final-sub">Draft a first campaign, preview it on a real conversation and send only when it feels right.</p>
             <div className="ar-final-actions">
-              <button type="button" className="ar-cta is-light" onClick={() => openWizard()}>
+              <button type="button" className="ar-cta is-white" onClick={() => openWizard()}>
                 Launch a campaign
                 <span className="ar-cta-dot">
                   <IconArrow size={18} sw={2.2} />
@@ -43,7 +44,7 @@ export default function Footer() {
         <div className="ar-footer-top">
           <div className="ar-footer-brand">
             <a href="#top" className="ar-wordmark is-lg" aria-label="tidings — back to top">
-              tidings
+              <Wordmark />
             </a>
             <p>WhatsApp campaigns customers actually want to open — broadcasts, product messages, payments and journeys in one place.</p>
             <div className="ar-footer-region">

@@ -148,7 +148,7 @@ export default function Builder() {
             <>
               Write it once.
               <br />
-              <span className="ar-accent-text">It reads personal.</span>
+              It reads personal.
             </>
           }
           lead="Choose a template, drop in personal details and preview exactly what each customer sees — nothing leaves until you say so."
@@ -302,7 +302,7 @@ export default function Builder() {
             </div>
 
             <div className="ar-controls-foot">
-              <button type="submit" className="ar-btn ar-btn-primary">
+              <button type="submit" className="ar-btn ar-btn-blue">
                 Send test message <IconSend size={16} sw={2} />
               </button>
               <p className="ar-fineprint">Tests appear in the preview phone only — no customer receives anything.</p>

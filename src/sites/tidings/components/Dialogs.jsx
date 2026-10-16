@@ -68,7 +68,7 @@ export function LoginDialog({ open, onClose }) {
                 onChange={e => setEmail(e.target.value)}
               />
             </Field>
-            <button type="submit" className="ar-btn ar-btn-primary is-block" disabled={status === 'loading'}>
+            <button type="submit" className="ar-btn ar-btn-blue is-block" disabled={status === 'loading'}>
               {status === 'loading' ? (
                 <>
                   <Spinner /> Preparing link…
@@ -174,7 +174,7 @@ export function ContactDialog({ open, onClose }) {
             <Field id="ar-c-note" label="What should we know? (optional)">
               <textarea {...fieldAria('ar-c-note')} rows={3} className="ar-input ar-textarea" value={v.note} onChange={set('note')} />
             </Field>
-            <button type="submit" className="ar-btn ar-btn-primary is-block" disabled={status === 'loading'}>
+            <button type="submit" className="ar-btn ar-btn-blue is-block" disabled={status === 'loading'}>
               {status === 'loading' ? (
                 <>
                   <Spinner /> Sending…

@@ -228,7 +228,7 @@ const activeInfo = page => page.evaluate(() => ({ tag: document.activeElement?.t
   await page.evaluate(() => { const b = document.querySelector('.au-cta'); window.scrollTo(0, b.getBoundingClientRect().top + scrollY - innerHeight * 0.3); });
   await page.waitForTimeout(1500);
   const bg = await page.evaluate(() => getComputedStyle(document.querySelector('.au')).backgroundColor);
-  ok('page background scrubbed to deep teal', bg === 'rgb(15, 61, 59)', bg);
+  ok('page background scrubbed to near-black', bg === 'rgb(17, 21, 17)', bg);
   await page.locator('.au-cta .au-pill').click();
   await page.waitForTimeout(700);
   ok('CTA band button opens drawer', await page.locator('[role="dialog"][aria-modal="true"]').isVisible());

@@ -1,13 +1,13 @@
 // Copy and sample data for the Sagewell concept page. All of it is written for this project.
 
 export const IMG = {
-  hero: '1775313088881-649b8d9dc7d8', // soft pastel sky over water
-  clouds: '1681235155981-b6553346cc41', // painted cloudscape
-  cliffs: '1781708897984-9f8b06afb9dc', // impressionist cliffs and boats
-  coastSunset: '1774887053803-5e535abe27c5', // pink and orange coastal sunset
-  storm: '1705080188277-74dd01f11d61', // stormy painted sky
-  bay: '1742673506753-b286d4c0a120', // calm bay with a sailboat
-  lakeSunset: '1742672001310-a6fab9c25b92', // sunset over a lake and hills
+  heroWide: '1745761500122-a39a7919ec5b', // painted garden path with flowering shrubs
+  heroTall: '1739160480412-259ec009d1cc', // tropical leaves, flowers and birds
+  stream: '1685648043564-ac64bc80d82f', // watercolour stream through a forest
+  garden: '1688588428113-d24195a109bc', // impressionist garden
+  forest: '1683221044456-b708fcb22060', // forest painting
+  banana: '1741722604145-4e00cf5b2052', // banana trees, dark
+  ferns: '1752854058427-8a87b57eac2b', // lush ferns with pink flowers
 };
 
 export const NAV_LINKS = [
@@ -483,32 +483,32 @@ export const USE_CASES = [
     label: 'Literature reviews',
     example: 'spacing',
     body: 'Reads across studies, separates strong findings from weak ones, and keeps the citations attached.',
-    img: IMG.bay,
-    pos: '62% 50%',
+    img: IMG.forest,
+    pos: '50% 40%',
   },
   {
     id: 'postmortems',
     label: 'Incident post-mortems',
     example: 'postmortem',
     body: 'Turns scattered notes into a timeline and actions without hunting for someone to blame.',
-    img: IMG.storm,
-    pos: '45% 40%',
+    img: IMG.banana,
+    pos: '50% 35%',
   },
   {
     id: 'policy',
     label: 'Policy comparison',
     example: 'privacy',
     body: 'Lines up rules clause by clause and is explicit about where the law is unsettled.',
-    img: IMG.cliffs,
-    pos: '40% 50%',
+    img: IMG.heroTall,
+    pos: '50% 30%',
   },
   {
     id: 'strategy',
     label: 'Product strategy',
     example: 'billing',
     body: 'Weighs options against your constraints and names the conditions that would change the call.',
-    img: IMG.coastSunset,
-    pos: '30% 50%',
+    img: IMG.ferns,
+    pos: '50% 55%',
   },
 ];
 

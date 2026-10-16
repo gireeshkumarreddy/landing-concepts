@@ -2,7 +2,8 @@ import { useId, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useTidings, useDropdown, useScrolled } from '../hooks.jsx';
 import { LEARN_LINKS, PLATFORM_LINKS, REGIONS, REGION_ORDER } from '../data.js';
-import { CurrencyMark, IconArrow, IconChevronDown, IconClose, IconMenu } from '../icons.jsx';
+import { Flag, IconArrow, IconChevronDown, IconClose, IconMenu } from '../icons.jsx';
+import Wordmark from './Wordmark.jsx';
 import { useEscape, useFocusTrap, useScrollLock } from '../../../shared/a11y.js';
 
 const pop = {
@@ -66,7 +67,7 @@ export function RegionSelect({ align = 'right', compact = false }) {
         onClick={() => dd.setOpen(o => !o)}
         onKeyDown={dd.onButtonKeyDown}
       >
-        <CurrencyMark code={region} />
+        <Flag code={region} className="ar-flag" />
         <span>{region}</span>
         <IconChevronDown size={13} sw={2} className="ar-dd-chev" />
       </button>
@@ -95,7 +96,7 @@ export function RegionSelect({ align = 'right', compact = false }) {
                   dd.btnRef.current?.focus();
                 }}
               >
-                <CurrencyMark code={code} />
+                <Flag code={code} className="ar-flag" />
                 <span className="ar-region-name">{REGIONS[code].name}</span>
                 <span className="ar-region-cur">
                   {REGIONS[code].symbol} {REGIONS[code].currency}
@@ -144,7 +145,7 @@ function MobileMenu({ open, onClose }) {
           >
             <div className="ar-sheet-top">
               <span className="ar-wordmark" aria-hidden="true">
-                tidings
+                <Wordmark />
               </span>
               <button type="button" className="ar-icon-btn" aria-label="Close menu" onClick={onClose}>
                 <IconClose size={20} />
@@ -187,8 +188,8 @@ function MobileMenu({ open, onClose }) {
                       onChange={() => setRegion(code)}
                       className="sr-only"
                     />
-                    <CurrencyMark code={code} />
-                    {code}
+                    <Flag code={code} className="ar-flag" />
+                    {code} · {REGIONS[code].symbol}
                   </label>
                 ))}
               </div>
@@ -234,7 +235,7 @@ export default function Nav() {
     <header className={`ar-nav ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="ar-wrap ar-nav-inner">
         <a href="#top" className="ar-wordmark" aria-label="tidings — back to top">
-          tidings
+          <Wordmark />
         </a>
         <nav aria-label="Primary" className="ar-nav-links">
           <ul role="list">

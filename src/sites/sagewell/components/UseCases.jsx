@@ -37,7 +37,8 @@ export default function UseCases() {
               <b>04</b> In practice
             </p>
             <h2 id="cr-uses-title" className="cr-h2" data-cr-reveal>
-              Questions with consequences.
+              Questions with <br className="cr-br-lg" />
+              consequences.
             </h2>
           </div>
           <p className="cr-lede" data-cr-reveal>

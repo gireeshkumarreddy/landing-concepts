@@ -71,16 +71,23 @@ export default function Hero({ composerRef }) {
       <div className="cr-hero__frame">
         <div className="cr-hero__media" ref={mediaRef} aria-hidden="true">
           <div className="cr-hero__drift" ref={driftRef}>
-            <img
-              src={unsplash(IMG.hero, { w: 1600, q: 74 })}
-              srcSet={unsplashSrcSet(IMG.hero, [700, 1100, 1600, 2000, 2600], { q: 74 })}
-              sizes="(max-width: 700px) 260vw, 100vw"
-              alt=""
-              width="1600"
-              height="1104"
-              fetchPriority="high"
-              decoding="async"
-            />
+            <picture>
+              <source
+                media="(max-width: 700px)"
+                srcSet={unsplashSrcSet(IMG.heroTall, [480, 720, 960, 1280], { q: 70 })}
+                sizes="100vw"
+              />
+              <img
+                src={unsplash(IMG.heroWide, { w: 1600, q: 72 })}
+                srcSet={unsplashSrcSet(IMG.heroWide, [800, 1200, 1600, 2000, 2600], { q: 72 })}
+                sizes="100vw"
+                alt=""
+                width="1600"
+                height="1049"
+                fetchPriority="high"
+                decoding="async"
+              />
+            </picture>
           </div>
         </div>
         <div className="cr-hero__fog" aria-hidden="true" />

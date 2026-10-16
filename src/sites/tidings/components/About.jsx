@@ -8,12 +8,9 @@ export default function About() {
           <p className="ar-eyebrow" data-reveal>
             Company
           </p>
-          <h2 id="ar-about-title" className="ar-about-title" data-reveal>
-            Messages people are <span className="ar-accent-text">glad to get</span>.
+          <h2 id="ar-about-title" className="ar-about-mission" data-reveal>
+            Messages people are <span className="ar-blue-text">glad to get</span> — a word from a shop they like, never an interruption. Tidings helps you send fewer, better ones and shows which worked.
           </h2>
-          <p className="ar-about-mission" data-reveal>
-            Tidings is built around one idea: a message from a business should feel like a note from a shop you like, not an interruption. The tools exist to help you send fewer, better messages — and to show plainly which ones worked.
-          </p>
           <p className="ar-about-note" data-reveal>
             Tidings is a concept product, designed as a portfolio study of consent-first messaging software.
           </p>

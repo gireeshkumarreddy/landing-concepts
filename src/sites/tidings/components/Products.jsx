@@ -3,9 +3,8 @@ import { AnimatePresence, motion, useInView } from 'motion/react';
 import SectionHead from './SectionHead.jsx';
 import { Avatar, Ticks } from './Phone.jsx';
 import { copyText, useTidings, useProgress } from '../hooks.jsx';
-import { IMG_DISH, PEOPLE, fmt, money } from '../data.js';
-import { unsplash } from '../../../shared/img.js';
-import { IconCard, IconCart, IconCheck, IconClock, IconCopy, IconReplay, IconSend, Spinner } from '../icons.jsx';
+import { PEOPLE, fmt, money } from '../data.js';
+import { IconCart, IconCheck, IconClock, IconCopy, IconReplay, IconSend, Spinner } from '../icons.jsx';
 
 const clamp01 = v => Math.max(0, Math.min(1, v));
 const easeInOut = t => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
@@ -97,8 +96,9 @@ function Links() {
       <div className="ar-wa-wall">
         <div className="ar-mini-msg is-me">
           <div className="ar-lp">
-            <div className="ar-lp-thumb">
-              <img src={unsplash(IMG_DISH, { w: 180, h: 180, q: 70 })} alt="A plated spring dish" width="84" height="84" loading="lazy" decoding="async" />
+            <div className="ar-lp-thumb" aria-hidden="true">
+              <span className="ar-lp-pct">£58</span>
+              <span className="ar-lp-tag">Six courses</span>
             </div>
             <div className="ar-lp-text">
               <span className="ar-lp-title">Spring tasting menu</span>
@@ -148,7 +148,7 @@ function Checkout() {
       <div className="ar-co-bubble">
         <div className="ar-co-head">
           <span className="ar-co-ico" aria-hidden="true">
-            <IconCard size={16} sw={2} />
+            <IconCart size={16} sw={2} />
           </span>
           <span>
             <span className="ar-co-title">Ready to pay</span>
@@ -302,7 +302,7 @@ export default function Products() {
           eyebrow="Platform"
           title={
             <>
-              Everything a <span className="ar-accent-text">chat‑first shop</span> needs
+              Everything a <span className="ar-blue-text">chat‑first shop</span> needs
             </>
           }
           lead="Four connected tools on one opted-in audience — the message, the product, the payment and the follow-up all live in the same thread."

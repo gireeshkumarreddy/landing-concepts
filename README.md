@@ -1,16 +1,16 @@
 # Six Landing Pages — interactive concept studies
 
-Six independent, fully interactive landing pages. Six reference designs guided the layouts and
-compositions; every brand, word, person, data point and colour palette here is original.
+Six independent, fully interactive landing pages. Six reference designs set the visual direction —
+layout, composition and colour; every brand, logo, word, person and data point here is original.
 
-| Route | Concept | Palette | Type | Signature interaction |
-| --- | --- | --- | --- | --- |
-| `/sagewell` | Sagewell — AI reasoning model | Harbour at dusk: porcelain, indigo, apricot | Figtree | Prompt composer with streamed reasoning-trace demo, API playground, cost estimator |
-| `/vantline` | Vantline — decision-intelligence copilot | Desert dusk: ivory, deep teal, coral | Inter Tight + Instrument Serif | Fanned insight deck, live chart controls, plans toggle, scroll colour transition |
-| `/tidings` | Tidings — WhatsApp commerce platform | Garden emerald: cream, emerald, tangerine | Outfit | Clickable phone chats, campaign builder with live preview, 3-step campaign wizard |
-| `/emberpost` | Emberpost — people-first email | Warm stone & vermillion | Geist + Geist Mono | Fully clickable inbox: switch people, reply, mark done/undo, keyboard shortcuts |
-| `/creative-portfolio` | Ines Morrow — film editor (fictional) | Darkroom: near-black, warm white, signal yellow | Archivo + JetBrains Mono + Caveat | Scrubbable hero timeline, case studies with before/after colour-grade slider |
-| `/maren-holt` | Maren Holt — book editor (fictional) | Paper, ink & rust, sage | Plus Jakarta Sans + Newsreader | Typewriter headline with pressable 3D keycaps, essay filters, search palette, reader |
+| Route | Concept | Type | Signature interaction |
+| --- | --- | --- | --- |
+| `/sagewell` | Sagewell — AI reasoning model | Figtree | Prompt composer with streamed reasoning-trace demo, API playground, cost estimator |
+| `/vantline` | Vantline — decision-intelligence copilot | Inter Tight + Instrument Serif | Fanned insight deck, live chart controls, plans toggle, scroll colour transition |
+| `/tidings` | Tidings — WhatsApp commerce platform | Outfit | Clickable phone chats, campaign builder with live preview, 3-step campaign wizard |
+| `/emberpost` | Emberpost — people-first email | Geist + Geist Mono | Fully clickable inbox: switch people, reply, mark done/undo, keyboard shortcuts |
+| `/creative-portfolio` | Ines Morrow — film editor (fictional) | Archivo + JetBrains Mono + Caveat | Scrubbable hero timeline, case studies with before/after colour-grade slider |
+| `/maren-holt` | Maren Holt — book editor (fictional) | Plus Jakarta Sans + Newsreader | Typewriter headline with pressable 3D keycaps, essay filters, search palette, reader |
 
 `/` is an index of all six. Every route loads directly and survives refresh.
 
@@ -58,7 +58,7 @@ src/
 docs/briefs/              the design brief for each site (identity, palette, imagery, copy)
 scripts/shot.mjs          screenshot helper (headless Edge via playwright-core)
 scripts/audit.mjs         route × viewport audit (overflow, console errors, broken images, a11y basics)
-scripts/originality-check.mjs  fails if any reference text, name or old palette value is in src/
+scripts/originality-check.mjs  fails if any reference text, brand or person name is in src/
 ```
 
 CSS is scoped per site (each site's selectors live under its own short class prefix) so the pages
@@ -69,7 +69,7 @@ never leak styles into each other when navigating client-side.
 All use the locally installed Microsoft Edge through `playwright-core` (no browser download).
 
 ```bash
-node scripts/originality-check.mjs                         # nothing copied from the references
+node scripts/originality-check.mjs                         # no reference text, names or data in src/
 node scripts/shot.mjs /sagewell shot.png 1440 900 --full   # screenshot (also --reduced, --scroll=px)
 node scripts/audit.mjs http://localhost:4173               # every route × 6 viewports
 node scripts/qa/cross-nav.mjs http://localhost:4173        # client-side navigation between sites

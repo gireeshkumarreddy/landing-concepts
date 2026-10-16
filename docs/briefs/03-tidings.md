@@ -4,28 +4,24 @@ Layout, components and interactions stay as built (sticky nav with dropdowns + r
 badge, two-line headline, big pill CTA, gradient with light columns, cropped phone with live chats,
 two tilted message cards, products bento, campaign builder, analytics, how-it-works, pricing, FAQ,
 about, CTA band, footer, wizard/log-in/sales dialogs). **Everything visible changes:** name, all
-copy, every chat name & message, templates, segments, analytics campaigns, prices, palette, imagery.
+copy, every chat name & message, templates, segments, analytics campaigns, prices. The visual design stays as the first build.
 
 ## Identity
 - **Tidings** — “WhatsApp campaigns customers actually want to open”.
-- Wordmark: “tidings” lowercase, Outfit 700, in `--emerald`, no symbol.
+- Wordmark: “tidings” custom wordmark in the v1 blue.
 - Footer line: “Tidings is a concept product for a design portfolio. Not affiliated with WhatsApp or Meta.”
 
-## Palette — “Garden emerald” (replace all blue/violet tokens and hard-coded blues)
-- `--bg #fbfaf6` (cream), `--cloud #f2f5ef`, `--ink #10231e`, `--ink-2 #34463f`, `--muted #66756e`, `--line #e3e8e0`
-- `--emerald #0e7a5a` (primary CTA, wordmark, headline line 2), `--emerald-deep #0a4f3c`, `--forest #083a2d`, `--mint #d8f1e4`, `--mint-2 #b9e7cf`
-- `--tangerine #ff8a3d` (small accents: unread badges in marketing UI, “Popular” chip, highlights), `--tangerine-soft #ffe6d4`
-- Hero gradient: cream → `#e3f4ea` → `#7fd0a8` → `#0f7a5a` at the bottom; light columns in mint/white. CTA glow emerald-tinted. Growth plan card emerald.
-- Chat UI keeps neutral chat greys and a muted chat-green for sent bubbles (`#d9fdd3`-ish is fine inside the phone only).
+## Visual design — restored first build (white → vivid blue-violet, light columns)
+- Tokens: `--ar-ink #15162b`, `--ar-ink-2 #3b3d58`, `--ar-muted #6a6d85`, `--ar-bg #ffffff`, `--ar-cloud #f3f5fb`, `--ar-line #e6e8f2`, `--ar-blue #2a52e8`, `--ar-blue-deep #1b33b8`, `--ar-violet #6a5cff`, `--ar-sky #dbe6ff`, chat green `#25d366` / `#128c4b` inside the phone only.
+- Logo: custom “tidings” wordmark in blue (chat-bubble dot on the i).
 
 ## Imagery
-- Booking card image: `1751011983324-fe9d30fe9efd` (bistro table with wine glasses). Alt for templates: `1414235077428-338989a2e8c0` (plated dish), `1536392706976-e486e2ba97af` (candle-lit long table).
-- Avatars: keep the existing Unsplash portraits but give them **new names**.
+- Booking card: `1751011983324-fe9d30fe9efd` (bistro table). Avatars: existing Unsplash portraits with new names.
 
 ## Copy (all original)
 - Nav: Platform ▾ · Learn ▾ · Pricing · Company — right: “Sign in”, “Book a demo” (opens wizard), region.
 - Badge: “New — take payments inside the chat”.
-- H1: “Turn WhatsApp into” / “your best sales channel” (line 2 emerald).
+- H1: “Turn WhatsApp into” / “your best sales channel”.
 - Sub: “Send personalised broadcasts, win back abandoned carts and take payments right in the chat — with opt-in built in and every message measured.”
 - CTA: “Launch a campaign”.
 - Phone chats (new people): Priya Nair, Tomás Ortega, Hannah Okafor, Lena Fischer, Kenji Watanabe, Amina Diallo — new last messages and conversations.

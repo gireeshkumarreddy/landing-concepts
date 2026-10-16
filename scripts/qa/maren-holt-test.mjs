@@ -29,7 +29,7 @@ async function open(viewport, opts = {}) {
   const shot = n => page.screenshot({ path: `${OUT}/t-${n}.png` });
 
   // Keycap press
-  const key = page.locator('.ch-key--cream').first();
+  const key = page.locator('.ch-key--white').first();
   const kb = await key.boundingBox();
   await page.mouse.move(kb.x + kb.width / 2, kb.y + kb.height / 2);
   await page.mouse.down();

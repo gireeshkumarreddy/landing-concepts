@@ -89,7 +89,7 @@ export default function Features() {
     <section className="au-features" id="product" aria-labelledby="au-features-title" ref={ref}>
       <div className="au-panel">
         <div className="au-panel__bg" aria-hidden="true">
-          <Photo id={IMG.panel} alt="" widths={[800, 1200, 1600, 2200, 2800]} sizes="100vw" />
+          <Photo id={IMG.panel} alt="" widths={[800, 1200, 1600, 2200]} sizes="100vw" ratio={0.62} />
         </div>
         <div className="au-panel__inner">
           <div className="au-head au-head--tight">
@@ -118,7 +118,7 @@ export default function Features() {
                 <Photo
                   className="au-people__img"
                   id={IMG.people}
-                  alt="A person walking across rippled sand, lit from behind by a low sun"
+                  alt="A man in a dark shirt walking into a hazy valley of dry grass"
                   widths={[480, 800, 1200]}
                   sizes="(max-width: 960px) 92vw, 440px"
                 />

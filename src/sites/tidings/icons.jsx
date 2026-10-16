@@ -1,3 +1,4 @@
+import { useId } from 'react';
 // Functional UI icons, drawn on a 24px grid with a consistent 1.8 stroke.
 
 const S = ({ children, size = 18, sw = 1.8, className, ...rest }) => (
@@ -174,12 +175,44 @@ export const Spinner = ({ size = 16, className }) => (
   </svg>
 );
 
-/* ---------- Region marker: the currency symbol in a small round chip ---------- */
-const SYMBOLS = { UK: '£', US: '$', EU: '€' };
-export function CurrencyMark({ code, className = '' }) {
+/* ---------- Region flags (simplified national flags for the region selector) ---------- */
+export function Flag({ code, className }) {
+  const uid = useId().replace(/:/g, '');
+  if (code === 'UK') {
+    return (
+      <svg viewBox="0 0 60 40" className={className} aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid slice">
+        <clipPath id={`${uid}t`}>
+          <path d="M30,20 h30 v20 z v20 h-30 z h-30 v-20 z v-20 h30 z" />
+        </clipPath>
+        <rect width="60" height="40" fill="#012169" />
+        <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" strokeWidth="8" />
+        <path d="M0,0 L60,40 M60,0 L0,40" clipPath={`url(#${uid}t)`} stroke="#C8102E" strokeWidth="5" />
+        <path d="M30,0 v40 M0,20 h60" stroke="#fff" strokeWidth="12" />
+        <path d="M30,0 v40 M0,20 h60" stroke="#C8102E" strokeWidth="7" />
+      </svg>
+    );
+  }
+  if (code === 'US') {
+    return (
+      <svg viewBox="0 0 60 40" className={className} aria-hidden="true" focusable="false">
+        <rect width="60" height="40" fill="#fff" />
+        {[0, 1, 2, 3, 4, 5, 6].map(i => (
+          <rect key={i} y={i * 6.15} width="60" height="3.08" fill="#B22234" />
+        ))}
+        <rect width="26" height="21.5" fill="#3C3B6E" />
+        {[0, 1, 2, 3].map(r =>
+          [0, 1, 2, 3, 4].map(c => <circle key={`${r}${c}`} cx={3.2 + c * 4.9 + (r % 2) * 2.4} cy={3.2 + r * 5} r="0.95" fill="#fff" />)
+        )}
+      </svg>
+    );
+  }
   return (
-    <span className={`ar-cur-mark ${className}`} aria-hidden="true">
-      {SYMBOLS[code]}
-    </span>
+    <svg viewBox="0 0 60 40" className={className} aria-hidden="true" focusable="false">
+      <rect width="60" height="40" fill="#003399" />
+      {Array.from({ length: 12 }, (_, i) => {
+        const a = (i / 12) * Math.PI * 2;
+        return <circle key={i} cx={30 + Math.sin(a) * 12} cy={20 - Math.cos(a) * 12} r="1.9" fill="#FFCC00" />;
+      })}
+    </svg>
   );
 }

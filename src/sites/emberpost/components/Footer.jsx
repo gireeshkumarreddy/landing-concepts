@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { goToWaitlist } from '../lib.js';
 import { ArrowUpRight } from '../icons.jsx';
+import Wordmark from './Wordmark.jsx';
 
 const COLS = [
   {
@@ -27,9 +28,7 @@ export default function Footer() {
       <div className="ta-wrap">
         <div className="ta-footer__top">
           <div className="ta-footer__brand">
-            <a href="#top" className="ta-wordmark ta-wordmark--lg" aria-label="Emberpost, back to top">
-              emberpost
-            </a>
+            <Wordmark className="ta-wordmark--lg" />
             <p>Email organised around the people behind it.</p>
           </div>
           <div className="ta-footer__cols">

@@ -38,12 +38,12 @@ export default function HowItThinks() {
       <div className="cr-how__frame">
         <div className="cr-how__media" ref={mediaRef} aria-hidden="true">
           <img
-            src={unsplash(IMG.clouds, { w: 1600, q: 72 })}
-            srcSet={unsplashSrcSet(IMG.clouds, [640, 1000, 1400, 1800, 2400], { q: 72 })}
+            src={unsplash(IMG.garden, { w: 1600, q: 70 })}
+            srcSet={unsplashSrcSet(IMG.garden, [640, 1000, 1400, 1800, 2400], { q: 70 })}
             sizes="100vw"
             alt=""
             width="1600"
-            height="1195"
+            height="1266"
             loading="lazy"
             decoding="async"
           />

@@ -5,9 +5,25 @@ import { NAV_LINKS } from '../data.js';
 import { scrollToId, tx, useSagewell } from '../lib.js';
 import { IconArrowRight, IconClose, IconMenu } from '../icons.jsx';
 
+/** Brand mark: a sage leaf resting inside a drop of well water. */
+export function Mark({ className = 'cr-wordmark__mark' }) {
+  return (
+    <svg className={className} viewBox="2.5 1 15 18" fill="none" aria-hidden="true" focusable="false">
+      <path
+        d="M10 1.9c2.9 3.3 6 6.8 6 10.2a6 6 0 0 1-12 0c0-3.4 3.1-6.9 6-10.2Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path d="M7.1 15.3c-.1-3 2.1-5.3 5.8-5.7-.1 3.4-2.4 5.7-5.8 5.7Z" fill="currentColor" />
+    </svg>
+  );
+}
+
 export function Wordmark({ as: Tag = 'a', className = '', ...rest }) {
   return (
     <Tag className={`cr-wordmark ${className}`} {...rest}>
+      <Mark />
       Sagewell
     </Tag>
   );

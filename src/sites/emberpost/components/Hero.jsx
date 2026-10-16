@@ -270,7 +270,7 @@ export default function Hero() {
           Emberpost groups every email by the person behind it, so you can catch up on a relationship in
           seconds and reply like you’re in the same room.
         </p>
-        <a href="#waitlist" className="ta-btn ta-btn--ember ta-hero__cta" onClick={goToWaitlist}>
+        <a href="#waitlist" className="ta-btn ta-btn--violet ta-hero__cta" onClick={goToWaitlist}>
           Join the waitlist <Bolt size={14} />
         </a>
       </div>

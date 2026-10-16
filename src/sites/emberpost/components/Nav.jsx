@@ -3,6 +3,7 @@ import { useEscape, useFocusTrap, useScrollLock } from '../../../shared/a11y.js'
 import { prefersReducedMotion } from '../../../shared/gsap.js';
 import { goToWaitlist, useMedia } from '../lib.js';
 import { Bolt, Close, Menu, ArrowRight } from '../icons.jsx';
+import Wordmark from './Wordmark.jsx';
 
 const MENU = [
   { href: '#people', label: 'By person' },
@@ -53,9 +54,7 @@ export default function Nav() {
     <header className={`ta-nav${scrolled ? ' is-scrolled' : ''}${open ? ' is-open' : ''}`}>
       <div className="ta-nav__ring" ref={ringRef}>
         <div className="ta-nav__bar">
-          <a href="#top" className="ta-wordmark" aria-label="Emberpost, back to top">
-            emberpost
-          </a>
+          <Wordmark />
           <nav className="ta-nav__links" aria-label="Primary">
             <a href="#manifesto">Manifesto</a>
             <a href="#workflows">Workflows</a>
@@ -90,7 +89,7 @@ export default function Nav() {
               ))}
             </ul>
           </nav>
-          <a href="#waitlist" className="ta-btn ta-btn--ember ta-menu__cta" onClick={early}>
+          <a href="#waitlist" className="ta-btn ta-btn--violet ta-menu__cta" onClick={early}>
             Join the waitlist <Bolt size={14} />
           </a>
         </div>

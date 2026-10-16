@@ -1,6 +1,5 @@
 import '@fontsource-variable/figtree';
 import '@fontsource-variable/geist-mono';
-import '@fontsource-variable/newsreader/wght-italic.css';
 import './sagewell.css';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -26,8 +25,8 @@ export default function SagewellPage() {
     title: 'Sagewell — the model that thinks before it speaks',
     description:
       'Sagewell is a concept reasoning model that plans, checks and revises its own reasoning, and shows the trail behind every reply.',
-    themeColor: '#f3f1f6',
-    background: '#f3f1f6',
+    themeColor: '#f6f3ec',
+    background: '#f6f3ec',
     site: 'sagewell',
   });
 

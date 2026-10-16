@@ -86,7 +86,7 @@ export default function Pricing() {
           </p>
           <h2 id="cr-pricing-title" className="cr-h2" data-cr-reveal>
             Pay for thinking, <br className="cr-br-lg" />
-            <em className="cr-em">not seats.</em>
+            not seats.
           </h2>
           <p className="cr-lede" data-cr-reveal>
             Billed per million tokens, with the trail counted as output. Choosing a lighter depth for routine

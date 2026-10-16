@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useEscape, useFocusTrap, useScrollLock } from '../../../shared/a11y.js';
 import { NAV_LINKS } from '../data.js';
 import { Close, Menu } from '../icons.jsx';
+import Logo from './Logo.jsx';
 import { PillButton, useReducedPref } from './ui.jsx';
 
 /** Nav that floats over the hero photograph. */
@@ -10,7 +11,7 @@ export function HeroNav({ onSignup, onMenu, menuOpen }) {
   return (
     <header className="au-nav" data-au-hero-nav>
       <a className="au-wordmark au-nav__brand" href="#top" aria-label="vantline, back to top">
-        vantline
+        <Logo />
       </a>
       <nav className="au-nav__center" aria-label="Primary">
         <ul role="list">
@@ -46,7 +47,7 @@ export function FloatingNav({ visible, onSignup, onMenu, menuOpen }) {
     <div className={`au-float${visible ? ' is-visible' : ''}`} inert={!visible}>
       <div className="au-float__bar">
         <a className="au-wordmark au-float__brand" href="#top" aria-label="vantline, back to top">
-          vantline
+          <Logo />
         </a>
         <nav className="au-float__links" aria-label="Sections">
           <ul role="list">
@@ -110,7 +111,9 @@ export function MobileMenu({ open, onClose, onSignup }) {
             transition={{ duration: reduced ? 0 : 0.3 }}
           >
             <div className="au-menu__top">
-              <span className="au-wordmark">vantline</span>
+              <span className="au-wordmark">
+                <Logo />
+              </span>
               <button type="button" className="au-menu__close" onClick={onClose} aria-label="Close menu">
                 <Close />
               </button>

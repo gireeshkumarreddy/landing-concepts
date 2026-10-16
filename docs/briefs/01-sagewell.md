@@ -3,26 +3,21 @@
 Layout, components and interactions stay as built (inset painted hero frame, glass composer with
 reasoning-trace demo, quickstart, API playground, “how it thinks” cards over art, use-case cards,
 usage pricing + estimator, journal list + reader, closing CTA, footer). **Everything visible changes:**
-name, every line of copy, sample prompts/answers, model ids, prices, palette and imagery.
+name, every line of copy, sample prompts/answers, model ids, prices. The visual design (colours, imagery) stays as the first build.
 
 ## Identity
 - **Sagewell** — “a reasoning model that shows its work”. Tone: calm, precise, a little literary.
 - Wordmark: “Sagewell” in the display face, weight 600, no symbol.
 - Model ids: `sagewell-2`, `sagewell-2-swift`. Demo key prefix `sw_demo_`.
 
-## Palette — “Harbour at dusk” (replace every old token/hard-coded colour)
-- `--paper #f3f1f6` (cool porcelain page), `--fog #f7f5fa`, `--ink #191a2e` (indigo-black), `--ink-2 #34364f`, `--muted #6a6a80`, `--line rgba(25,26,46,.10)`
-- `--indigo #2b3263` (primary dark: buttons, code panels), `--tide #5b72a3` (secondary), `--mist #dfe3ef`
-- `--apricot #e48d5b` (single warm accent: badge chip, active states, highlights, slider fill), `--apricot-soft #f8e3d5`
-- Code panel: bg `#161a33`, text `#e6e8f3`, strings `#f0b48a`, keywords `#9fb3ff`, comments `#7d84a8`.
-- Fog gradient over the hero art fades to porcelain (`#f7f5fa`), not warm white. Shadows tinted indigo (`rgba(25,26,60,…)`).
-- No green UI anywhere.
+## Visual design — restored first build (garden, warm white, near-monochrome UI)
+- Tokens: `--cr-ink #141512`, `--cr-ink-2 #3a3b36`, `--cr-muted #6d6c66`, `--cr-paper #f6f3ec`, `--cr-fog #faf8f3`, `--cr-line rgba(20,21,18,.10)`, `--cr-moss #2f4536`, `--cr-leaf #6f8f6a`, `--cr-sand #e8e1d2`, `--cr-bloom #d4688e`.
+- Black pill CTA, warm-white fog over the painting, glass composer, rounded inset hero frame.
+- Logo: small original geometric mark + “Sagewell” wordmark.
 
-## Imagery (Unsplash ids — painterly sea & sky)
-- Hero (desktop + mobile, use `object-position` for mobile): `1775313088881-649b8d9dc7d8` (soft pastel sky over water)
-- How-it-thinks band: `1681235155981-b6553346cc41` (painted cloudscape)
-- Use-case cards: `1781708897984-9f8b06afb9dc` (impressionist cliffs & boats), `1774887053803-5e535abe27c5` (pink/orange coastal sunset), `1705080188277-74dd01f11d61` (stormy painted sky), `1742673506753-b286d4c0a120` (calm bay with sailboat)
-- Closing CTA: `1742672001310-a6fab9c25b92` (sunset over a lake and hills); alt `1744571180310-a41e49d1269e` (cumulus over ocean)
+## Imagery (Unsplash ids)
+- Hero desktop `1745761500122-a39a7919ec5b`, hero mobile `1739160480412-259ec009d1cc`
+- Extras: `1685648043564-ac64bc80d82f`, `1688588428113-d24195a109bc`, `1683221044456-b708fcb22060`, `1741722604145-4e00cf5b2052`, `1752854058427-8a87b57eac2b`
 
 ## Copy (write the rest in the same voice; all original)
 - Nav: Research · Developers · Pricing · Journal — CTA “Request access”.

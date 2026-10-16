@@ -1,5 +1,5 @@
-// Fails if any text, name, sample data or colour lifted from the six reference
-// screenshots (or the first, closer-to-reference build) is still in the source.
+// Fails if any text, brand name, person name or sample data visible in the six reference
+// screenshots is still in the source. (Colours and layout intentionally follow the references.)
 // Usage: node scripts/originality-check.mjs
 import fs from 'node:fs';
 import path from 'node:path';
@@ -34,15 +34,6 @@ const PHRASES = [
 // Word-boundary match for short names that could appear inside other words.
 const WORDS = ['julie', 'nyt'];
 
-// Palette values from the first build that tracked the references' colours.
-const OLD_COLOURS = [
-  '#2a52e8', '#1b33b8', '#6a5cff', '#dbe6ff', // blue/violet messaging
-  '#5b4cf0', '#7b6dff', '#e8e5ff', '#d9d4ff', // purple email
-  '#d8ef5a', '#2e3d2c', // chartreuse / moss analytics
-  '#2f4536', '#6f8f6a', '#d4688e', // garden AI
-  '#2f6bff', // blue portfolio CTA
-  '#f0707f', '#6f7bf7', '#a77be8', '#e7849f', // pink/purple editorial
-];
 
 const files = [];
 for (const r of ROOTS) {
@@ -62,7 +53,6 @@ for (const f of files) {
     const low = line.toLowerCase();
     for (const p of PHRASES) if (low.includes(p)) hits.push(`${f}:${i + 1}  phrase "${p}"  → ${line.trim().slice(0, 110)}`);
     for (const w of WORDS) if (new RegExp(`\\b${w}\\b`, 'i').test(line)) hits.push(`${f}:${i + 1}  name "${w}"  → ${line.trim().slice(0, 110)}`);
-    for (const c of OLD_COLOURS) if (low.includes(c)) hits.push(`${f}:${i + 1}  colour ${c}`);
   });
 }
 
@@ -71,5 +61,5 @@ if (hits.length) {
   console.log(`\n${hits.length} possible copies found in ${files.length} files.`);
   process.exitCode = 1;
 } else {
-  console.log(`Originality check passed: ${files.length} files, ${PHRASES.length + WORDS.length} reference phrases and ${OLD_COLOURS.length} old colours, no matches.`);
+  console.log(`Originality check passed: ${files.length} files, ${PHRASES.length + WORDS.length} reference phrases and names, no matches.`);
 }

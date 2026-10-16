@@ -4,25 +4,22 @@ Layout, components and interactions stay as built (inset photo hero with nav pil
 fanned deck, features panel over a landscape with live chart + depth slider, three tall image
 cards, pricing over landscape with monthly/yearly, scroll-scrubbed dark band, footer, signup
 drawer). **Everything visible changes:** name, all copy, card titles, chart labels, plans,
-prices, features, palette and imagery.
+prices, features. The visual design (colours, imagery) stays as the first build.
 
 ## Identity
 - **Vantline** — “a copilot that explains what changed in your numbers, and what to do next”.
 - Wordmark: “vantline” lowercase, sans 600, no symbol.
 
-## Palette — “Desert dusk” (replace every old token/hard-coded colour; no chartreuse/green)
-- `--paper #faf7f1` (warm ivory), `--sand #efe6d8`, `--ink #15201f`, `--ink-2 #2f3a38`, `--muted #6f7774`, `--line rgba(21,32,31,.09)`
-- `--teal #0f3d3b` (deep — dark band, Pro card, footer), `--teal-2 #1d5653`, `--teal-mist #dde9e6`
-- `--coral #ff7a59` (signal: chart line, slider fill, “save” chip, focus accents — sparingly), `--coral-soft #ffe1d7`
-- Dark band animates from paper → `--teal` (not near-black). Glass over photos stays white-translucent.
+## Visual design — restored first build (dusk landscape, deep greens, chartreuse signal)
+- Tokens: `--au-ink #0f1210`, `--au-ink-2 #2b302b`, `--au-muted #6b716b`, `--au-paper #fbfbf8`, `--au-mist #eef0eb`, `--au-line rgba(15,18,16,.08)`, `--au-deep #111511`, `--au-moss #2e3d2c`, `--au-signal #d8ef5a`, `--au-dusk-1 #6f84a6`, `--au-dusk-2 #e8b8a3`.
+- White hero type, glass only over photography, dark band scrubs to near-black.
+- Logo: small original mark + “vantline” wordmark.
 
-## Imagery (Unsplash ids — dunes & warm light)
-- Hero: `1775321611040-a2f3d96ec489` (lone walker on pale dunes, pastel dusk, mountains). Put the glass slab beside the walker; keep the sky clear for the headline. Re-tune slab position, object-position and the legibility treatment for this photo.
-- Features panel background: `1638024510305-c36fcc0bf3b1` (dunes under blue sky)
-- Image card in panel (“people”): `1762198455081-3971c4d9cd95` (backlit walker on dunes)
-- Fan deck (5): `1774031476308-e125ca182d54`, `1775320273896-49ceedec076d`, `1785270100891-358b3d7cd067`, `1562350683-774f43c5bdca`, `1763431157736-647791cd688b`
-- Three tall cards: `1785270101004-480820ecc9b6` (dune curve), `1763796216517-b480bc16d369` (warm stained-glass light), `1789222640123-27e3905fd776` (amber droplets)
-- Pricing background: `1506147854445-5a3f534191f8` (dune ridge at sunset) with the white fade on top.
+## Imagery (Unsplash ids)
+- Hero `1559202419-67d790c9d3dc` (glass slab beside the walker); people `1774509653819-93b91734dedc`
+- Hills: `1680237659901-29f8d39ff290`, `1679267207806-53137718141b`, `1615567123837-6ca3e50e5a99`, `1774799780157-a1224d59f4a1`
+- Prism: `1766997200042-ec2a576e499f`, `1790332263635-1da22019ceae`, `1771599940657-f9f151abed45`, `1775645607346-5e935dddfcc7`, `1783250971699-b93f67e34660`
+- Figures: `1494121508687-f3560d4f394e`, `1696238081142-0979237124a8`, `1762368229295-81f2742fb8a5`, `1775892590228-c93f8108c22e`
 
 ## Copy (all original; write the rest in this voice)
 - Nav pill: Product · Workflows · Principles · Plans — right: “Start free”.

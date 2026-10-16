@@ -4,23 +4,21 @@ Layout, components and interactions stay as built (double-ring sticky nav, badge
 headline with inline tile, floating avatar tiles with connector lines, interactive inbox window
 with notifications/keyboard/reply/mark-done, people-vs-threads toggle, feature bento, workflow
 studies, about, waitlist form, footer). **Everything visible changes:** name, all copy, every
-person, subject, message, notification source, palette.
+person, subject, message, notification source. The visual design stays as the first build.
 
 ## Identity
 - **Emberpost** — “email organised around the people behind it”.
-- Wordmark: “emberpost” lowercase, Geist 600, no symbol.
+- Wordmark: “emberpost” lowercase, Geist 600, with a small spark mark.
 - Footer line: “Emberpost is a concept product for a design portfolio. People and messages are sample data.”
 
-## Palette — “Warm stone & vermillion” (replace every purple/lavender token and hard-coded value)
-- `--bg #eeeae4` (warm stone), `--bg-2 #f5f2ed`, `--surface #ffffff`, `--ink #17130f`, `--ink-2 #3d3630`, `--muted #7b726a`, `--line #dcd5cc`, `--line-soft rgba(23,19,15,.06)`
-- `--ember #e4572e` (primary accent: CTA, inline tile, badges, selection), `--ember-2 #f07b4f`, `--peach #fde8dd`, `--peach-2 #f9d6c5`
-- Inbox sidebar gradient: `#fdf3ec` → `#f9e2d5`. Window title bar: ember gradient (`#f07b4f` → `#e4572e`).
-- Glows/shadows tinted ember (`rgba(160,60,20,…)`), never purple.
+## Visual design — restored first build (light grey, restrained purple)
+- Tokens: `--ta-bg #ececee`, `--ta-bg-2 #f4f4f6`, `--ta-surface #ffffff`, `--ta-ink #0c0c10`, `--ta-ink-2 #3a3a44`, `--ta-muted #75757f`, `--ta-line #dcdce2`, `--ta-violet #5b4cf0`, `--ta-violet-2 #7b6dff`, `--ta-lavender #e8e5ff`, `--ta-lavender-2 #d9d4ff`; sidebar `#efedff → #e3e0ff`.
+- Logo: “emberpost” wordmark with a small original spark mark.
 
 ## Copy (all original)
 - Nav right: “Manifesto” · “Workflows” · CTA “Join the waitlist”.
 - Badge: bolt glyph + “Now inviting small teams”.
-- H1 (two lines, keep the inline tile after the first word): “Talk [tile] to people,” / “not to piles of mail.” Tile = ember circle with white envelope glyph. Re-tune size/line breaks so it stays a strong 2-line block at desktop.
+- H1 (two lines, keep the inline tile after the first word): “Talk [tile] to people,” / “not to piles of mail.” Tile = purple circle with white envelope glyph. Re-tune size/line breaks so it stays a strong 2-line block at desktop.
 - Sub: “Emberpost groups every email by the person behind it, so you can catch up on a relationship in seconds and reply like you’re in the same room.”
 - CTA: “Join the waitlist”.
 - Inbox sample data (all new):

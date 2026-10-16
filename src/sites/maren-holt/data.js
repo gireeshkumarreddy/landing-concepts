@@ -14,97 +14,23 @@ export const CATEGORIES = ['All', 'Structure', 'Revision', 'Publishing', 'Writin
 
 // Unsplash photo ids (the part after "photo-"). `fpY` / `fpX` set the focal point for crops.
 export const PHOTOS = {
-  pencil: { id: '1581431886288-e216ea4ccf3f', fpY: 0.5, fpX: 0.36, alt: 'A hand holding a red pencil over a blank spiral notebook on a wooden desk' },
-  library: { id: '1749671232817-1f224147f0c9', fpY: 0.45, alt: 'A grand library reading room lit in warm amber light' },
-  path: { id: '1445964047600-cdbdb873673d', fpY: 0.55, alt: 'A misty woodland path covered in autumn leaves' },
-  table: { id: '1744693660970-3517f524fb28', fpY: 0.45, alt: 'New books stacked on a wooden bookshop table' },
-  fountain: { id: '1471107340929-a87cd0f5b5f3', fpY: 0.55, alt: 'A fountain pen resting on a lined notebook' },
-  leather: { id: '1617177435596-1c9e30d6d608', fpY: 0.5, alt: 'A gold pen on a tan leather notebook with a blank card' },
-  sunlit: { id: '1769490314531-759457a659db', fpY: 0.55, alt: 'Books on a low table in a dark room, lit by a square of evening sun' },
-  window: { id: '1791973648912-1dbfd532b471', fpY: 0.4, alt: 'Tall wooden bookshelves beside a window looking onto a forest' },
-  shop: { id: '1689859910728-53b49d5ec39c', fpY: 0.5, alt: 'Crowded shelves and bins in a small second-hand bookshop' },
+  mic: { id: '1478737270239-2f02b77fc618', fpY: 0.5, alt: 'A studio microphone in a dark recording room' },
+  spines: { id: '1524401597352-ec4463663233', fpY: 0.45, alt: 'A row of worn cloth book spines in warm colours' },
+  sunset: { id: '1783124759365-d42501a56513', fpY: 0.58, alt: 'Two figures silhouetted against a sunset over the sea' },
+  shelf: { id: '1529473814998-077b4fec6770', fpY: 0.5, alt: 'A bookshelf arranged by colour, from red to green' },
+  typewriter: { id: '1570626742839-59acd9822944', fpY: 0.5, alt: 'An orange typewriter with a sheet of paper on a small round table' },
+  window: { id: '1772920908288-2bff379e8387', fpY: 0.55, alt: 'A typewriter on a desk beside a curtained window, in black and white' },
+  notebook: { id: '1512284125381-bdb1f3a77338', fpY: 0.62, alt: 'An open notebook with a coffee ring on a dark wooden desk' },
+  leather: { id: '1683234805020-8a7d3116736b', fpY: 0.4, alt: 'Old leather-bound books standing on a shelf' },
 };
 
 const RAW_ESSAYS = [
-  {
-    slug: 'cut-first',
-    title: 'The chapter you should cut first',
-    category: 'Structure',
-    photo: 'window',
-    topics: ['cutting', 'pace', 'structure', 'backstory'],
-    dek: 'Most drafts carry one chapter that reassures the writer rather than moving the reader. Find it before anyone else does.',
-    quoteAfter: 2,
-    quote: 'If a chapter only proves you did the research, it belongs in your notes.',
-    sections: [
-      {
-        h: 'Look for the chapter you defend',
-        p: [
-          'Ask which chapter you would argue hardest to keep. That instinct is a clue: we defend the pages that cost us the most, not always the ones the story needs.',
-          'Write one sentence about what changes for the reader by the end of it. If the sentence is hard to write, you have found your candidate.',
-        ],
-      },
-      {
-        h: 'Check what breaks without it',
-        p: [
-          'Remove the chapter from a copy of the manuscript and read its neighbours side by side. Note every moment that stops making sense. Usually it comes down to two or three facts, and facts can travel.',
-        ],
-      },
-      {
-        h: 'Move the facts, not the scenes',
-        p: [
-          'A line of dialogue, a detail in a later description or a single remembered moment can carry what the reader truly needs from the cut pages.',
-        ],
-      },
-      {
-        h: 'Keep a cuttings file',
-        p: [
-          'Cutting is easier when nothing is lost. Paste removed pages into a dated document. Few writers ever return to it, but knowing it exists makes the decision lighter.',
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'opening-question',
-    title: 'Why your opening needs a question, not an answer',
-    category: 'Structure',
-    photo: 'library',
-    topics: ['openings', 'first page', 'curiosity', 'hooks'],
-    dek: 'Openings that explain everything ask the reader to wait. Openings that raise a question give them a reason to keep going.',
-    quoteAfter: 2,
-    quote: 'Curiosity is the reader’s fuel. Don’t spend it all on page one.',
-    sections: [
-      {
-        h: 'Answers close doors',
-        p: [
-          'An opening that sets out the place, the stakes and the backstory can feel generous, but it takes away the reader’s main job: wondering. Leave them something to work out.',
-        ],
-      },
-      {
-        h: 'Make the question concrete',
-        p: [
-          '“Will she be happy?” is too vague to pull anyone forward. “Why has she packed only one shoe?” is small, specific and hard to ignore. Small questions often carry the large ones inside them.',
-        ],
-      },
-      {
-        h: 'Answer something, then ask something bigger',
-        p: [
-          'Readers trust a book that keeps its promises. Settle one small question within the first chapter, and let that answer open a larger one.',
-        ],
-      },
-      {
-        h: 'Test page one on its own',
-        p: [
-          'Give a friend only the first page and ask what they want to know next. If they can’t name anything, the page is explaining when it should be inviting.',
-        ],
-      },
-    ],
-  },
   {
     slug: 'three-passes',
     title: 'Revision in three passes',
     overlay: { title: 'Three passes', script: 'a revision method' },
     category: 'Revision',
-    photo: 'pencil',
+    photo: 'mic',
     topics: ['revision', 'editing plan', 'line edits', 'pace'],
     dek: 'Trying to fix everything at once is why revision feels endless. Split the work into passes and each one becomes finite.',
     quoteAfter: 2,
@@ -138,10 +64,82 @@ const RAW_ESSAYS = [
     ],
   },
   {
+    slug: 'opening-question',
+    title: 'Why your opening needs a question, not an answer',
+    category: 'Structure',
+    photo: 'spines',
+    topics: ['openings', 'first page', 'curiosity', 'hooks'],
+    dek: 'Openings that explain everything ask the reader to wait. Openings that raise a question give them a reason to keep going.',
+    quoteAfter: 2,
+    quote: 'Curiosity is the reader’s fuel. Don’t spend it all on page one.',
+    sections: [
+      {
+        h: 'Answers close doors',
+        p: [
+          'An opening that sets out the place, the stakes and the backstory can feel generous, but it takes away the reader’s main job: wondering. Leave them something to work out.',
+        ],
+      },
+      {
+        h: 'Make the question concrete',
+        p: [
+          '“Will she be happy?” is too vague to pull anyone forward. “Why has she packed only one shoe?” is small, specific and hard to ignore. Small questions often carry the large ones inside them.',
+        ],
+      },
+      {
+        h: 'Answer something, then ask something bigger',
+        p: [
+          'Readers trust a book that keeps its promises. Settle one small question within the first chapter, and let that answer open a larger one.',
+        ],
+      },
+      {
+        h: 'Test page one on its own',
+        p: [
+          'Give a friend only the first page and ask what they want to know next. If they can’t name anything, the page is explaining when it should be inviting.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'days-you-cant',
+    title: 'Writing on the days you can’t',
+    category: 'Writing life',
+    photo: 'sunset',
+    topics: ['routine', 'low energy', 'habits', 'rest'],
+    dek: 'Some days the words won’t come. There is still useful work that keeps the book alive until they do.',
+    quoteAfter: 2,
+    quote: 'A small touch on a bad day keeps the draft warm for a good one.',
+    sections: [
+      {
+        h: 'Lower the bar on purpose',
+        p: [
+          'Choose a target so small it feels silly: one paragraph, ten minutes, a single sentence rewritten. Starting is the hard part, and a tiny target makes starting possible.',
+        ],
+      },
+      {
+        h: 'Do the work that isn’t drafting',
+        p: [
+          'Reread yesterday’s pages, tidy your notes, sketch the next scene as a list. These jobs move the book forward without asking for fresh invention.',
+        ],
+      },
+      {
+        h: 'Change the setting',
+        p: [
+          'Try a different room, a notebook instead of a laptop, or a walk with a voice memo. A new setting often loosens what the usual one has locked.',
+        ],
+      },
+      {
+        h: 'Know when to stop',
+        p: [
+          'Rest is not failure. If you are ill, grieving or worn out, the kindest editorial decision is to set the book down and come back when you can.',
+        ],
+      },
+    ],
+  },
+  {
     slug: 'editorial-letter',
     title: 'What a good editorial letter looks like',
     category: 'Revision',
-    photo: 'fountain',
+    photo: 'typewriter',
     topics: ['feedback', 'editor', 'notes', 'priorities'],
     dek: 'An editorial letter should leave you clear and energised about what to do next — not flattened by a list of faults.',
     quoteAfter: 2,
@@ -178,10 +176,76 @@ const RAW_ESSAYS = [
     ],
   },
   {
+    slug: 'next-book-notebook',
+    title: 'Keep a notebook for the next book',
+    category: 'Writing life',
+    photo: 'notebook',
+    topics: ['ideas', 'notebook', 'focus', 'habits'],
+    dek: 'Ideas for the next project tend to arrive mid-draft. Give them somewhere to go so they stop pulling you away.',
+    quoteAfter: 2,
+    quote: 'Write it down, close the notebook, return to the book in front of you.',
+    sections: [
+      {
+        h: 'Capture, don’t chase',
+        p: ['When a new idea interrupts, write two or three lines about it and stop. The aim is to keep it safe, not to develop it today.'],
+      },
+      {
+        h: 'Date every entry',
+        p: [
+          'A date turns scattered notes into a record. Months later you can see which ideas kept returning — a good sign they deserve a book of their own.',
+        ],
+      },
+      {
+        h: 'Review it between drafts',
+        p: ['Read the notebook when a draft is finished, not while one is under way. New ideas are most useful when there is room to act on them.'],
+      },
+      {
+        h: 'Let some ideas go',
+        p: [
+          'Not every note is a book. Many are a scene, a character or a single line that belongs somewhere else, and that is still worth keeping.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'synopsis-map',
+    title: 'A synopsis is a map, not a summary',
+    category: 'Publishing',
+    photo: 'shelf',
+    topics: ['synopsis', 'submissions', 'plot', 'ending'],
+    dek: 'A synopsis doesn’t need every subplot. It needs to show the story has a shape — and that you know where it ends.',
+    quoteAfter: 2,
+    quote: 'Name the turning points. Leave the scenery out.',
+    sections: [
+      {
+        h: 'Lead with the person and the problem',
+        p: ['Open with who the story follows and what disrupts their life. One paragraph is enough to start the engine.'],
+      },
+      {
+        h: 'Follow the turns, not the events',
+        p: [
+          'List the moments where the direction of the story changes and build the synopsis around them. Whatever happens in between can usually shrink to a clause.',
+        ],
+      },
+      {
+        h: 'Give away the ending',
+        p: [
+          'Unlike jacket copy, a synopsis reveals how the book ends. The people reading it want proof that the story lands, not a cliffhanger.',
+        ],
+      },
+      {
+        h: 'Write it plainly',
+        p: [
+          'This is not the place for your finest sentences. Short, clear lines in the present tense let a busy reader see the structure at a glance.',
+        ],
+      },
+    ],
+  },
+  {
     slug: 'querying-nerve',
     title: 'Querying without losing your nerve',
     category: 'Publishing',
-    photo: 'shop',
+    photo: 'leather',
     topics: ['agents', 'query letter', 'submissions', 'tracking'],
     dek: 'Sending a book out is a long process with little feedback. A simple system protects your energy as much as your manuscript.',
     quoteAfter: 2,
@@ -214,103 +278,38 @@ const RAW_ESSAYS = [
     ],
   },
   {
-    slug: 'synopsis-map',
-    title: 'A synopsis is a map, not a summary',
-    category: 'Publishing',
-    photo: 'table',
-    topics: ['synopsis', 'submissions', 'plot', 'ending'],
-    dek: 'A synopsis doesn’t need every subplot. It needs to show the story has a shape — and that you know where it ends.',
+    slug: 'cut-first',
+    title: 'The chapter you should cut first',
+    category: 'Structure',
+    photo: 'window',
+    topics: ['cutting', 'pace', 'structure', 'backstory'],
+    dek: 'Most drafts carry one chapter that reassures the writer rather than moving the reader. Find it before anyone else does.',
     quoteAfter: 2,
-    quote: 'Name the turning points. Leave the scenery out.',
+    quote: 'If a chapter only proves you did the research, it belongs in your notes.',
     sections: [
       {
-        h: 'Lead with the person and the problem',
-        p: ['Open with who the story follows and what disrupts their life. One paragraph is enough to start the engine.'],
-      },
-      {
-        h: 'Follow the turns, not the events',
+        h: 'Look for the chapter you defend',
         p: [
-          'List the moments where the direction of the story changes and build the synopsis around them. Whatever happens in between can usually shrink to a clause.',
+          'Ask which chapter you would argue hardest to keep. That instinct is a clue: we defend the pages that cost us the most, not always the ones the story needs.',
+          'Write one sentence about what changes for the reader by the end of it. If the sentence is hard to write, you have found your candidate.',
         ],
       },
       {
-        h: 'Give away the ending',
+        h: 'Check what breaks without it',
         p: [
-          'Unlike jacket copy, a synopsis reveals how the book ends. The people reading it want proof that the story lands, not a cliffhanger.',
+          'Remove the chapter from a copy of the manuscript and read its neighbours side by side. Note every moment that stops making sense. Usually it comes down to two or three facts, and facts can travel.',
         ],
       },
       {
-        h: 'Write it plainly',
+        h: 'Move the facts, not the scenes',
         p: [
-          'This is not the place for your finest sentences. Short, clear lines in the present tense let a busy reader see the structure at a glance.',
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'days-you-cant',
-    title: 'Writing on the days you can’t',
-    category: 'Writing life',
-    photo: 'path',
-    topics: ['routine', 'low energy', 'habits', 'rest'],
-    dek: 'Some days the words won’t come. There is still useful work that keeps the book alive until they do.',
-    quoteAfter: 2,
-    quote: 'A small touch on a bad day keeps the draft warm for a good one.',
-    sections: [
-      {
-        h: 'Lower the bar on purpose',
-        p: [
-          'Choose a target so small it feels silly: one paragraph, ten minutes, a single sentence rewritten. Starting is the hard part, and a tiny target makes starting possible.',
+          'A line of dialogue, a detail in a later description or a single remembered moment can carry what the reader truly needs from the cut pages.',
         ],
       },
       {
-        h: 'Do the work that isn’t drafting',
+        h: 'Keep a cuttings file',
         p: [
-          'Reread yesterday’s pages, tidy your notes, sketch the next scene as a list. These jobs move the book forward without asking for fresh invention.',
-        ],
-      },
-      {
-        h: 'Change the setting',
-        p: [
-          'Try a different room, a notebook instead of a laptop, or a walk with a voice memo. A new setting often loosens what the usual one has locked.',
-        ],
-      },
-      {
-        h: 'Know when to stop',
-        p: [
-          'Rest is not failure. If you are ill, grieving or worn out, the kindest editorial decision is to set the book down and come back when you can.',
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'next-book-notebook',
-    title: 'Keep a notebook for the next book',
-    category: 'Writing life',
-    photo: 'leather',
-    topics: ['ideas', 'notebook', 'focus', 'habits'],
-    dek: 'Ideas for the next project tend to arrive mid-draft. Give them somewhere to go so they stop pulling you away.',
-    quoteAfter: 2,
-    quote: 'Write it down, close the notebook, return to the book in front of you.',
-    sections: [
-      {
-        h: 'Capture, don’t chase',
-        p: ['When a new idea interrupts, write two or three lines about it and stop. The aim is to keep it safe, not to develop it today.'],
-      },
-      {
-        h: 'Date every entry',
-        p: [
-          'A date turns scattered notes into a record. Months later you can see which ideas kept returning — a good sign they deserve a book of their own.',
-        ],
-      },
-      {
-        h: 'Review it between drafts',
-        p: ['Read the notebook when a draft is finished, not while one is under way. New ideas are most useful when there is room to act on them.'],
-      },
-      {
-        h: 'Let some ideas go',
-        p: [
-          'Not every note is a book. Many are a scene, a character or a single line that belongs somewhere else, and that is still worth keeping.',
+          'Cutting is easier when nothing is lost. Paste removed pages into a dated document. Few writers ever return to it, but knowing it exists makes the decision lighter.',
         ],
       },
     ],

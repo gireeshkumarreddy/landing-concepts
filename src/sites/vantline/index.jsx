@@ -16,8 +16,8 @@ import { CtaBand, Footer } from './components/Closing.jsx';
 import SignupDrawer from './components/SignupDrawer.jsx';
 import { FloatingNav, HeroNav, MobileMenu } from './components/Nav.jsx';
 
-const PAPER = '#faf7f1';
-const TEAL = '#0f3d3b';
+const PAPER = '#fbfbf8';
+const DEEP = '#111511';
 
 export default function Page() {
   useSiteMeta({
@@ -76,13 +76,13 @@ export default function Page() {
           onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 1, stagger: 0.08, ease: 'power3.out', overwrite: true }),
         });
 
-        // Page background scrubs from ivory to deep teal as the closing band arrives; the band's
+        // Page background scrubs from paper to near-black as the closing band arrives; the band's
         // copy fades in on the same scrub so it only appears once the ground is dark.
         const band = ctaRef.current;
         gsap.set(band, { backgroundColor: 'transparent' });
         gsap
           .timeline({ scrollTrigger: { trigger: band, start: 'top 98%', end: 'top 38%', scrub: 0.4 } })
-          .fromTo(rootRef.current, { backgroundColor: PAPER }, { backgroundColor: TEAL, ease: 'none', duration: 1 }, 0)
+          .fromTo(rootRef.current, { backgroundColor: PAPER }, { backgroundColor: DEEP, ease: 'none', duration: 1 }, 0)
           .fromTo(
             band.querySelectorAll('[data-au-cta]'),
             { opacity: 0, y: 48 },

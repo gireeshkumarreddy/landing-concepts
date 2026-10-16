@@ -11,11 +11,11 @@ const H1_TEXT = 'Turn your manuscript into a book readers recommend';
 // Visual headline: lines → groups → tokens. A group never breaks internally, so a keycap
 // always stays attached to the word before it. Strings are words; objects are keycaps or a
 // gradient phrase (whose last word carries the trailing keycap).
-const KEY_CREAM = { key: 'cream', glyph: 'pen' };
-const KEY_SAGE = { key: 'sage', glyph: 'bookmark' };
+const KEY_WHITE = { key: 'white', glyph: 'pen' };
+const KEY_PINK = { key: 'pink', glyph: 'bookmark' };
 const LINES = [
-  [['Turn'], ['your', KEY_CREAM], ['manuscript'], ['into']],
-  [['a'], ['book'], [{ phrase: 'readers recommend', key: KEY_SAGE }]],
+  [['Turn'], ['your', KEY_WHITE], ['manuscript'], ['into']],
+  [['a'], ['book'], [{ phrase: 'readers recommend', key: KEY_PINK }]],
 ];
 
 const Chars = ({ text }) =>
@@ -31,7 +31,7 @@ const Word = ({ text }) => (
   </span>
 );
 
-function Token({ tok, sageRef }) {
+function Token({ tok, pinkRef }) {
   if (typeof tok === 'string') return <Word text={tok} />;
   if (tok.phrase) {
     const words = tok.phrase.split(' ');
@@ -44,15 +44,15 @@ function Token({ tok, sageRef }) {
           </Fragment>
         ))}
         <span className="ch-nowrap">
-          <Word text={last} /> <Token tok={tok.key} sageRef={sageRef} />
+          <Word text={last} /> <Token tok={tok.key} pinkRef={pinkRef} />
         </span>
       </span>
     );
   }
-  return <Keycap tone={tok.key} glyph={tok.glyph} data-tw ref={tok.key === 'sage' ? sageRef : undefined} />;
+  return <Keycap tone={tok.key} glyph={tok.glyph} data-tw ref={tok.key === 'pink' ? pinkRef : undefined} />;
 }
 
-function Headline({ sageRef }) {
+function Headline({ pinkRef }) {
   return (
     <h1 className="ch-h1" id="ch-hero-title">
       <span className="sr-only">{H1_TEXT}</span>
@@ -67,12 +67,12 @@ function Headline({ sageRef }) {
                     {group.map((tok, ti) => (
                       <Fragment key={ti}>
                         {ti > 0 && ' '}
-                        <Token tok={tok} sageRef={sageRef} />
+                        <Token tok={tok} pinkRef={pinkRef} />
                       </Fragment>
                     ))}
                   </span>
                 ) : (
-                  <Token tok={group[0]} sageRef={sageRef} />
+                  <Token tok={group[0]} pinkRef={pinkRef} />
                 )}
               </Fragment>
             ))}
@@ -125,7 +125,7 @@ function FeaturedCard({ a, onOpen, i }) {
 
 export default function Hero({ onOpen }) {
   const root = useRef(null);
-  const sageRef = useRef(null);
+  const pinkRef = useRef(null);
   const restCaret = useRef(null);
 
   useGSAP(
@@ -214,7 +214,7 @@ export default function Hero({ onOpen }) {
           <BookIcon size={15} />
           Editing notes, every Sunday
         </p>
-        <Headline sageRef={sageRef} />
+        <Headline pinkRef={pinkRef} />
         <span className="ch-caret ch-caret--rest" ref={restCaret} aria-hidden="true" />
 
         <div className="ch-hero__row">
@@ -222,7 +222,7 @@ export default function Hero({ onOpen }) {
             I’m a developmental editor. I help first-time and returning authors shape stronger books — and I write down what I
             learn along the way.
           </p>
-          <NewsletterForm onKeystroke={() => pressKey(sageRef.current, 110)} />
+          <NewsletterForm onKeystroke={() => pressKey(pinkRef.current, 110)} />
         </div>
 
         <section className="ch-featured" aria-labelledby="ch-featured-title">

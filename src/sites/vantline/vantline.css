@@ -4,20 +4,18 @@
 
 /* ---------- Tokens ---------- */
 .au {
-  /* "Desert dusk" palette */
-  --au-paper: #faf7f1;
-  --au-sand: #efe6d8;
-  --au-ink: #15201f;
-  --au-ink-2: #2f3a38;
-  --au-muted: #6f7774;
-  --au-line: rgba(21, 32, 31, 0.09);
-  --au-line-strong: rgba(21, 32, 31, 0.16);
-  --au-teal: #0f3d3b;
-  --au-teal-2: #1d5653;
-  --au-teal-mist: #dde9e6;
-  --au-coral: #ff7a59;
-  --au-coral-soft: #ffe1d7;
-  --au-error: #b4321f;
+  --au-ink: #0f1210;
+  --au-ink-2: #2b302b;
+  --au-muted: #6b716b;
+  --au-paper: #fbfbf8;
+  --au-mist: #eef0eb;
+  --au-line: rgba(15, 18, 16, 0.08);
+  --au-line-strong: rgba(15, 18, 16, 0.16);
+  --au-deep: #111511;
+  --au-moss: #2e3d2c;
+  --au-signal: #d8ef5a;
+  --au-dusk-1: #6f84a6;
+  --au-dusk-2: #e8b8a3;
 
   --au-sans: 'Inter Tight Variable', 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
   --au-serif: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
@@ -53,7 +51,7 @@
 }
 
 .au ::selection {
-  background: var(--au-coral-soft);
+  background: var(--au-signal);
   color: var(--au-ink);
 }
 
@@ -61,16 +59,15 @@
   outline: 2px solid var(--au-ink);
   outline-offset: 3px;
 }
-.au-panel :focus-visible {
-  outline-color: #fff;
-}
-/* Coral focus ring on the deep-teal surfaces. */
+.au-hero :focus-visible,
+.au-nav :focus-visible,
+.au-panel :focus-visible,
 .au-plan--business :focus-visible,
 .au-cta :focus-visible,
 .au-footer :focus-visible,
 .au-float :focus-visible,
 .au-menu :focus-visible {
-  outline-color: var(--au-coral);
+  outline-color: #fff;
 }
 
 .au main:focus {
@@ -84,6 +81,17 @@
   letter-spacing: -0.03em;
   line-height: 1;
   text-transform: lowercase;
+}
+.au-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38em;
+}
+.au-mark {
+  flex: none;
+  width: 0.9em;
+  height: 0.9em;
+  filter: drop-shadow(0 1px 10px rgba(10, 16, 30, 0.18));
 }
 
 /* ---------- Shared type ---------- */
@@ -110,7 +118,7 @@
   gap: 8px;
   padding: 8px 14px 8px 12px;
   border-radius: 999px;
-  background: var(--au-sand);
+  background: var(--au-mist);
   color: var(--au-ink-2);
   font-size: 12px;
   font-weight: 500;
@@ -131,8 +139,8 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--au-coral);
-  box-shadow: 0 0 0 3px var(--au-coral-soft);
+  background: currentColor;
+  box-shadow: 0 0 0 3px rgba(15, 18, 16, 0.08);
 }
 
 .au-h2 {
@@ -205,28 +213,28 @@
   color: var(--au-ink);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.5),
-    0 12px 32px -12px rgba(21, 32, 31, 0.4);
+    0 12px 32px -12px rgba(10, 14, 22, 0.45);
 }
 .au-pill--light .au-pill__chip {
-  background: var(--au-teal);
-  color: var(--au-paper);
+  background: var(--au-ink);
+  color: #fff;
 }
 .au-pill--light:hover {
   box-shadow:
-    0 0 0 6px rgba(255, 255, 255, 0.16),
-    0 16px 40px -12px rgba(21, 32, 31, 0.45);
+    0 0 0 6px rgba(255, 255, 255, 0.18),
+    0 16px 40px -12px rgba(10, 14, 22, 0.5);
 }
 .au-pill--dark {
-  background: var(--au-teal);
-  color: var(--au-paper);
-  box-shadow: 0 16px 34px -16px rgba(15, 61, 59, 0.7);
+  background: var(--au-ink);
+  color: #fff;
+  box-shadow: 0 14px 30px -16px rgba(15, 18, 16, 0.6);
 }
 .au-pill--dark .au-pill__chip {
-  background: var(--au-paper);
-  color: var(--au-teal);
+  background: #fff;
+  color: var(--au-ink);
 }
 .au-pill--dark:hover {
-  background: var(--au-teal-2);
+  background: #232823;
 }
 
 .au-round {
@@ -245,9 +253,9 @@
     opacity 0.3s;
 }
 .au-round:hover:not(:disabled) {
-  background: var(--au-teal);
-  border-color: var(--au-teal);
-  color: var(--au-paper);
+  background: var(--au-ink);
+  border-color: var(--au-ink);
+  color: #fff;
 }
 .au-round:disabled {
   opacity: 0.35;
@@ -266,12 +274,13 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  color: var(--au-ink);
+  color: #fff;
 }
 .au-nav__brand {
   justify-self: start;
   padding: 6px 2px;
   font-size: 20px;
+  text-shadow: 0 1px 16px rgba(10, 16, 30, 0.2);
 }
 .au-nav__center ul {
   display: flex;
@@ -280,8 +289,8 @@
   padding: 5px;
   list-style: none;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.26);
   -webkit-backdrop-filter: blur(14px) saturate(1.2);
   backdrop-filter: blur(14px) saturate(1.2);
 }
@@ -292,14 +301,14 @@
   font-size: 13px;
   line-height: 1.2;
   letter-spacing: -0.005em;
-  color: rgba(21, 32, 31, 0.8);
+  color: rgba(255, 255, 255, 0.86);
   transition:
     background-color 0.3s,
     color 0.3s;
 }
 .au-nav__center a:hover {
-  background: rgba(255, 255, 255, 0.6);
-  color: var(--au-ink);
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
 }
 .au-nav__end {
   justify-self: end;
@@ -311,11 +320,11 @@
 .au-nav__menu {
   height: 48px;
   border-radius: 999px;
-  border: 1px solid rgba(21, 32, 31, 0.2);
-  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  background: rgba(255, 255, 255, 0.1);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  color: var(--au-ink);
+  color: #fff;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.005em;
@@ -327,9 +336,8 @@
   padding: 0 26px;
 }
 .au-nav__signup:hover {
-  background: var(--au-teal);
-  border-color: var(--au-teal);
-  color: var(--au-paper);
+  background: #fff;
+  color: var(--au-ink);
 }
 .au-nav__menu {
   display: none;
@@ -365,9 +373,9 @@
   gap: 10px;
   padding: 6px 6px 6px 22px;
   border-radius: 999px;
-  background: var(--au-teal);
+  background: var(--au-deep);
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.45);
 }
 .au-float__brand {
@@ -409,7 +417,7 @@
   transition: background-color 0.3s;
 }
 .au-float__signup:hover {
-  background: var(--au-coral);
+  background: var(--au-signal);
 }
 .au-float__menu {
   display: none;
@@ -428,7 +436,7 @@
   display: flex;
   flex-direction: column;
   padding: 22px 20px 28px;
-  background: var(--au-teal);
+  background: var(--au-deep);
   color: #fff;
   overflow-y: auto;
 }
@@ -481,7 +489,7 @@
 }
 
 /* ==========================================================================
-   Hero — luminous dusk photograph, ink type on a clear sky
+   Hero
    ========================================================================== */
 .au-hero {
   padding: var(--au-edge) var(--au-edge) 0;
@@ -493,8 +501,8 @@
   height: max(620px, 92svh);
   max-height: 1080px;
   border-radius: var(--au-r-lg);
-  background: #e8c08b;
-  color: var(--au-ink);
+  background: #50617f;
+  color: #fff;
 }
 .au-hero__media {
   position: absolute;
@@ -505,22 +513,42 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 50%;
-  transform-origin: 40% 70%;
+  object-position: 50% 58%;
+  transform-origin: 50% 60%;
 }
-/* Ivory wash: softens the hot sky toward the paper tone so ink type sits on calm light. */
+/* Colour grade: deepen the upper sky toward dusk blue, keep the pink horizon. */
 .au-hero__grade {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(64% 42% at 50% 27%, rgba(250, 247, 241, 0.46), rgba(250, 247, 241, 0) 72%),
-    linear-gradient(180deg, rgba(250, 247, 241, 0.3) 0%, rgba(250, 247, 241, 0.1) 34%, rgba(250, 247, 241, 0) 50%);
+  mix-blend-mode: multiply;
+  background: linear-gradient(
+    180deg,
+    rgba(70, 92, 132, 0.66) 0%,
+    rgba(111, 132, 166, 0.42) 26%,
+    rgba(196, 170, 178, 0.18) 52%,
+    rgba(232, 184, 163, 0.1) 64%,
+    rgba(120, 110, 90, 0.18) 100%
+  );
 }
-/* Cools the foreground dunes toward the deep-teal end of the palette. */
 .au-hero__shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(15, 61, 59, 0.26) 0%, rgba(15, 61, 59, 0.06) 24%, rgba(15, 61, 59, 0) 40%);
+  background:
+    linear-gradient(180deg, rgba(12, 18, 32, 0.22) 0%, rgba(12, 18, 32, 0) 34%),
+    radial-gradient(60% 34% at 50% 30%, rgba(14, 20, 34, 0.22), rgba(14, 20, 34, 0) 70%),
+    linear-gradient(0deg, rgba(8, 10, 8, 0.5) 0%, rgba(8, 10, 8, 0) 30%);
+}
+
+/* Atmospheric haze: softens the busy treetop behind the headline, keeps the field sharp. */
+.au-hero__haze {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 34%, rgba(0, 0, 0, 0) 60%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 34%, rgba(0, 0, 0, 0) 60%);
+  pointer-events: none;
 }
 
 .au-hero__content {
@@ -539,12 +567,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: clamp(36px, 4.3vw, 66px);
+  font-size: clamp(34px, 4vw, 62px);
   font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.03em;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
   text-wrap: balance;
-  color: var(--au-ink);
+  text-shadow: 0 2px 28px rgba(12, 18, 34, 0.22);
 }
 .au-hero__line {
   display: block;
@@ -556,15 +584,16 @@
   font-size: 1.08em;
   line-height: 1.04;
   letter-spacing: -0.012em;
-  color: var(--au-teal);
+  color: rgba(255, 255, 255, 0.96);
 }
 .au-hero__sub {
-  max-width: 460px;
+  max-width: 470px;
   margin-top: 20px;
   font-size: 15px;
   line-height: 1.55;
-  color: var(--au-ink-2);
+  color: rgba(255, 255, 255, 0.84);
   text-wrap: balance;
+  text-shadow: 0 1px 14px rgba(12, 18, 34, 0.3);
 }
 .au-hero__cta {
   margin-top: 28px;
@@ -576,22 +605,23 @@
   bottom: 24px;
   font-size: 11.5px;
   letter-spacing: 0.01em;
-  color: rgba(250, 247, 241, 0.9);
+  color: rgba(255, 255, 255, 0.82);
   transition: color 0.3s;
 }
 .au-hero__hint:hover {
   color: #fff;
 }
 
-/* The signature pane of frosted glass, standing on the dune beside the walker. */
+/* The signature pane of frosted glass standing in the grass. */
 .au-slab {
-  --au-slab-w: clamp(40px, 4.6vw, 76px);
+  --au-slab-w: clamp(44px, 5.6vw, 92px);
   position: absolute;
   z-index: 3;
-  left: 42.5%;
-  bottom: 8%;
+  /* Stands in the grass just left of the walker, clear of the centred copy. */
+  left: 73.5%;
+  bottom: 5%;
   width: var(--au-slab-w);
-  height: 37%;
+  height: 40%;
   margin-left: calc(var(--au-slab-w) / -2);
   pointer-events: none;
 }
@@ -605,16 +635,16 @@
   inset: 0;
   overflow: hidden;
   border-radius: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.14) 55%, rgba(255, 255, 255, 0.08));
-  -webkit-backdrop-filter: blur(12px) saturate(1.2) brightness(1.08);
-  backdrop-filter: blur(12px) saturate(1.2) brightness(1.08);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1) 55%, rgba(255, 255, 255, 0.06));
+  -webkit-backdrop-filter: blur(10px) saturate(1.15) brightness(1.12);
+  backdrop-filter: blur(10px) saturate(1.15) brightness(1.12);
   box-shadow:
-    inset 1px 0 0 rgba(255, 255, 255, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75),
-    0 40px 60px -40px rgba(15, 61, 59, 0.5);
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 82%, rgba(0, 0, 0, 0.35) 100%);
-  mask-image: linear-gradient(180deg, #000 0%, #000 82%, rgba(0, 0, 0, 0.35) 100%);
+    inset 1px 0 0 rgba(255, 255, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 40px 60px -40px rgba(0, 0, 0, 0.45);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0, 0, 0, 0.3) 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0, 0, 0, 0.3) 100%);
 }
 .au-slab__edge {
   position: absolute;
@@ -622,15 +652,15 @@
   bottom: 0;
   left: 0;
   width: 34%;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
 }
 .au-slab__shadow {
   position: absolute;
-  left: -50%;
-  right: -50%;
+  left: -40%;
+  right: -40%;
   bottom: -8px;
   height: 16px;
-  background: radial-gradient(closest-side, rgba(15, 61, 59, 0.34), rgba(15, 61, 59, 0));
+  background: radial-gradient(closest-side, rgba(10, 12, 8, 0.35), rgba(10, 12, 8, 0));
 }
 
 /* ==========================================================================
@@ -671,9 +701,9 @@
   background: #fff;
   text-align: left;
   box-shadow:
-    0 0 0 1px rgba(21, 32, 31, 0.05),
-    0 28px 50px -26px rgba(21, 32, 31, 0.38),
-    0 8px 18px -12px rgba(21, 32, 31, 0.16);
+    0 0 0 1px rgba(15, 18, 16, 0.05),
+    0 28px 50px -26px rgba(15, 18, 16, 0.38),
+    0 8px 18px -12px rgba(15, 18, 16, 0.16);
   transition:
     transform 0.6s var(--au-ease),
     box-shadow 0.6s var(--au-ease);
@@ -681,9 +711,9 @@
 .au-fan__item:not(.is-active) .au-fan__card:hover {
   transform: translateY(-16px);
   box-shadow:
-    0 0 0 1px rgba(21, 32, 31, 0.05),
-    0 40px 60px -26px rgba(21, 32, 31, 0.42),
-    0 8px 18px -12px rgba(21, 32, 31, 0.16);
+    0 0 0 1px rgba(15, 18, 16, 0.05),
+    0 40px 60px -26px rgba(15, 18, 16, 0.42),
+    0 8px 18px -12px rgba(15, 18, 16, 0.16);
 }
 .au-fan__item.is-active .au-fan__card {
   cursor: default;
@@ -692,7 +722,7 @@
   position: relative;
   flex: 0 0 64%;
   overflow: hidden;
-  background: var(--au-ink-2);
+  background: #1a1d1a;
 }
 .au-fan__media img {
   width: 100%;
@@ -717,7 +747,7 @@
   padding: 4px 8px;
   border-radius: 999px;
   border: 1px solid var(--au-glass-line);
-  background: rgba(21, 32, 31, 0.22);
+  background: rgba(15, 18, 16, 0.22);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   color: #fff;
@@ -767,18 +797,18 @@
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: rgba(21, 32, 31, 0.18);
+  background: rgba(15, 18, 16, 0.18);
   transition:
     width 0.5s var(--au-ease),
     background-color 0.4s;
 }
 .au-fan__dots li.is-on {
   width: 20px;
-  background: var(--au-teal);
+  background: var(--au-ink);
 }
 
 /* ==========================================================================
-   Product — glass over the dunes
+   Product — glass over the hills
    ========================================================================== */
 .au-features {
   padding: clamp(96px, 10vw, 150px) var(--au-edge) 0;
@@ -796,17 +826,13 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  overflow: hidden;
-  background: #c99a66;
+  background: #4a5b3f;
 }
 .au-panel__bg img {
-  position: absolute;
-  left: 0;
-  bottom: 0;
   width: 100%;
-  height: 132%;
+  height: 100%;
   object-fit: cover;
-  object-position: 50% 100%;
+  object-position: 50% 80%;
 }
 .au-panel__bg::after {
   content: '';
@@ -816,12 +842,12 @@
     linear-gradient(
       180deg,
       var(--au-paper) 0%,
-      rgba(250, 247, 241, 0.94) 10%,
-      rgba(250, 247, 241, 0.6) 20%,
-      rgba(250, 247, 241, 0.12) 30%,
-      rgba(250, 247, 241, 0) 37%
+      rgba(251, 251, 248, 0.94) 10%,
+      rgba(251, 251, 248, 0.62) 21%,
+      rgba(251, 251, 248, 0.16) 34%,
+      rgba(251, 251, 248, 0) 44%
     ),
-    linear-gradient(180deg, rgba(46, 28, 16, 0) 22%, rgba(46, 28, 16, 0.5) 40%, rgba(32, 20, 12, 0.7) 100%);
+    linear-gradient(0deg, rgba(16, 24, 12, 0.42) 0%, rgba(16, 24, 12, 0) 55%);
 }
 .au-panel__inner {
   padding: clamp(28px, 3vw, 44px) clamp(14px, 4vw, 56px) clamp(56px, 7vw, 100px);
@@ -843,12 +869,12 @@
   position: relative;
   border-radius: var(--au-r-md);
   border: 1px solid var(--au-glass-line);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
-  -webkit-backdrop-filter: blur(16px) saturate(1.1) brightness(0.84);
-  backdrop-filter: blur(16px) saturate(1.1) brightness(0.84);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.1));
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  backdrop-filter: blur(16px) saturate(1.1);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 30px 60px -40px rgba(6, 30, 29, 0.6);
+    0 30px 60px -40px rgba(8, 14, 6, 0.6);
   color: #fff;
 }
 .au-glass__text {
@@ -880,12 +906,12 @@
   display: grid;
   grid-template-columns: auto auto;
   align-items: end;
-  gap: 4px 12px;
+  gap: 2px 10px;
 }
 .au-chart__label {
   grid-column: 1 / -1;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.78);
 }
 .au-chart__tags {
   display: flex;
@@ -898,7 +924,7 @@
   font-size: 12px;
   font-weight: 600;
   line-height: 1;
-  color: var(--au-coral-soft);
+  color: var(--au-signal);
   font-variant-numeric: tabular-nums;
 }
 .au-chart__value {
@@ -912,6 +938,8 @@
   margin-left: 1px;
 }
 .au-chart__tag {
+  align-self: center;
+  justify-self: start;
   padding: 4px 8px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -929,7 +957,7 @@
   display: inline-flex;
   padding: 3px;
   border-radius: 999px;
-  background: rgba(8, 34, 33, 0.22);
+  background: rgba(10, 16, 8, 0.22);
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 .au-seg__btn {
@@ -966,7 +994,7 @@
   width: 30px;
   height: 18px;
   border-radius: 999px;
-  background: rgba(8, 34, 33, 0.28);
+  background: rgba(10, 16, 8, 0.28);
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition:
     background-color 0.3s,
@@ -983,8 +1011,8 @@
   transition: transform 0.4s var(--au-ease);
 }
 .au-switch[aria-checked='true'] .au-switch__track {
-  background: var(--au-coral);
-  border-color: var(--au-coral);
+  background: var(--au-signal);
+  border-color: var(--au-signal);
 }
 .au-switch[aria-checked='true'] .au-switch__thumb {
   transform: translateX(12px);
@@ -1027,11 +1055,11 @@
 }
 .au-chart__line {
   fill: none;
-  stroke: var(--au-coral);
+  stroke: var(--au-signal);
   stroke-width: 2;
   stroke-linejoin: round;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 6px rgba(255, 122, 89, 0.5));
+  filter: drop-shadow(0 0 6px rgba(216, 239, 90, 0.5));
 }
 .au-chart__baseline {
   opacity: 0;
@@ -1055,8 +1083,8 @@
   stroke-width: 1;
 }
 .au-chart__dot {
-  fill: var(--au-coral);
-  stroke: var(--au-teal);
+  fill: var(--au-signal);
+  stroke: #1a2214;
   stroke-width: 2;
 }
 .au-chart__dot--base {
@@ -1070,7 +1098,7 @@
   gap: 3px;
   padding: 9px 11px;
   border-radius: 10px;
-  background: rgba(21, 32, 31, 0.86);
+  background: rgba(15, 18, 16, 0.86);
   color: #fff;
   font-size: 11.5px;
   line-height: 1.2;
@@ -1108,7 +1136,7 @@
   overflow: hidden;
   border-radius: var(--au-r-md);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  background: #7a5a44;
+  background: #3d3a2e;
 }
 .au-people__img {
   position: absolute;
@@ -1116,7 +1144,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 46% 40%;
+  object-position: 50% 88%;
   transition: transform 1.4s var(--au-ease);
 }
 .au-people:hover .au-people__img {
@@ -1126,7 +1154,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(12, 30, 29, 0.72) 0%, rgba(12, 30, 29, 0.2) 55%, rgba(12, 30, 29, 0) 80%);
+  background: linear-gradient(0deg, rgba(10, 12, 8, 0.72) 0%, rgba(10, 12, 8, 0.2) 55%, rgba(10, 12, 8, 0) 80%);
 }
 .au-people__copy {
   position: relative;
@@ -1172,12 +1200,12 @@
   border-radius: 999px;
   background: linear-gradient(
     90deg,
-    #ffc2a8 0%,
-    #ff9c7d calc(var(--au-val) * 0.6),
-    var(--au-coral) var(--au-val),
+    #3fbf2b 0%,
+    #9fe33c calc(var(--au-val) * 0.6),
+    var(--au-signal) var(--au-val),
     rgba(255, 255, 255, 0.2) var(--au-val)
   );
-  box-shadow: 0 0 16px -2px rgba(255, 122, 89, 0.45);
+  box-shadow: 0 0 16px -2px rgba(120, 220, 60, 0.45);
 }
 .au-range::-moz-range-track {
   height: 6px;
@@ -1187,7 +1215,7 @@
 .au-range::-moz-range-progress {
   height: 6px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #ffc2a8, var(--au-coral));
+  background: linear-gradient(90deg, #3fbf2b, var(--au-signal));
 }
 .au-range::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -1196,25 +1224,25 @@
   height: 20px;
   margin-top: -7px;
   border-radius: 50%;
-  background: #fff4ef;
-  border: 3px solid var(--au-coral);
+  background: #f1f8c4;
+  border: 3px solid var(--au-signal);
   box-shadow:
-    0 0 0 4px rgba(255, 122, 89, 0.22),
-    0 0 18px rgba(255, 122, 89, 0.75);
+    0 0 0 4px rgba(216, 239, 90, 0.22),
+    0 0 18px rgba(216, 239, 90, 0.75);
   transition: box-shadow 0.3s;
 }
 .au-range::-moz-range-thumb {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #fff4ef;
-  border: 3px solid var(--au-coral);
-  box-shadow: 0 0 18px rgba(255, 122, 89, 0.75);
+  background: #f1f8c4;
+  border: 3px solid var(--au-signal);
+  box-shadow: 0 0 18px rgba(216, 239, 90, 0.75);
 }
 .au-range:focus-visible::-webkit-slider-thumb {
   box-shadow:
     0 0 0 4px #fff,
-    0 0 18px rgba(255, 122, 89, 0.75);
+    0 0 18px rgba(216, 239, 90, 0.75);
 }
 .au-range:focus-visible::-moz-range-thumb {
   box-shadow: 0 0 0 4px #fff;
@@ -1256,14 +1284,14 @@
   background: #fff;
   box-shadow:
     0 0 0 1px var(--au-line),
-    0 40px 70px -50px rgba(21, 32, 31, 0.45);
+    0 40px 70px -50px rgba(15, 18, 16, 0.45);
 }
 .au-prism__media {
   position: relative;
   flex: 1 1 auto;
   min-height: 300px;
   overflow: hidden;
-  background: #2a1c12;
+  background: #0b0d10;
 }
 .au-prism__img {
   position: absolute;
@@ -1331,7 +1359,7 @@
 }
 
 /* ==========================================================================
-   Plans over the dune ridge
+   Plans over the misty field
    ========================================================================== */
 .au-pricing {
   position: relative;
@@ -1344,7 +1372,7 @@
   position: absolute;
   inset: -6% 0;
   z-index: -1;
-  background: #e3cfb3;
+  background: #b9c1b4;
 }
 .au-pricing__bg img {
   width: 100%;
@@ -1360,11 +1388,11 @@
     linear-gradient(
       180deg,
       var(--au-paper) 6%,
-      rgba(250, 247, 241, 0.86) 18%,
-      rgba(250, 247, 241, 0.3) 36%,
-      rgba(250, 247, 241, 0) 52%
+      rgba(251, 251, 248, 0.86) 18%,
+      rgba(251, 251, 248, 0.3) 36%,
+      rgba(251, 251, 248, 0) 52%
     ),
-    linear-gradient(0deg, rgba(15, 45, 43, 0.28) 0%, rgba(15, 45, 43, 0) 40%);
+    linear-gradient(0deg, rgba(20, 30, 18, 0.28) 0%, rgba(20, 30, 18, 0) 40%);
 }
 
 .au-billing {
@@ -1397,7 +1425,7 @@
   position: absolute;
   inset: 0;
   border-radius: 999px;
-  background: var(--au-teal);
+  background: var(--au-ink);
 }
 .au-billing__text,
 .au-billing__save {
@@ -1406,7 +1434,7 @@
 .au-billing__save {
   padding: 4px 7px;
   border-radius: 999px;
-  background: var(--au-coral);
+  background: var(--au-signal);
   color: var(--au-ink);
   font-size: 10.5px;
   font-weight: 600;
@@ -1431,18 +1459,18 @@
   border-radius: var(--au-r-lg);
 }
 .au-plan--team {
-  background: linear-gradient(180deg, rgba(250, 247, 241, 0.86), rgba(250, 247, 241, 0.72));
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.42));
+  border: 1px solid rgba(255, 255, 255, 0.75);
   -webkit-backdrop-filter: blur(18px) saturate(1.2);
   backdrop-filter: blur(18px) saturate(1.2);
-  box-shadow: 0 40px 70px -40px rgba(15, 45, 43, 0.45);
+  box-shadow: 0 40px 70px -40px rgba(20, 30, 18, 0.45);
   color: var(--au-ink);
 }
 .au-plan--business {
   top: -16px;
-  background: linear-gradient(180deg, var(--au-teal-2) 0%, var(--au-teal) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 50px 90px -40px rgba(8, 26, 25, 0.75);
+  background: linear-gradient(180deg, #1c211c 0%, #0f1210 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 50px 90px -40px rgba(0, 0, 0, 0.6);
   color: #fff;
 }
 .au-plan__top {
@@ -1453,7 +1481,7 @@
 .au-plan__name {
   padding: 6px 11px;
   border-radius: 999px;
-  background: rgba(21, 32, 31, 0.06);
+  background: rgba(15, 18, 16, 0.06);
   font-size: 12px;
   font-weight: 500;
   line-height: 1;
@@ -1462,13 +1490,8 @@
   background: rgba(255, 255, 255, 0.1);
 }
 .au-plan__badge {
-  padding: 5px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 225, 215, 0.35);
   font-size: 11px;
-  font-weight: 500;
-  line-height: 1;
-  color: var(--au-coral-soft);
+  color: var(--au-signal);
 }
 .au-plan__price {
   display: flex;
@@ -1535,7 +1558,7 @@
   opacity: 0.45;
 }
 .au-plan--business .au-diamond {
-  border-color: var(--au-coral);
+  border-color: var(--au-signal);
   opacity: 0.9;
 }
 .au-plan__cta {
@@ -1556,10 +1579,10 @@
 }
 
 /* ==========================================================================
-   Closing band + footer (deep teal)
+   Closing band + footer (dark)
    ========================================================================== */
 .au-cta {
-  background: var(--au-teal);
+  background: var(--au-deep);
   color: #fff;
   padding: clamp(110px, 13vw, 190px) 20px clamp(40px, 4vw, 56px);
 }
@@ -1599,7 +1622,7 @@
 .au-footer {
   overflow: hidden;
   padding: 0 20px;
-  background: var(--au-teal);
+  background: var(--au-deep);
   color: rgba(255, 255, 255, 0.72);
 }
 .au-footer__grid {
@@ -1651,7 +1674,7 @@
 }
 .au-footer__col a:hover,
 .au-footer__col button:hover {
-  color: var(--au-coral);
+  color: var(--au-signal);
 }
 .au-footer__top svg {
   width: 13px;
@@ -1696,7 +1719,7 @@
 .au-drawer__scrim {
   position: absolute;
   inset: 0;
-  background: rgba(26, 23, 20, 0.5);
+  background: rgba(12, 15, 12, 0.48);
 }
 .au-drawer__panel {
   position: absolute;
@@ -1747,7 +1770,7 @@
     color 0.3s;
 }
 .au-drawer__close:hover {
-  background: var(--au-teal);
+  background: var(--au-ink);
   color: #fff;
 }
 
@@ -1765,7 +1788,7 @@
 }
 .au-plans-pick__billing .au-billing {
   margin: 10px 0 12px;
-  background: var(--au-sand);
+  background: var(--au-mist);
 }
 .au-plans-pick__grid {
   display: grid;
@@ -1787,12 +1810,11 @@
     box-shadow 0.3s;
 }
 .au-pick:hover {
-  border-color: rgba(21, 32, 31, 0.4);
+  border-color: rgba(15, 18, 16, 0.4);
 }
 .au-pick.is-on {
-  border-color: var(--au-teal);
-  background: color-mix(in srgb, var(--au-teal-mist) 45%, #fff);
-  box-shadow: inset 0 0 0 1px var(--au-teal);
+  border-color: var(--au-ink);
+  box-shadow: inset 0 0 0 1px var(--au-ink);
 }
 .au-pick:has(.au-pick__input:focus-visible) {
   outline: 2px solid var(--au-ink);
@@ -1846,8 +1868,8 @@
   height: 12px;
 }
 .au-pick.is-on .au-pick__tick {
-  background: var(--au-teal);
-  border-color: var(--au-teal);
+  background: var(--au-ink);
+  border-color: var(--au-ink);
   color: #fff;
 }
 
@@ -1873,7 +1895,7 @@
   height: 46px;
   padding: 0 14px;
   border-radius: 12px;
-  border: 1px solid rgba(21, 32, 31, 0.16);
+  border: 1px solid rgba(15, 18, 16, 0.16);
   background: #fff;
   color: var(--au-ink);
   font-size: 15px;
@@ -1882,13 +1904,13 @@
     box-shadow 0.2s;
 }
 .au-input::placeholder {
-  color: #858c88;
+  color: #8a908a;
 }
 .au-input:focus,
 .au-input:focus-visible {
   outline: none;
   border-color: var(--au-ink);
-  box-shadow: 0 0 0 3px rgba(21, 32, 31, 0.1);
+  box-shadow: 0 0 0 3px rgba(15, 18, 16, 0.1);
 }
 .au-input--area {
   height: auto;
@@ -1914,14 +1936,14 @@
   color: var(--au-muted);
 }
 .au-field.has-error .au-input {
-  border-color: var(--au-error);
+  border-color: #b3261e;
 }
 .au-field.has-error .au-input:focus {
-  box-shadow: 0 0 0 3px rgba(180, 50, 31, 0.14);
+  box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.14);
 }
 .au-field__error {
   font-size: 12.5px;
-  color: var(--au-error);
+  color: #a3241b;
 }
 
 .au-btn {
@@ -1937,11 +1959,11 @@
   transition: background-color 0.3s;
 }
 .au-btn--dark {
-  background: var(--au-teal);
+  background: var(--au-ink);
   color: #fff;
 }
 .au-btn--dark:hover {
-  background: var(--au-teal-2);
+  background: #2b302b;
 }
 .au-btn:disabled {
   cursor: progress;
@@ -1985,7 +2007,7 @@
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  background: var(--au-coral);
+  background: var(--au-signal);
   color: var(--au-ink);
 }
 .au-done__icon svg {
@@ -2029,20 +2051,13 @@
 /* ==========================================================================
    Responsive
    ========================================================================== */
-/* Short landscape viewports: keep the slab clear of the call to action. */
-@media (max-height: 820px) and (min-aspect-ratio: 1/1) {
-  .au-slab {
-    height: 31%;
-  }
-}
-
-/* Portrait frames: pan toward the walker so the slab still stands beside them. */
+/* Portrait frames: pan to the walker so the slab stands beside a person. */
 @media (max-aspect-ratio: 1/1) {
   .au-hero__img {
-    object-position: 33% 50%;
+    object-position: 84% 60%;
   }
   .au-slab {
-    left: 57%;
+    left: 47%;
   }
 }
 
@@ -2134,9 +2149,13 @@
     bottom: 18px;
   }
   .au-slab {
-    --au-slab-w: 40px;
-    height: 30%;
-    bottom: 6%;
+    --au-slab-w: 44px;
+    height: 34%;
+    bottom: 4%;
+  }
+  .au-hero__haze {
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 24%, rgba(0, 0, 0, 0) 44%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 24%, rgba(0, 0, 0, 0) 44%);
   }
 
   /* Fan deck becomes a snap carousel */

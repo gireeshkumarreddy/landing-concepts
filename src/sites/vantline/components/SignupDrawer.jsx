@@ -4,6 +4,7 @@ import { isEmail, useEscape, useFocusTrap, useScrollLock } from '../../../shared
 import { PLANS, TEAM_SIZES, money, priceFor } from '../data.js';
 import { Check, ChevronDown, Close } from '../icons.jsx';
 import { BillingToggle } from './Pricing.jsx';
+import Logo from './Logo.jsx';
 import { useMediaQuery, useReducedPref } from './ui.jsx';
 
 const EMPTY = { name: '', email: '', team: '', note: '' };
@@ -135,7 +136,9 @@ export default function SignupDrawer({ open, onClose, plan, onPlan, billing, onB
           >
             <div className="au-drawer__head">
               <div>
-                <p className="au-drawer__kicker">vantline</p>
+                <p className="au-wordmark au-drawer__kicker">
+                  <Logo />
+                </p>
                 <h2 className="au-drawer__title" id={`${uid}-title`}>
                   Start your <em>workspace</em>
                 </h2>

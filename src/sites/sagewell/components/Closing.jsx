@@ -36,12 +36,12 @@ export function ClosingCta() {
       <div className="cr-closing__frame">
         <div className="cr-closing__media" ref={mediaRef} aria-hidden="true">
           <img
-            src={unsplash(IMG.lakeSunset, { w: 1600, q: 72 })}
-            srcSet={unsplashSrcSet(IMG.lakeSunset, [640, 1000, 1400, 1800, 2400], { q: 72 })}
+            src={unsplash(IMG.stream, { w: 1600, q: 70 })}
+            srcSet={unsplashSrcSet(IMG.stream, [640, 1000, 1400, 1800, 2400], { q: 70 })}
             sizes="100vw"
             alt=""
             width="1600"
-            height="2206"
+            height="1015"
             loading="lazy"
             decoding="async"
           />
@@ -49,7 +49,8 @@ export function ClosingCta() {
         <div className="cr-closing__fog" aria-hidden="true" />
         <div className="cr-closing__inner">
           <h2 id="cr-closing-title" className="cr-closing__title" data-cr-reveal>
-            Ask something <em className="cr-em">difficult.</em>
+            Ask something <br className="cr-br-lg" />
+            difficult.
           </h2>
           <p className="cr-closing__sub" data-cr-reveal>
             Join the preview, work through the three-step setup, and read the trail behind each reply for

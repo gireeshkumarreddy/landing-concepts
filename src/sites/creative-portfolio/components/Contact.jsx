@@ -322,7 +322,7 @@ export default function Contact({ prefillType, prefillKey }) {
                   <p className="pf-form-note" id="pf-form-note">
                     Demo only: nothing is sent or saved.
                   </p>
-                  <button type="submit" className="pf-btn pf-btn--signal pf-btn--lg" disabled={status === 'loading'}>
+                  <button type="submit" className="pf-btn pf-btn--blue pf-btn--lg" disabled={status === 'loading'}>
                     {status === 'loading' ? (
                       <>
                         <span className="pf-spin" aria-hidden="true" /> Sending…

@@ -69,6 +69,13 @@ export const IconPause = p => (
   </Svg>
 );
 
+export const IconCalendar = p => (
+  <Svg {...p}>
+    <rect x="3.75" y="5.25" width="16.5" height="15" rx="2.5" />
+    <path d="M3.75 10h16.5M8 3v4M16 3v4" />
+  </Svg>
+);
+
 export const IconCopy = p => (
   <Svg {...p}>
     <rect x="8.5" y="8.5" width="11" height="11" rx="2.2" />

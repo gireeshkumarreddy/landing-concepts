@@ -19,8 +19,8 @@ export default function Emberpost() {
     title: 'Emberpost — email sorted by the people behind it',
     description:
       'Emberpost groups every email by the person who sent it. A concept landing page with a working sample inbox you can click through.',
-    themeColor: '#eeeae4',
-    background: '#eeeae4',
+    themeColor: '#ececee',
+    background: '#ececee',
     site: 'emberpost',
   });
 

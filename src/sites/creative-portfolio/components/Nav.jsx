@@ -139,7 +139,7 @@ export default function Nav() {
                   </li>
                 ))}
               </ul>
-              <a href="#contact" className="pf-btn pf-btn--signal pf-sheet-cta" onClick={e => closeAndGo(e, 'contact')}>
+              <a href="#contact" className="pf-btn pf-btn--blue pf-sheet-cta" onClick={e => closeAndGo(e, 'contact')}>
                 Start a project
               </a>
               <p className="pf-sheet-note">Booking from February 2027</p>

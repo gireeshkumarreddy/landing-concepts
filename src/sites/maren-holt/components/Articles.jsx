@@ -5,16 +5,16 @@ import { photoSet, photoSrc, useReduced } from '../lib.jsx';
 import { ArrowUpRight, PapersIcon, SearchIcon } from '../icons.jsx';
 
 function ArticleCard({ a, lead, onOpen }) {
-  const ratio = lead ? 5 / 4 : 3 / 4;
+  const ratio = lead ? 9 / 16 : 3 / 4;
   return (
     <article className={`ch-acard ${lead ? 'is-lead' : 'ch-acard--wide'}`}>
       <div className="ch-acard__media">
         <img
-          src={photoSrc(a.photo, lead ? 760 : 720, ratio)}
-          srcSet={photoSet(a.photo, lead ? [480, 760, 1100] : [420, 720, 960], ratio)}
-          sizes={lead ? '(max-width: 760px) 92vw, 360px' : '(max-width: 760px) 92vw, (max-width: 1100px) 45vw, 310px'}
-          width={lead ? 760 : 720}
-          height={Math.round((lead ? 760 : 720) * ratio)}
+          src={photoSrc(a.photo, lead ? 1200 : 720, ratio)}
+          srcSet={photoSet(a.photo, lead ? [640, 960, 1400] : [420, 720, 960], ratio)}
+          sizes={lead ? '(max-width: 760px) 92vw, 640px' : '(max-width: 760px) 92vw, (max-width: 1100px) 45vw, 310px'}
+          width={lead ? 1200 : 720}
+          height={Math.round((lead ? 1200 : 720) * ratio)}
           alt={PHOTOS[a.photo].alt}
           loading="lazy"
           decoding="async"

@@ -186,7 +186,7 @@ export default function Waitlist() {
                 <span>Send me the occasional product note</span>
               </label>
 
-              <button type="submit" className="ta-btn ta-btn--ember ta-ea__submit" disabled={status === 'loading'}>
+              <button type="submit" className="ta-btn ta-btn--violet ta-ea__submit" disabled={status === 'loading'}>
                 {status === 'loading' ? (
                   <>
                     <span className="ta-spinner" aria-hidden="true" /> Holding your place…

@@ -182,7 +182,7 @@ export default function Wizard({ open, plan, onClose }) {
                   <button type="button" className="ar-btn ar-btn-ghost" onClick={restart}>
                     Start another
                   </button>
-                  <button type="button" className="ar-btn ar-btn-primary" onClick={onClose}>
+                  <button type="button" className="ar-btn ar-btn-blue" onClick={onClose}>
                     Done
                   </button>
                 </div>
@@ -235,7 +235,7 @@ export default function Wizard({ open, plan, onClose }) {
                         {t.media ? (
                           <img src={unsplash(t.media, { w: 160, h: 100, q: 65 })} alt="" width="80" height="50" loading="lazy" decoding="async" />
                         ) : (
-                          <span className={`ar-tpl-glyph is-${t.id}`}>{t.glyph}</span>
+                          <span className={`ar-tpl-glyph is-${t.tone}`}>{t.glyph}</span>
                         )}
                       </span>
                       <span className="ar-tpl-name">{t.name}</span>
@@ -342,11 +342,11 @@ export default function Wizard({ open, plan, onClose }) {
             Step {step + 1} of 3
           </span>
           {step < 2 ? (
-            <button type="button" className="ar-btn ar-btn-primary" onClick={next}>
+            <button type="button" className="ar-btn ar-btn-blue" onClick={next}>
               Next <IconArrow size={16} sw={2} />
             </button>
           ) : (
-            <button type="submit" form="ar-wizard-form" className="ar-btn ar-btn-primary" disabled={status === 'saving'}>
+            <button type="submit" form="ar-wizard-form" className="ar-btn ar-btn-blue" disabled={status === 'saving'}>
               {status === 'saving' ? (
                 <>
                   <Spinner /> Saving…

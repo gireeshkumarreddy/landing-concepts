@@ -4,7 +4,7 @@ import SectionHead from './SectionHead.jsx';
 import Columns from './Columns.jsx';
 import { useTidings } from '../hooks.jsx';
 import { PLANS, REGIONS, REGION_ORDER } from '../data.js';
-import { CurrencyMark, IconArrow, IconCheck } from '../icons.jsx';
+import { Flag, IconArrow, IconCheck } from '../icons.jsx';
 
 const ease = [0.2, 0.7, 0.2, 1];
 
@@ -45,7 +45,7 @@ export default function Pricing() {
                 <input type="radio" name="ar-price-region" className="sr-only" checked={region === code} onChange={() => setRegion(code)} />
                 {region === code && <motion.span layoutId="ar-cur-pill" className="ar-seg-pill" transition={{ duration: 0.3, ease }} />}
                 <span className="ar-seg-text">
-                  <CurrencyMark code={code} />
+                  <Flag code={code} className="ar-flag" />
                   {REGIONS[code].symbol} {REGIONS[code].currency}
                 </span>
               </label>
@@ -100,7 +100,7 @@ export default function Pricing() {
                 </div>
                 <button
                   type="button"
-                  className={`ar-btn is-block ${p.featured ? 'ar-btn-light' : p.price ? 'ar-btn-ink' : 'ar-btn-ghost'}`}
+                  className={`ar-btn is-block ${p.featured ? 'ar-btn-white' : p.price ? 'ar-btn-ink' : 'ar-btn-ghost'}`}
                   onClick={() => (p.price ? openWizard(p.id) : openContact())}
                 >
                   {p.cta} <IconArrow size={16} sw={2} />

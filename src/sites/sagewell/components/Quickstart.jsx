@@ -142,7 +142,7 @@ export default function Quickstart() {
         </div>
 
         <div className="cr-qs__aside cr-plate" data-cr-reveal>
-          <img className="cr-plate__img" src={unsplash(IMG.coastSunset, { w: 480, q: 60 })} alt="" width="480" height="337" loading="lazy" decoding="async" aria-hidden="true" />
+          <img className="cr-plate__img" src={unsplash(IMG.heroWide, { w: 480, q: 60 })} alt="" width="480" height="315" loading="lazy" decoding="async" aria-hidden="true" />
           <div
             className="cr-term"
             role="tabpanel"

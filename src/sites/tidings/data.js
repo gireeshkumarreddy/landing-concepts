@@ -4,8 +4,6 @@
 import { unsplash } from '../../shared/img.js';
 
 export const IMG_BISTRO = '1751011983324-fe9d30fe9efd'; // bistro table with wine glasses
-export const IMG_DISH = '1414235077428-338989a2e8c0'; // plated dish
-export const IMG_TABLE = '1536392706976-e486e2ba97af'; // candle-lit long table
 
 export const avatar = (id, size = 96) => unsplash(id, { w: size, h: size, q: 70, crop: 'faces' });
 
@@ -192,11 +190,10 @@ export const CHATS = [
       { from: 'me', text: 'Hi Amina — thanks for booking the private room for 12 on the 14th.' },
       {
         from: 'me',
-        kind: 'media',
-        image: IMG_TABLE,
-        alt: 'A long candle-lit dinner table',
-        title: 'Private room · 12 guests',
-        text: 'Saturday 14th · 7:00 pm · Deposit received',
+        kind: 'promo',
+        eyebrow: 'Private room',
+        title: 'Saturday 14th · 12 guests',
+        text: 'Dinner from 7:00 pm. Your deposit has been received.',
         button: 'Manage booking',
         sheet: { title: 'Private room booking', url: 'casaverde.example/b/PR-0614', note: 'Lets Amina update numbers and dietary notes.' },
       },
@@ -221,6 +218,7 @@ export const TEMPLATES = [
     slug: 'hold',
     button: 'Reserve mine',
     glyph: 'In stock',
+    tone: 'grad',
     body: 'Hi {{first_name}} — good news: the {{item}} you saved is back in your size.\n\nReply *YES* to hold one for 24 hours, or order here: {{link}}',
   },
   {
@@ -232,6 +230,7 @@ export const TEMPLATES = [
     slug: 'basket',
     button: 'Return to basket',
     glyph: 'Basket',
+    tone: 'ink',
     body: 'Hi {{first_name}}, your {{item}} is still in your basket. We’ll keep it for you until tonight.\n\nPick up where you left off: {{link}}',
   },
   {
@@ -254,8 +253,8 @@ export const TEMPLATES = [
     domain: 'casaverde.example',
     slug: 'rewards',
     button: 'See my rewards',
-    media: IMG_DISH,
-    mediaAlt: 'A plated dessert',
+    glyph: 'Reward',
+    tone: 'soft',
     body: 'Hi {{first_name}}, you’ve unlocked a {{item}} — it’s waiting for you on your next visit.\n\nSee your points and rewards: {{link}}',
   },
 ];

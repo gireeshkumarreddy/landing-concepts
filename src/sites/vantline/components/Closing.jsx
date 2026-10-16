@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import { Link } from 'react-router-dom';
 import { NAV_LINKS } from '../data.js';
 import { ArrowUp } from '../icons.jsx';
+import Logo from './Logo.jsx';
 import { PillButton } from './ui.jsx';
 
 export const CtaBand = forwardRef(function CtaBand({ onSignup }, ref) {
@@ -30,7 +31,9 @@ export function Footer({ onSignup, onChoose }) {
     <footer className="au-footer">
       <div className="au-footer__grid">
         <div className="au-footer__about">
-          <p className="au-wordmark au-footer__brand">vantline</p>
+          <p className="au-wordmark au-footer__brand">
+            <Logo />
+          </p>
           <p className="au-footer__line">
             A copilot that explains what changed in your numbers, and <em>what to do next.</em>
           </p>

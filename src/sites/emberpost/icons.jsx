@@ -166,15 +166,15 @@ export const Ban = p => (
   </Icon>
 );
 
-// The envelope glyph inside the ember headline tile. Two-tone, not a brand mark.
+// The envelope glyph inside the headline tile. Two-tone, not a brand mark.
 export const Envelope = props => (
   <svg viewBox="0 0 40 30" aria-hidden="true" focusable="false" {...props}>
     <rect x="1" y="1" width="38" height="28" rx="7" fill="#fff" />
     <path d="M4.2 4.6C5.3 3 6.6 2.4 8.5 2.4h23c1.9 0 3.2.6 4.3 2.2L22.4 15.3a3.9 3.9 0 0 1-4.8 0L4.2 4.6Z" fill="url(#ta-env-flap)" />
     <defs>
       <linearGradient id="ta-env-flap" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor="#f0784b" />
-        <stop offset="1" stopColor="#d4471f" />
+        <stop offset="0" stopColor="#6d5ff7" />
+        <stop offset="1" stopColor="#4b3ae6" />
       </linearGradient>
     </defs>
   </svg>

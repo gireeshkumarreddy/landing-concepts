@@ -92,8 +92,8 @@ function Sparkline({ campaign, active }) {
         <svg ref={plotRef} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
           <defs>
             <linearGradient id="ar-spark-fill" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0" stopColor="#7fd0a8" stopOpacity=".42" />
-              <stop offset="1" stopColor="#7fd0a8" stopOpacity="0" />
+              <stop offset="0" stopColor="#6a5cff" stopOpacity=".45" />
+              <stop offset="1" stopColor="#6a5cff" stopOpacity="0" />
             </linearGradient>
           </defs>
           {[0.25, 0.5, 0.75].map(g => (

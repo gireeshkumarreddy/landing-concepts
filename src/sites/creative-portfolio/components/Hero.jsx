@@ -3,7 +3,7 @@ import { gsap, MOTION_OK, SplitText, useGSAP } from '../../../shared/gsap.js';
 import { unsplash } from '../../../shared/img.js';
 import { HEADSHOT } from '../data.js';
 import { goToContact } from '../utils.js';
-import { IconArrowRight, IconFilm, IconScissors } from '../icons.jsx';
+import { IconCalendar, IconFilm, IconScissors } from '../icons.jsx';
 import HeroTimeline from './HeroTimeline.jsx';
 import ClientStrip from './ClientStrip.jsx';
 
@@ -103,9 +103,9 @@ export default function Hero({ onOpenProject }) {
         </h1>
 
         <div className="pf-hero-cta">
-          <a href="#contact" className="pf-btn pf-btn--signal" onClick={goToContact}>
+          <a href="#contact" className="pf-btn pf-btn--blue" onClick={goToContact}>
+            <IconCalendar size={14} />
             Start a project
-            <IconArrowRight size={14} />
           </a>
         </div>
       </div>

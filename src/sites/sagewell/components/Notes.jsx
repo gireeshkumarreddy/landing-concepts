@@ -13,7 +13,7 @@ export default function Notes() {
             <b>06</b> Journal
           </p>
           <h2 id="cr-notes-title" className="cr-h2" data-cr-reveal>
-            Notes from the <em className="cr-em">reading room.</em>
+            Notes from the reading room.
           </h2>
           <p className="cr-lede" data-cr-reveal>
             Release notes, field guides and the occasional essay on reasoning you can inspect.

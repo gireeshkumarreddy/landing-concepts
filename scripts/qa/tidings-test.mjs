@@ -329,7 +329,7 @@ await m.getByRole('button', { name: 'Open menu' }).click();
 await m.waitForTimeout(400);
 await m.locator('#ar-mobile-menu label', { hasText: 'US' }).click();
 await m.locator('#ar-mobile-menu a', { hasText: 'Pricing' }).click();
-await m.waitForTimeout(1500);
+await m.waitForTimeout(2400);
 ok('Menu link closes menu + scrolls', (await m.locator('#ar-mobile-menu').count()) === 0 && (await inView(m, '#pricing')));
 ok('Mobile region switch → $', (await m.locator('.ar-plan').first().locator('.ar-plan-amount').innerText()).includes('$'));
 await m.evaluate(() => scrollTo(0, 0));

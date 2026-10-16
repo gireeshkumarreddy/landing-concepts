@@ -3,7 +3,7 @@ import { gsap, useGSAP, MOTION_OK } from '../../../shared/gsap.js';
 import { unsplash } from '../../../shared/img.js';
 import { useTidings } from '../hooks.jsx';
 import { IMG_BISTRO } from '../data.js';
-import { IconArrow, IconCalendar, IconExternal, IconTag } from '../icons.jsx';
+import { IconArrow, IconCalendar, IconChatBubble, IconExternal, IconLink } from '../icons.jsx';
 import Columns from './Columns.jsx';
 import HeroPhone from './HeroPhone.jsx';
 
@@ -132,9 +132,8 @@ export default function Hero() {
 
       <div className="ar-wrap ar-hero-copy">
         <p className="ar-badge">
-          <span className="ar-badge-new">New</span>
-          <span className="sr-only"> — </span>
-          Take payments inside the chat
+          <IconChatBubble size={20} className="ar-badge-ico" />
+          New — take payments inside the chat
         </p>
         <h1 id="ar-hero-title" className="ar-h1">
           <span className="ar-h1-mask">
@@ -181,8 +180,8 @@ export default function Hero() {
           </div>
           <div className="ar-slot is-m2" data-depth="30" aria-hidden="true">
             <div className="ar-rise-marker">
-              <span className="ar-marker-dot is-emerald">
-                <IconTag size={16} sw={2.1} />
+              <span className="ar-marker-dot is-blue">
+                <IconLink size={16} sw={2.2} />
               </span>
             </div>
           </div>
@@ -193,8 +192,8 @@ export default function Hero() {
           </div>
           <div className="ar-slot is-m4" data-depth="30" aria-hidden="true">
             <div className="ar-rise-marker">
-              <span className="ar-marker-dot is-tangerine">
-                <IconCalendar size={16} sw={2.1} />
+              <span className="ar-marker-dot is-violet">
+                <IconCalendar size={16} sw={2} />
               </span>
             </div>
           </div>

@@ -26,9 +26,8 @@ export default function Page() {
     title: 'Ines Morrow — Film editor, Copenhagen (concept)',
     description:
       'Portfolio concept for Ines Morrow, a fictional film and commercial editor in Copenhagen. Scrub the reel timeline, compare grades and start a project.',
-    themeColor: '#0e0e0d',
-    background: '#0e0e0d',
-    colorScheme: 'dark',
+    themeColor: '#ffffff',
+    background: '#ffffff',
     site: 'creative-portfolio',
   });
 

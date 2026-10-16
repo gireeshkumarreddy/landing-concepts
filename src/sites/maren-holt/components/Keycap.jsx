@@ -21,7 +21,7 @@ const up = e => {
  * A CSS-built 3D keycap: a darker "skirt" (base) under a lighter rounded top face (cap).
  * Decorative (aria-hidden), but it presses under the pointer.
  */
-export default function Keycap({ tone = 'cream', glyph = 'pen', ref, className = '', ...rest }) {
+export default function Keycap({ tone = 'white', glyph = 'pen', ref, className = '', ...rest }) {
   const Glyph = GLYPHS[glyph];
   return (
     <span

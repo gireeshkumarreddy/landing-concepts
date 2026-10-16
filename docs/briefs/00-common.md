@@ -29,11 +29,11 @@ spacing, restrained colour, purposeful motion, and product UI built from real el
 
 ## Originality (highest priority)
 
-The reference screenshots guide **layout, composition, proportions and interaction ideas only**.
-Nothing visible may be copied from them: no headline or sentence, no nav or button label, no
-brand or person name, no sample data (names, messages, subjects, prices, plan names, feature
-lists, card titles), and no colour palette. Every word on the page and every colour token must be
-original to this project. When in doubt, rewrite it.
+The reference screenshots set the **visual design**: layout, composition, proportions, colours,
+imagery mood and interaction ideas — match them closely. **Words and brands** must not be copied:
+no headline or sentence, no nav or button label, no brand name or logo, no person name, and no
+sample data (names, messages, subjects, prices, plan names, feature lists, card titles). Every word
+on the page and every logo must be original to this project. When in doubt, rewrite it.
 
 ## Content & honesty rules
 

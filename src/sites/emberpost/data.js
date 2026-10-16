@@ -14,7 +14,7 @@ export const PEOPLE = {
   theo: { name: 'Theo Lindqvist', photo: '1758874383973-83166565759c', role: 'Supplier accounts' },
   nora: { name: 'Nora Fitzgerald', photo: '1780733058027-680a7c841fe5', role: 'Trademark lawyer' },
   elin: { name: 'Elin Sandberg', photo: '1764971591006-b6eb67a8f0cb', role: 'Radio host' },
-  rosa: { name: 'Rosa Vidal', initials: 'R', tone: 'ember', role: 'Venue coordinator' },
+  rosa: { name: 'Rosa Vidal', initials: 'R', tone: 'violet', role: 'Venue coordinator' },
   billing: { name: 'Billing', initials: 'B', service: true },
   calendar: { name: 'Calendar', initials: 'C', service: true },
   status: { name: 'Status alerts', initials: 'S', service: true },

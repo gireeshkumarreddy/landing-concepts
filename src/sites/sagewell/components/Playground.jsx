@@ -39,7 +39,8 @@ export default function Playground() {
               <b>02</b> Playground
             </p>
             <h2 id="cr-api-title" className="cr-h2" data-cr-reveal>
-              One endpoint. <em className="cr-em">Adjustable depth.</em>
+              One endpoint. <br className="cr-br-lg" />
+              <span className="cr-soft">Adjustable depth.</span>
             </h2>
           </div>
           <p className="cr-lede" data-cr-reveal>
