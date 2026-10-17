@@ -10,16 +10,16 @@ export function FinalCta() {
   return (
     <section className="ar-final" aria-labelledby="ar-final-title">
       <div className="ar-wrap">
-        <div className="ar-final-band" data-reveal>
+        <div className="ar-final-band" data-expand="7% 9%" data-expand-radius="40px" data-expand-start="top 95%" data-expand-end="center 60%">
           <Columns className="is-final" />
           <div className="ar-final-copy">
-            <p className="ar-eyebrow is-light">Start small, measure everything</p>
-            <h2 id="ar-final-title" className="ar-final-title">
+            <p className="ar-eyebrow is-light" data-reveal="fade">Start small, measure everything</p>
+            <h2 id="ar-final-title" className="ar-final-title" data-reveal="lines">
               Your customers are already in the chat.
             </h2>
-            <p className="ar-final-sub">Draft a first campaign, preview it on a real conversation and send only when it feels right.</p>
-            <div className="ar-final-actions">
-              <button type="button" className="ar-cta is-white" onClick={() => openWizard()}>
+            <p className="ar-final-sub" data-reveal="fade" data-reveal-delay="0.15">Draft a first campaign, preview it on a real conversation and send only when it feels right.</p>
+            <div className="ar-final-actions" data-reveal="fade" data-reveal-delay="0.25">
+              <button type="button" className="ar-cta is-white" data-magnetic="0.3" onClick={() => openWizard()}>
                 Launch a campaign
                 <span className="ar-cta-dot">
                   <IconArrow size={18} sw={2.2} />

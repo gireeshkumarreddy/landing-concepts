@@ -31,6 +31,9 @@
   --ar-font: 'Outfit Variable', 'Outfit', ui-sans-serif, system-ui, sans-serif;
   --ar-os: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --ar-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ar-ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --cursor-bg: #2a52e8;
+  --cursor-fg: #fff;
   --ar-gutter: clamp(20px, 4vw, 48px);
 
   /* hero stage scale unit: 1px at 1440 wide */
@@ -985,6 +988,42 @@
   top: var(--ar-phone-top);
   z-index: 3;
 }
+/* signature: floating 3D phone (scroll turn → pointer tilt → idle float) */
+.ar-rise-phone {
+  perspective: 1500px;
+  perspective-origin: 50% 30%;
+}
+.ar-phone-scroll,
+.ar-phone-tilt {
+  transform-style: preserve-3d;
+  transform-origin: 50% 32%;
+  will-change: transform;
+  /* Once turned, parts of the phone sit behind these wrappers' planes in 3D; let clicks pass through to it. */
+  pointer-events: none;
+}
+.ar-phone-float {
+  animation: ar-phone-float 6.5s ease-in-out infinite alternate;
+  pointer-events: auto;
+}
+/* a phone you're using holds still */
+.ar-slot.is-phone:hover .ar-phone-float,
+.ar-slot.is-phone:focus-within .ar-phone-float {
+  animation-play-state: paused;
+}
+.ar-hero.is-offscreen .ar-phone-float,
+.ar-hero.is-offscreen .ar-bob,
+.ar-hero.is-offscreen .ar-col,
+.ar-hero.is-offscreen .ar-speck {
+  animation-play-state: paused;
+}
+@keyframes ar-phone-float {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
 .ar-slot.is-m1 {
   left: calc(-574 * var(--u));
   top: calc(64 * var(--u));
@@ -1075,13 +1114,17 @@
   border-radius: calc(12 * var(--u));
   background: #fff;
 }
+.ar-fcard-frame {
+  display: block;
+  overflow: hidden;
+  border-radius: calc(8 * var(--u));
+  background: #c9d6f5;
+}
 .ar-fcard-photo img {
   width: 100%;
   height: auto;
   aspect-ratio: 26 / 15;
   object-fit: cover;
-  border-radius: calc(8 * var(--u));
-  background: #c9d6f5;
 }
 .ar-fcard-link {
   display: flex;
@@ -4302,7 +4345,200 @@ button.ar-msg-action:hover {
   .ar-col,
   .ar-speck,
   .ar-bob,
+  .ar-phone-float,
   .ar-typing i {
     animation: none;
+  }
+}
+
+/* =====================================================================
+   18. Motion layer & premium pass
+   ===================================================================== */
+
+/* one consistent, gentle grade for every photo and portrait */
+.ar .ar-avatar,
+.ar-fcard-photo img,
+.ar-msg-media img,
+.ar-tpl-thumb img {
+  filter: saturate(0.93) contrast(1.03) brightness(1.01);
+}
+
+/* typography refinements */
+.ar-lead,
+.ar-bento-copy p,
+.ar-how-step p,
+.ar-principle p,
+.ar-acc-panel p,
+.ar-final-sub,
+.ar-plan-blurb {
+  text-wrap: pretty;
+}
+.ar-h2,
+.ar-final-title,
+.ar-modal-title {
+  text-wrap: balance;
+}
+.ar-h2 {
+  letter-spacing: -0.032em;
+}
+
+/* hairline + layered shadows on light cards */
+.ar-plan:not(.is-featured),
+.ar-controls,
+.ar-co-bubble,
+.ar-bc-panel {
+  box-shadow: 0 0 0 1px rgba(21, 22, 43, 0.05), 0 2px 4px rgba(21, 22, 43, 0.03), 0 24px 48px -28px rgba(21, 22, 43, 0.2);
+}
+
+/* soft lifts — `translate` composes with the inline transforms left by reveal tweens */
+.ar-bento-card,
+.ar-plan,
+.ar-principle,
+.ar-fcard {
+  transition: translate 0.8s var(--ar-ease-soft), box-shadow 0.8s var(--ar-ease-soft);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ar-bento-card:hover {
+    translate: 0 -4px;
+  }
+  .ar-plan:hover {
+    translate: 0 -6px;
+  }
+  .ar-plan:not(.is-featured):hover {
+    box-shadow: 0 0 0 1px rgba(21, 22, 43, 0.06), 0 4px 8px rgba(21, 22, 43, 0.04), 0 36px 64px -30px rgba(21, 22, 43, 0.28);
+  }
+  .ar-fcard-frame img {
+    transition: scale 0.9s var(--ar-ease-soft);
+  }
+  .ar-fcard:hover .ar-fcard-frame img {
+    scale: 1.05;
+  }
+  .ar-chat {
+    transition: background-color 0.35s var(--ar-ease-soft);
+  }
+}
+
+/* buttons ease rather than snap */
+.ar-btn,
+.ar-btn-start,
+.ar-btn-login,
+.ar-nav-link,
+.ar-region-btn,
+.ar-acc-btn,
+.ar-var-btn,
+.ar-check-chip,
+.ar-person,
+.ar-tab {
+  transition-timing-function: var(--ar-ease-soft);
+  transition-duration: 0.45s;
+}
+.ar-cta {
+  transition: box-shadow 0.6s var(--ar-ease-soft), background-color 0.3s;
+}
+.ar-cta:hover {
+  transform: none;
+}
+.ar-cta-dot {
+  transition: translate 0.6s var(--ar-ease-soft);
+}
+.ar-cta:hover .ar-cta-dot {
+  transform: none;
+  translate: 4px 0;
+}
+
+/* underline links that draw in */
+.ar-footer-cols a,
+.ar-footer-btn,
+.ar-link-btn {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  text-decoration: none;
+  transition: color 0.4s var(--ar-ease-soft), background-size 0.6s var(--ar-ease-soft);
+}
+.ar-footer-cols a:hover,
+.ar-footer-btn:hover,
+.ar-link-btn:hover {
+  background-size: 100% 1px;
+}
+
+/* ---------- page re-tint: deep-navy analytics interlude ---------- */
+.ar-analytics .ar-eyebrow,
+.ar-analytics .ar-h2,
+.ar-analytics .ar-lead {
+  transition: color 0.7s var(--ar-ease-soft);
+}
+.ar[data-scroll-theme='dark'] .ar-analytics .ar-eyebrow {
+  color: #9aabff;
+}
+.ar[data-scroll-theme='dark'] .ar-analytics .ar-h2 {
+  color: #fff;
+}
+.ar[data-scroll-theme='dark'] .ar-analytics .ar-lead {
+  color: rgba(255, 255, 255, 0.68);
+}
+.ar-dash {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 50px 120px -50px rgba(42, 82, 232, 0.55);
+  transition: box-shadow 0.8s var(--ar-ease-soft);
+}
+.ar[data-scroll-theme='dark'] .ar-dash {
+  box-shadow: 0 0 0 1px rgba(154, 171, 255, 0.14), 0 0 90px -20px rgba(106, 92, 255, 0.45), 0 60px 140px -40px rgba(42, 82, 232, 0.6);
+}
+
+/* nav follows the page theme */
+.ar-nav,
+.ar-nav .ar-wordmark,
+.ar-nav-link,
+.ar-region-btn,
+.ar-btn-login,
+.ar-btn-start,
+.ar-btn-start-dot,
+.ar-menu-btn {
+  transition-property: background-color, color, box-shadow, backdrop-filter;
+  transition-duration: 0.6s;
+  transition-timing-function: var(--ar-ease-soft);
+}
+.ar[data-scroll-theme='dark'] .ar-nav.is-scrolled {
+  background: rgba(21, 22, 43, 0.72);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 10px 30px -20px rgba(0, 0, 0, 0.6);
+}
+.ar[data-scroll-theme='dark'] .ar-nav .ar-wordmark {
+  color: #fff;
+}
+.ar[data-scroll-theme='dark'] .ar-nav-link,
+.ar[data-scroll-theme='dark'] .ar-region-btn {
+  color: rgba(255, 255, 255, 0.82);
+}
+.ar[data-scroll-theme='dark'] .ar-nav-link:hover,
+.ar[data-scroll-theme='dark'] .ar-nav-link[aria-expanded='true'],
+.ar[data-scroll-theme='dark'] .ar-region-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+.ar[data-scroll-theme='dark'] .ar-btn-login,
+.ar[data-scroll-theme='dark'] .ar-menu-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+.ar[data-scroll-theme='dark'] .ar-btn-start {
+  background: #fff;
+  color: var(--ar-ink);
+}
+.ar[data-scroll-theme='dark'] .ar-btn-start-dot {
+  background: var(--ar-ink);
+  color: #fff;
+}
+
+/* scroll-filled statement */
+.ar-about-mission[data-fill] .ar-blue-text {
+  color: var(--ar-blue);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ar-bento-card,
+  .ar-plan,
+  .ar-fcard {
+    transition: none;
   }
 }

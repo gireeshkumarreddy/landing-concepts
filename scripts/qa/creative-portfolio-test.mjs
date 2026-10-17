@@ -23,6 +23,9 @@ async function newPage(w, h, opts = {}) {
   await wait(2600);
   return page;
 }
+// DOM click: avoids Playwright scrolling the page natively right before the click, which the
+// smooth-scroll layer cannot see in time (real users never trigger that).
+const domClick = (page, sel) => page.locator(sel).first().evaluate(el => el.click());
 const sectionTop = (page, id) => page.evaluate(id => Math.round(document.getElementById(id).getBoundingClientRect().top), id);
 
 /* ---------------- Desktop ---------------- */
@@ -123,8 +126,8 @@ const sectionTop = (page, id) => page.evaluate(id => Math.round(document.getElem
 
   // Nav links
   for (const [label, id] of [['Process', 'process'], ['Reel', 'reel'], ['Studio', 'studio'], ['Contact', 'contact'], ['Index', 'index']]) {
-    await page.click(`.pf-nav-links a:has-text("${label}")`);
-    await wait(1400);
+    await domClick(page, `.pf-nav-links a:has-text("${label}")`);
+    await wait(1900);
     const top = await sectionTop(page, id);
     ok(`nav "${label}" scrolls to #${id}`, Math.abs(top - 88) < 30 || (id === 'index' && (await page.evaluate(() => scrollY)) < 5), `top=${top}`);
     if (id !== 'index') {
@@ -134,17 +137,63 @@ const sectionTop = (page, id) => page.evaluate(id => Math.round(document.getElem
   }
 
   // Hero CTA → contact + focus
-  await page.click('.pf-hero-cta .pf-btn');
-  await wait(1700);
+  await domClick(page, '.pf-hero-cta .pf-btn');
+  await wait(2100);
   ok('hero CTA scrolls to contact', Math.abs((await sectionTop(page, 'contact')) - 88) < 30);
   ok('hero CTA focuses the name field', await page.evaluate(() => document.activeElement?.id === 'pf-f-name'));
 
   // Client strip chevron
   await page.evaluate(() => scrollTo(0, 0));
   await wait(300);
-  await page.click('.pf-clients-jump');
-  await wait(1400);
+  await domClick(page, '.pf-clients-jump');
+  await wait(1900);
   ok('client strip chevron jumps to the reel', Math.abs((await sectionTop(page, 'reel')) - 88) < 30);
+
+  // Scale strip: size follows distance from the centre; scrolling and dragging change the centred still
+  const stripInfo = () =>
+    page.evaluate(() => {
+      const strip = document.querySelector('.pf-strip');
+      const r = strip.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const items = [...strip.querySelectorAll('.pf-strip-item')].map((el, i) => {
+        const b = el.getBoundingClientRect();
+        return { i, w: b.width, cx: b.left + b.width / 2, vis: b.right > r.left + 2 && b.left < r.right - 2 };
+      });
+      const centred = items.reduce((a, b) => (Math.abs(b.cx - cx) < Math.abs(a.cx - cx) ? b : a));
+      const visible = items.filter(x => x.vis);
+      return { centred: centred.i, cw: Math.round(centred.w), edgeW: [visible[0], visible[visible.length - 1]].map(e => Math.round(e.w)), caption: document.querySelector('.pf-strip-t').textContent };
+    });
+  await page.evaluate(() => window.scrollBy(0, document.querySelector('.pf-strip').getBoundingClientRect().top - 260));
+  await wait(1300);
+  const s1 = await stripInfo();
+  ok('strip: centred still is larger than edge stills', s1.edgeW.every(w => s1.cw > w * 1.8), JSON.stringify(s1));
+  await page.screenshot({ path: `${OUT}/t-strip-1.png` });
+  await page.mouse.move(720, 120);
+  for (let i = 0; i < 4; i++) {
+    await page.mouse.wheel(0, 120);
+    await wait(60);
+  }
+  await wait(1500);
+  const s2 = await stripInfo();
+  ok('strip: scrolling changes the centred still', s2.centred !== s1.centred, `${s1.centred} → ${s2.centred}`);
+  await page.screenshot({ path: `${OUT}/t-strip-2.png` });
+  // The wheel scroll above carries the strip off the top of the viewport; bring it back before dragging.
+  await page.evaluate(() => window.scrollBy(0, document.querySelector('.pf-strip').getBoundingClientRect().top - 260));
+  await wait(1300);
+  const s2b = await stripInfo();
+  const sb = await page.locator('.pf-strip').boundingBox();
+  await page.mouse.move(sb.x + sb.width * 0.7, sb.y + sb.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(sb.x + sb.width * 0.3, sb.y + sb.height / 2, { steps: 10 });
+  await page.mouse.up();
+  await wait(1200);
+  const s3 = await stripInfo();
+  ok('strip: dragging moves the row', s3.centred > s2b.centred, `${s2b.centred} → ${s3.centred}`);
+  await domClick(page, '.pf-strip-item.is-focus');
+  await wait(800);
+  ok('strip: clicking the centred still opens its film', (await page.textContent('#pf-case-title').catch(() => '')).trim() === s3.caption, s3.caption);
+  await page.keyboard.press('Escape');
+  await wait(600);
 
   // Work filters
   await page.click('.pf-chip:has-text("Music video")');
@@ -192,7 +241,7 @@ const sectionTop = (page, id) => page.evaluate(id => Math.round(document.getElem
   ok('accordion opens row', (await page.getAttribute('#pf-svc-btn-music', 'aria-expanded')) === 'true');
   ok('accordion closes previous row', (await page.getAttribute('#pf-svc-btn-campaign', 'aria-expanded')) === 'false');
   await page.screenshot({ path: `${OUT}/t-services.png` });
-  await page.click('#pf-svc-music a.pf-link-btn');
+  await domClick(page, '#pf-svc-music a.pf-link-btn');
   await wait(1600);
   ok('enquire preselects project type', await page.isChecked('input[name="pf-type"][value="Music video"]'));
 
@@ -260,7 +309,7 @@ const sectionTop = (page, id) => page.evaluate(id => Math.round(document.getElem
   await page.click('.pf-nav-menu[aria-label="Open menu"]');
   await wait(500);
   await page.click('#pf-menu a:has-text("Studio")');
-  await wait(1500);
+  await wait(2100);
   ok('menu link closes menu', !(await page.isVisible('#pf-menu')));
   ok('menu link scrolls to studio', Math.abs((await sectionTop(page, 'studio')) - 88) < 40, `top=${await sectionTop(page, 'studio')}`);
 
@@ -296,9 +345,19 @@ const sectionTop = (page, id) => page.evaluate(id => Math.round(document.getElem
   const f2 = +(await page.getAttribute('.pf-tl-track', 'aria-valuenow'));
   ok('no autoplay under reduced motion', f1 === f2 && f1 === 0);
   const hidden = await page.evaluate(() =>
-    [...document.querySelectorAll('.pf h1, .pf-hero-cta, .pf-reveal, .pf-badge, .pf-client')].filter(e => +getComputedStyle(e).opacity < 1).length,
+    [...document.querySelectorAll('.pf h1, .pf-hero-cta, [data-reveal], [data-fill], .pf-badge, .pf-client')].filter(e => +getComputedStyle(e).opacity < 1).length,
   );
   ok('all content visible under reduced motion', hidden === 0, `${hidden} hidden`);
+  await page.evaluate(() => document.querySelector('.pf-strip').scrollIntoView({ block: 'center' }));
+  await wait(500);
+  const rs = await page.evaluate(() => {
+    // Stills have different aspect ratios but share one base height, so height is the scale.
+    const items = [...document.querySelectorAll('.pf-strip-item')].map(el => el.getBoundingClientRect().height);
+    const max = Math.max(...items);
+    return { mid: items.indexOf(max), n: items.length, max: Math.round(max), first: Math.round(items[0]) };
+  });
+  ok('reduced: static strip with the middle still largest', rs.mid === Math.round((rs.n - 1) / 2) && rs.max > rs.first * 2, JSON.stringify(rs));
+  await page.screenshot({ path: `${OUT}/t-reduced-strip.png` });
   await page.screenshot({ path: `${OUT}/t-reduced.png` });
   ok('reduced console clean', page.errors.length === 0, page.errors.join(' | '));
   await page.context().close();

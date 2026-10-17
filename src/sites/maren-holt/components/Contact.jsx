@@ -21,14 +21,14 @@ export default function Contact({ topic, setTopic }) {
   }, [f.status]);
 
   return (
-    <section className="ch-section ch-contact-sec" id="contact" aria-labelledby="ch-contact-title">
+    <section className="ch-section ch-contact-sec" id="contact" aria-labelledby="ch-contact-title" data-bg="#fafaf9">
       <div className="ch-wrap">
-        <div className="ch-contact" data-reveal>
+        <div className="ch-contact" data-reveal="fade">
           <div className="ch-contact__intro">
             <p className="ch-label">
               <MailIcon size={15} /> Contact
             </p>
-            <h2 className="ch-h2" id="ch-contact-title">
+            <h2 className="ch-h2" id="ch-contact-title" data-reveal="lines" data-reveal-delay="0.15">
               Tell me about your draft.
             </h2>
             <p className="ch-lede">Where is the manuscript now, and what would you like it to become? A few lines is enough to begin.</p>

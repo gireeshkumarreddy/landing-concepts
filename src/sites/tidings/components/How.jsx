@@ -51,7 +51,7 @@ export default function How() {
           <div className="ar-how-line" aria-hidden="true">
             <span className="ar-how-fill" />
           </div>
-          <ol className="ar-how-list" role="list">
+          <ol className="ar-how-list" role="list" data-reveal="stagger" data-reveal-stagger="0.12">
             {STEPS.map((s, i) => (
               <li key={s.title} className="ar-how-step is-on">
                 <span className="ar-how-node" aria-hidden="true">

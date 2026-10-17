@@ -79,7 +79,7 @@ await page.getByRole('button', { name: /Start on Starter/ }).click();
 await page.waitForTimeout(500);
 ok('Start on Starter opens wizard', await page.getByRole('dialog', { name: 'Launch a campaign' }).isVisible());
 await page.keyboard.press('Escape');
-await page.waitForTimeout(500);
+await page.waitForTimeout(900);
 ok('Untouched wizard closes on Escape', (await page.getByRole('dialog').count()) === 0);
 
 // --- Scale → contact dialog
@@ -178,9 +178,31 @@ await shot(page, 'wizard-saved');
 await wiz.getByRole('button', { name: 'Done' }).click();
 await page.waitForTimeout(500);
 
-// --- Hero phone
+// --- Hero phone: signature 3D float/tilt/turn
+const phoneTransform = () => page.evaluate(() => getComputedStyle(document.querySelector('.ar-phone-scroll')).transform);
+await page.evaluate(() => scrollTo(0, 0));
+await page.waitForTimeout(1400);
+const tTop = await phoneTransform();
+await page.evaluate(() => scrollTo(0, 520));
+await page.waitForTimeout(1600);
+const tScrolled = await phoneTransform();
+ok('Phone turns/rises on scroll (transform changes)', tTop !== tScrolled && tScrolled !== 'none', `${tTop} → ${tScrolled.slice(0, 60)}`);
 await page.evaluate(() => scrollTo(0, 260));
-await page.waitForTimeout(400);
+await page.waitForTimeout(1200);
+// rest the pointer on the phone (it holds still while hovered), then check tilt + hit-testing
+const pb = await page.locator('.ar-phone--hero').boundingBox();
+await page.mouse.move(pb.x + pb.width * 0.85, pb.y + 120);
+await page.waitForTimeout(1300);
+const tilt = await page.evaluate(() => getComputedStyle(document.querySelector('.ar-phone-tilt')).transform);
+ok('Pointer tilts the phone', tilt !== 'none' && tilt.startsWith('matrix3d'), tilt.slice(0, 40));
+const hit = await page.evaluate(() => {
+  const row = document.querySelector('.ar-chat[data-chat="tomas"]');
+  const r = row.getBoundingClientRect();
+  return document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)?.closest('.ar-chat') === row;
+});
+ok('Tilted phone keeps hit-testing (chat row under pointer)', hit);
+await page.mouse.move(pb.x + pb.width / 2, pb.y + 160);
+await page.waitForTimeout(1300);
 await page.fill('#ar-chat-search', 'hannah');
 await page.waitForTimeout(300);
 ok('Chat search filters', (await page.locator('.ar-chat').count()) === 1);
@@ -334,6 +356,9 @@ ok('Menu link closes menu + scrolls', (await m.locator('#ar-mobile-menu').count(
 ok('Mobile region switch → $', (await m.locator('.ar-plan').first().locator('.ar-plan-amount').innerText()).includes('$'));
 await m.evaluate(() => scrollTo(0, 0));
 await m.waitForTimeout(400);
+const mpb = await m.locator('.ar-phone--hero').boundingBox();
+await m.mouse.move(mpb.x + mpb.width / 2, mpb.y + 150);
+await m.waitForTimeout(1300);
 await m.locator('.ar-chat[data-chat="tomas"]').click();
 await m.waitForTimeout(4200);
 await m.evaluate(() => scrollTo(0, 420));

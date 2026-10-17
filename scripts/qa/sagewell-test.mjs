@@ -153,7 +153,7 @@ ok('floating nav visible after hero', await page.locator('.cr-float').isVisible(
 await page.locator('.cr-float').getByRole('link', { name: 'Pricing' }).click();
 await wait(1600);
 const pricingTop = await page.evaluate(() => document.getElementById('pricing').getBoundingClientRect().top);
-ok('floating nav link scrolls to section', Math.abs(pricingTop) < 120, `top=${pricingTop}`);
+ok('floating nav link scrolls to section', pricingTop >= 0 && pricingTop < 220, `top=${pricingTop}`);
 await shot(page, 'float-nav-pricing');
 
 // Pricing estimator
@@ -194,15 +194,31 @@ await wait(150);
 ok('playground copy feedback', (await page.locator('.cr-code__copy').innerText()).includes('Copied'));
 await shot(page, 'playground');
 
-// Research cards
-await page.evaluate(() => document.getElementById('research').scrollIntoView());
-await wait(1400);
-const card = page.locator('.cr-think').nth(1);
-await card.hover();
-await wait(700);
-const det = await card.locator('.cr-think__detail').evaluate(el => getComputedStyle(el).filter + ' ' + getComputedStyle(el).opacity);
-ok('pass card hover reveals detail', det.startsWith('blur(0px) 1') || det.startsWith('none 1'), det);
-await shot(page, 'research-hover');
+// Research: kinetic pass pills
+await page.evaluate(() => document.querySelector('.cr-pills').scrollIntoView({ block: 'center' }));
+await wait(500);
+await shot(page, 'pills-mid');
+await wait(2600);
+const pills = await page.evaluate(() =>
+  [...document.querySelectorAll('.cr-pill')].map(li => {
+    const bg = getComputedStyle(li.querySelector('.cr-pill__bg'));
+    const chip = getComputedStyle(li.querySelector('.cr-pill__chip'));
+    return {
+      word: li.querySelector('.cr-pill__word').textContent.replace(/^Pass \d+: /, ''),
+      side: li.dataset.side,
+      settled: bg.opacity === '1' && (bg.transform === 'none' || bg.transform === 'matrix(1, 0, 0, 1, 0, 0)') && chip.opacity === '1',
+    };
+  })
+);
+ok('four pass pills in order', pills.map(p => p.word).join(' · ') === 'Plan · Investigate · Cross-check · Conclude', pills.map(p => p.word).join(' · '));
+ok('pills alternate sides', pills.map(p => p.side).join('') === 'lrlr');
+ok('pills slide in and settle at full width', pills.every(p => p.settled));
+const dots = await page.evaluate(() => {
+  const all = [...document.querySelectorAll('.cr-pills__dot')];
+  return { n: all.length, visible: all.filter(d => getComputedStyle(d).opacity === '1').length };
+});
+ok('dotted connector drawn', dots.n > 20 && dots.visible === dots.n, JSON.stringify(dots));
+await shot(page, 'pills-end');
 
 // In practice → composer, then run it
 await page.evaluate(() => document.getElementById('use-cases').scrollIntoView());
@@ -279,7 +295,7 @@ await wait(400);
 await m.locator('#cr-menu').getByRole('link', { name: /Pricing/ }).click();
 await wait(2200);
 const mp = await m.evaluate(() => document.getElementById('pricing').getBoundingClientRect().top);
-ok('menu link closes and scrolls', !(await m.locator('#cr-menu').count()) && Math.abs(mp) < 120, `top=${mp}`);
+ok('menu link closes and scrolls', !(await m.locator('#cr-menu').count()) && mp >= 0 && mp < 220, `top=${mp}`);
 await m.evaluate(() => window.scrollTo(0, 0));
 await wait(300);
 await m.locator('#cr-prompt').fill('What are the real trade-offs of a four-day work week?');

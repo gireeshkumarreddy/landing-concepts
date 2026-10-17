@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEscape, useFocusTrap, useScrollLock } from '../../../shared/a11y.js';
 import { NAV } from '../data.js';
+import { scrollToTarget } from '../../../shared/motion/index.js';
 import { goToContact } from '../utils.js';
 import { IconClose, IconMenu } from '../icons.jsx';
 
@@ -50,11 +51,12 @@ export default function Nav() {
   const closeAndGo = (e, id) => {
     e.preventDefault();
     setOpen(false);
-    requestAnimationFrame(() => {
+    // Wait a tick so the menu's scroll lock has released before gliding to the section.
+    setTimeout(() => {
       if (id === 'contact') return goToContact();
-      document.getElementById(id)?.scrollIntoView({ block: 'start' });
-      history.replaceState?.(null, '', `#${id}`);
-    });
+      scrollToTarget(`#${id}`);
+      history.replaceState?.(history.state, '', `#${id}`);
+    }, 60);
   };
 
   return (

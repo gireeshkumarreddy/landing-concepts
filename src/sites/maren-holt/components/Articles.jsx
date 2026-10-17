@@ -3,13 +3,19 @@ import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import { ARTICLES, CATEGORIES, PHOTOS } from '../data.js';
 import { photoSet, photoSrc, useReduced } from '../lib.jsx';
 import { ArrowUpRight, PapersIcon, SearchIcon } from '../icons.jsx';
+import EssayArc from './EssayArc.jsx';
 
-function ArticleCard({ a, lead, onOpen }) {
+// Reveal stagger by grid position: the lead card shares row one with one card, then rows of three.
+const revealDelay = i => (i === 0 ? 0 : i === 1 ? 0.12 : ((i - 2) % 3) * 0.1);
+
+function ArticleCard({ a, lead, onOpen, i }) {
   const ratio = lead ? 9 / 16 : 3 / 4;
   return (
-    <article className={`ch-acard ${lead ? 'is-lead' : 'ch-acard--wide'}`}>
+    <article className={`ch-acard ${lead ? 'is-lead' : 'ch-acard--wide'}`} data-cursor="Read" data-reveal="fade" data-reveal-delay={revealDelay(i)}>
       <div className="ch-acard__media">
+        <span className="ch-zoom">
         <img
+          data-parallax="0.1"
           src={photoSrc(a.photo, lead ? 1200 : 720, ratio)}
           srcSet={photoSet(a.photo, lead ? [640, 960, 1400] : [420, 720, 960], ratio)}
           sizes={lead ? '(max-width: 760px) 92vw, 640px' : '(max-width: 760px) 92vw, (max-width: 1100px) 45vw, 310px'}
@@ -19,6 +25,7 @@ function ArticleCard({ a, lead, onOpen }) {
           loading="lazy"
           decoding="async"
         />
+        </span>
       </div>
       <div className="ch-acard__body">
         <p className="ch-meta">
@@ -49,17 +56,18 @@ export default function Articles({ onOpen, onSearch }) {
 
   return (
     <section className="ch-section ch-articles" id="essays" aria-labelledby="ch-articles-title">
+      <EssayArc onOpen={onOpen} />
       <div className="ch-wrap">
-        <header className="ch-shead ch-shead--split" data-reveal>
+        <header className="ch-shead ch-shead--split" id="essays-list">
           <div>
-            <p className="ch-label">
+            <p className="ch-label" data-reveal="fade">
               <PapersIcon size={15} /> Essays
             </p>
-            <h2 className="ch-h2" id="ch-articles-title">
+            <h3 className="ch-h2" id="ch-essays-list-title" data-reveal="lines">
               Notes on turning a draft into a book.
-            </h2>
+            </h3>
           </div>
-          <div className="ch-shead__aside">
+          <div className="ch-shead__aside" data-reveal="fade" data-reveal-delay="0.15">
             <p className="ch-lede">
               Practical pieces on structure, revision, publishing and the writing life. Every essay here is sample writing for this concept.
             </p>
@@ -72,7 +80,7 @@ export default function Articles({ onOpen, onSearch }) {
         </header>
 
         <LayoutGroup id="ch-filters">
-          <div className="ch-chips" role="group" aria-label="Filter essays by theme" data-reveal>
+          <div className="ch-chips" role="group" aria-label="Filter essays by theme" data-reveal="fade" data-reveal-delay="0.1">
             {CATEGORIES.map(c => {
               const on = c === cat;
               return (
@@ -89,7 +97,7 @@ export default function Articles({ onOpen, onSearch }) {
           {cat === 'All' ? `Showing all ${list.length} essays` : `Showing ${list.length} essays in ${cat}`}
         </p>
 
-        <div className="ch-agrid" data-reveal>
+        <div className="ch-agrid">
           <AnimatePresence mode="popLayout" initial={false}>
             {list.map((a, i) => (
               <motion.div
@@ -101,7 +109,7 @@ export default function Articles({ onOpen, onSearch }) {
                 exit={{ opacity: 0, scale: 0.97 }}
                 transition={t}
               >
-                <ArticleCard a={a} lead={i === 0} onOpen={onOpen} />
+                <ArticleCard a={a} i={i} lead={i === 0} onOpen={onOpen} />
               </motion.div>
             ))}
           </AnimatePresence>

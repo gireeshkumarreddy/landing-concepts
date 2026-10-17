@@ -51,7 +51,7 @@ export function HeroNav({ menuOpen, onMenu }) {
       <nav className="cr-header__inner" aria-label="Primary">
         <Wordmark href="#top" aria-label="Sagewell, back to top" />
         <Links className="cr-header__links" />
-        <button type="button" className="cr-btn cr-btn--ink cr-header__cta" onClick={openAccess}>
+        <button type="button" className="cr-btn cr-btn--ink cr-header__cta" data-magnetic="0.25" onClick={openAccess}>
           Request access
         </button>
         <button
@@ -85,7 +85,7 @@ export function FloatingNav({ visible, active, menuOpen, onMenu }) {
           <nav className="cr-float__inner" aria-label="Section shortcuts">
             <Wordmark href="#top" aria-label="Sagewell, back to top" className="cr-wordmark--sm" />
             <Links className="cr-float__links" active={active} />
-            <button type="button" className="cr-btn cr-btn--ink cr-btn--sm cr-float__cta" onClick={openAccess}>
+            <button type="button" className="cr-btn cr-btn--ink cr-btn--sm cr-float__cta" data-magnetic="0.25" onClick={openAccess}>
               Request access
             </button>
             <button
@@ -128,6 +128,7 @@ export function MobileMenu({ open, onClose }) {
             ref={ref}
             id="cr-menu"
             className="cr-menu__panel"
+            data-lenis-prevent
             role="dialog"
             aria-modal="true"
             aria-label="Menu"

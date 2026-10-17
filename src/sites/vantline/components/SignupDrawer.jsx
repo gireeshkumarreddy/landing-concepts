@@ -126,6 +126,7 @@ export default function SignupDrawer({ open, onClose, plan, onPlan, billing, onB
           <motion.div
             ref={panelRef}
             className="au-drawer__panel"
+            data-lenis-prevent
             role="dialog"
             aria-modal="true"
             aria-labelledby={`${uid}-title`}

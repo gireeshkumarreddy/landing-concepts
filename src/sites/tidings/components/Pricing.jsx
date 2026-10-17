@@ -14,7 +14,7 @@ export default function Pricing() {
   const r = REGIONS[region];
 
   return (
-    <section id="pricing" className="ar-section ar-pricing" aria-labelledby="ar-pricing-title">
+    <section id="pricing" className="ar-section ar-pricing" aria-labelledby="ar-pricing-title" data-bg="">
       <div className="ar-wrap">
         <SectionHead
           id="ar-pricing-title"
@@ -24,7 +24,7 @@ export default function Pricing() {
           align="center"
         />
 
-        <div className="ar-price-ctrls" data-reveal>
+        <div className="ar-price-ctrls" data-reveal="fade" data-reveal-delay="0.2">
           <div className="ar-seg is-lg" role="group" aria-label="Billing period">
             {[
               [false, 'Monthly'],
@@ -53,12 +53,12 @@ export default function Pricing() {
           </div>
         </div>
 
-        <div className="ar-plans">
+        <div className="ar-plans" data-reveal="stagger" data-reveal-stagger="0.1">
           {PLANS.map(p => {
             const monthly = p.price?.[region];
             const shown = monthly ? (yearly ? Math.round((monthly * 10) / 12) : monthly) : null;
             return (
-              <article key={p.id} className={`ar-plan ${p.featured ? 'is-featured' : ''}`} aria-labelledby={`ar-plan-${p.id}`} data-reveal>
+              <article key={p.id} className={`ar-plan ${p.featured ? 'is-featured' : ''}`} aria-labelledby={`ar-plan-${p.id}`}>
                 {p.featured && <Columns className="is-plan" specks={false} />}
                 <div className="ar-plan-head">
                   <h3 id={`ar-plan-${p.id}`} className="ar-plan-name">
@@ -119,7 +119,7 @@ export default function Pricing() {
             );
           })}
         </div>
-        <p className="ar-price-note" data-reveal>
+        <p className="ar-price-note" data-reveal="fade">
           Meta’s conversation fees are passed through at cost and shown separately. Prices in {r.currency}, excluding VAT and sales tax.
         </p>
       </div>

@@ -89,6 +89,7 @@ export default function NewsletterForm({ onKeystroke, id = 'ch-newsletter-email'
                 your@email<i>_</i>
               </span>
             </div>
+            <span className="ch-magnet" data-magnetic="0.28">
             <button type="submit" className="ch-btn ch-btn--raised ch-news__btn" aria-disabled={status === 'loading' || undefined}>
               {status === 'loading' ? (
                 <>
@@ -99,6 +100,7 @@ export default function NewsletterForm({ onKeystroke, id = 'ch-newsletter-email'
                 'Get the notes'
               )}
             </button>
+            </span>
             <span className="sr-only" aria-live="polite">
               {status === 'loading' ? 'Adding you to the list…' : ''}
             </span>

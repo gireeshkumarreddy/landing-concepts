@@ -31,26 +31,26 @@ export default function Playground() {
   const isLive = text => text === `"${model}"` || text === `"${depth}"`;
 
   return (
-    <section className="cr-section cr-api" id="playground" aria-labelledby="cr-api-title">
+    <section className="cr-section cr-api" id="playground" data-bg="#141512" aria-labelledby="cr-api-title">
       <div className="cr-wrap">
         <header className="cr-api__head">
           <div>
-            <p className="cr-eyebrow" data-cr-reveal>
+            <p className="cr-eyebrow" data-reveal="fade">
               <b>02</b> Playground
             </p>
-            <h2 id="cr-api-title" className="cr-h2" data-cr-reveal>
+            <h2 id="cr-api-title" className="cr-h2" data-reveal="lines">
               One endpoint. <br className="cr-br-lg" />
               <span className="cr-soft">Adjustable depth.</span>
             </h2>
           </div>
-          <p className="cr-lede" data-cr-reveal>
+          <p className="cr-lede" data-reveal="fade" data-reveal-delay="0.12">
             Switch language, model or depth and the request below is rewritten in place. Deeper settings spend
             more tokens planning and cross-checking before Sagewell replies.
           </p>
         </header>
 
         <div className="cr-api__grid">
-          <div className="cr-code" data-cr-reveal>
+          <div className="cr-code" data-reveal="fade">
             <div className="cr-code__top">
               <div className="cr-tabs" role="tablist" aria-label="Request language" onKeyDown={onTabKey}>
                 {LANGS.map((l, i) => (
@@ -152,9 +152,9 @@ export default function Playground() {
             </p>
           </div>
 
-          <ul className="cr-caps" role="list">
+          <ul className="cr-caps" role="list" data-reveal="stagger" data-reveal-stagger="0.1">
             {CAPABILITIES.map((c, i) => (
-              <li key={c.title} className="cr-cap" data-cr-reveal>
+              <li key={c.title} className="cr-cap">
                 <span className="cr-cap__num">0{i + 1}</span>
                 <div>
                   <h3 className="cr-cap__title">{c.title}</h3>

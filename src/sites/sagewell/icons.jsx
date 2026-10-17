@@ -96,3 +96,27 @@ export const IconDepth = p => (
     <path d="M4 6h12M6.5 10h7M9 14h2" />
   </I>
 );
+export const IconPlan = p => (
+  <I {...p}>
+    <path d="M8 5.5h8M8 10h8M8 14.5h5" />
+    <circle cx="4.5" cy="5.5" r="0.9" fill="currentColor" stroke="none" />
+    <circle cx="4.5" cy="10" r="0.9" fill="currentColor" stroke="none" />
+    <circle cx="4.5" cy="14.5" r="0.9" fill="currentColor" stroke="none" />
+  </I>
+);
+export const IconSearch = p => (
+  <I {...p}>
+    <circle cx="8.8" cy="8.8" r="5.3" />
+    <path d="m12.8 12.8 3.7 3.7" />
+  </I>
+);
+export const IconCompare = p => (
+  <I {...p}>
+    <path d="M4 7h11.5M12.5 4 15.5 7l-3 3M16 13H4.5M7.5 10 4.5 13l3 3" />
+  </I>
+);
+export const IconFlag = p => (
+  <I {...p}>
+    <path d="M5 17.5V3.5M5 4h9.2l-2 3.6 2 3.6H5" />
+  </I>
+);

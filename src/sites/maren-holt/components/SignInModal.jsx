@@ -37,6 +37,7 @@ export default function SignInModal({ onClose }) {
         aria-modal="true"
         aria-labelledby="ch-signin-title"
         aria-describedby="ch-signin-desc"
+        data-lenis-prevent
         initial={{ opacity: 0, y: reduce ? 0 : 14 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: reduce ? 0 : 8 }}

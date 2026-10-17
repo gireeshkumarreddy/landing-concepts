@@ -7,6 +7,11 @@ const results = [];
 const errors = [];
 const ok = (name, cond, extra = '') => results.push(`${cond ? 'PASS' : 'FAIL'}  ${name}${extra ? '  — ' + extra : ''}`);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+// Smooth scrolling + scroll reveals: bring an element into view and let its reveal settle before clicking.
+const into = async (page, sel, block = 'center') => {
+  await page.locator(sel).first().evaluate((el, b) => el.scrollIntoView({ block: b }), block);
+  await sleep(1400);
+};
 
 const browser = await chromium.launch({ channel: 'msedge', headless: true });
 
@@ -17,8 +22,10 @@ async function open(viewport, opts = {}) {
   page.on('console', m => {
     if (m.type() === 'error' || m.type() === 'warning') errors.push(`[${viewport.width}] ${m.type()}: ${m.text()}`);
   });
-  await page.goto(URL, { waitUntil: 'networkidle' });
-  await page.waitForSelector('.ch-h1');
+  await page.goto(URL, { waitUntil: 'networkidle', timeout: 180000 });
+  await page.waitForSelector('.ch-h1', { timeout: 120000 });
+  // Let the hero typewriter finish (keycaps fade in as they are typed).
+  await page.waitForFunction(() => [...document.querySelectorAll('.ch-h1 .ch-key')].every(k => getComputedStyle(k).visibility === 'visible' && getComputedStyle(k).opacity === '1'), null, { timeout: 60000 });
   await sleep(2200);
   return { ctx, page };
 }
@@ -93,6 +100,18 @@ async function open(viewport, opts = {}) {
   await sleep(200);
   const prog = await page.locator('.ch-reader__progress span').evaluate(el => el.style.transform);
   ok('reading progress updates', /scaleX\(0\.[1-9]/.test(prog), prog);
+  ok('page smooth scroll paused while reader open', await page.evaluate(() => document.documentElement.classList.contains('lenis-stopped')));
+  {
+    const y0 = await page.evaluate(() => scrollY);
+    const r0 = await page.locator('.ch-reader__scroll').evaluate(el => el.scrollTop);
+    const box = await page.locator('.ch-reader__scroll').boundingBox();
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.wheel(0, 500);
+    await sleep(500);
+    const r1 = await page.locator('.ch-reader__scroll').evaluate(el => el.scrollTop);
+    const y1 = await page.evaluate(() => scrollY);
+    ok('wheel scrolls the reader, not the page', r1 > r0 && y1 === y0, `reader ${r0}→${r1}, page ${y0}→${y1}`);
+  }
   await shot('reader');
   const t1 = await page.locator('#ch-reader-title').textContent();
   await page.locator('.ch-pn--next').click();
@@ -106,6 +125,7 @@ async function open(viewport, opts = {}) {
   await page.keyboard.press('Escape');
   await sleep(600);
   ok('escape closes reader', (await page.locator('.ch-reader').count()) === 0);
+  ok('page smooth scroll resumes after reader', await page.evaluate(() => !document.documentElement.classList.contains('lenis-stopped')));
   ok('scroll unlocked', await page.evaluate(() => document.body.style.overflow === ''));
 
   // "/" shortcut
@@ -147,7 +167,7 @@ async function open(viewport, opts = {}) {
   // Nav links + active state
   for (const id of ['essays', 'services', 'workshops', 'about', 'contact']) {
     await page.click(`.ch-pill a[href="#${id}"]`);
-    await sleep(1300);
+    await sleep(1900);
     const top = await page.evaluate(i => Math.round(document.getElementById(i).getBoundingClientRect().top), id);
     const active = await page.evaluate(() => document.querySelector('.ch-pill__link.is-active')?.getAttribute('href'));
     ok(`nav → #${id}`, Math.abs(top - 88) < 60 || (id === 'contact' && top < 500), `top=${top} active=${active}`);
@@ -165,6 +185,7 @@ async function open(viewport, opts = {}) {
   await page.click('.ch-articles .ch-chip:has-text("All")');
   await sleep(700);
   ok('filter All → 8', (await page.locator('.ch-agrid .ch-acard').count()) === 8);
+  await into(page, '.ch-acard >> nth=3');
   await page.click('.ch-acard >> nth=3');
   await page.waitForSelector('.ch-reader');
   await sleep(500);
@@ -173,6 +194,7 @@ async function open(viewport, opts = {}) {
   await sleep(500);
 
   // Authors accordion
+  await into(page, '#ch-svc-btn-developmental');
   const b2 = page.locator('#ch-svc-btn-developmental');
   await b2.click();
   await sleep(500);
@@ -184,9 +206,10 @@ async function open(viewport, opts = {}) {
   ok('ask about this → name focused', await page.evaluate(() => document.activeElement?.id === 'ch-contact-name'));
 
   // Books flip
-    await page.locator('#anatomy').scrollIntoViewIfNeeded();
+    await into(page, '#anatomy');
   await page.click('.ch-anat__item >> nth=0');
   await sleep(900);
+  ok('page re-tints charcoal while Anatomy is centred', (await page.getAttribute('.ch', 'data-scroll-theme')) === 'dark');
   ok('anatomy card flips', await page.locator('.ch-anat__item >> nth=0').evaluate(e => e.classList.contains('is-flipped')));
   await page.locator('#anatomy').evaluate(el => el.scrollIntoView({ block: 'center' }));
   await sleep(400);
@@ -197,7 +220,7 @@ async function open(viewport, opts = {}) {
   ok('anatomy flips back via keyboard', !(await page.locator('.ch-anat__item >> nth=0').evaluate(e => e.classList.contains('is-flipped'))));
 
   // Workshops
-  await page.locator('#workshops').evaluate(el => el.scrollIntoView());
+  await into(page, '#workshops', 'start');
   await page.click('.ch-speaking .ch-chip:has-text("In person")');
   await sleep(700);
   ok('format filter In person → 2', (await page.locator('.ch-talk').count()) === 2);
@@ -227,13 +250,15 @@ async function open(viewport, opts = {}) {
   await sleep(300);
 
   // About CTA → newsletter
-  await page.locator('#about').evaluate(el => el.scrollIntoView());
+  await into(page, '#about');
+  ok('page back to light theme after Anatomy', (await page.getAttribute('.ch', 'data-scroll-theme')) === 'light');
+  ok('About statement is split for the scroll fill', (await page.locator('.ch-statement [style*="opacity"]').count()) > 10);
   await page.click('.ch-about__ctas .ch-btn--raised');
   await sleep(1300);
   ok('get the Sunday notes → focuses email', await page.evaluate(() => document.activeElement?.id === 'ch-newsletter-email'));
 
   // Contact
-  await page.locator('#contact').evaluate(el => el.scrollIntoView());
+  await into(page, '#contact');
   await page.click('.ch-contact button[type=submit]');
   ok('contact empty → 3 errors', (await page.locator('.ch-contact .ch-field__error').count()) === 3);
   await page.click('.ch-topic:has-text("Book coaching")');
@@ -272,7 +297,7 @@ async function open(viewport, opts = {}) {
   await page.click('.ch-menubtn');
   await sleep(400);
   await page.click('.ch-menu__link:has-text("Workshops")');
-  await sleep(1500);
+  await sleep(2200);
   const top = await page.evaluate(() => Math.round(document.getElementById('workshops').getBoundingClientRect().top));
   ok('mobile: menu link navigates & closes', (await page.locator('#ch-menu').count()) === 0 && Math.abs(top - 88) < 60, `top=${top}`);
   // featured carousel scrolls horizontally

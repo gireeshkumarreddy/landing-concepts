@@ -4,10 +4,10 @@ import '@fontsource-variable/inter-tight';
 import '@fontsource/instrument-serif/400-italic.css';
 import { SITES } from '../sites.js';
 import { useSiteMeta } from '../shared/useSiteMeta.js';
-import { gsap, useGSAP, MOTION_OK } from '../shared/gsap.js';
+import { useMotion } from '../shared/motion/index.js';
 import './hub.css';
 
-const STACK = ['React 19', 'Vite', 'GSAP + ScrollTrigger', 'Motion', 'Per-site type systems'];
+const STACK = ['React 19', 'Vite', 'GSAP + ScrollTrigger', 'Lenis smooth scroll', 'Motion', 'Per-site type systems'];
 
 export default function Hub() {
   const root = useRef(null);
@@ -19,17 +19,7 @@ export default function Hub() {
     site: 'hub',
   });
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
-        gsap.from('.hub-intro > *', { y: 24, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.07 });
-        gsap.from('.hub-card', { y: 40, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.06, delay: 0.25 });
-      });
-      return () => mm.revert();
-    },
-    { scope: root }
-  );
+  useMotion(root);
 
   return (
     <div className="hub" ref={root}>
@@ -41,20 +31,26 @@ export default function Hub() {
 
       <main id="main">
         <section className="hub-intro" aria-labelledby="hub-title">
-          <p className="hub-eyebrow">Six independent landing pages</p>
-          <h1 id="hub-title">
+          <p className="hub-eyebrow" data-reveal="fade">Six independent landing pages</p>
+          <h1 id="hub-title" data-reveal="lines">
             Six products, six design systems, <em>one standard.</em>
           </h1>
-          <p className="hub-lede">
+          <p className="hub-lede" data-reveal="fade" data-reveal-delay="0.25">
             Interactive concept studies built from six reference designs — each with its own typography, palette,
             motion language and a working product demo. Pick one to open it.
           </p>
         </section>
 
-        <ol className="hub-grid" role="list">
+        <section className="hub-statement" data-bg="#161615" aria-label="Approach">
+          <p data-fill>
+            Six studies in motion, colour and craft — each one built to feel calm, quick and considered as you scroll
+            through it.
+          </p>
+        </section>
+        <ol className="hub-grid" role="list" data-reveal="stagger" data-reveal-stagger="0.1">
           {SITES.map((s, i) => (
             <li key={s.slug} className="hub-card">
-              <Link to={`/${s.slug}`} className="hub-link" aria-label={`${s.name} — ${s.kind}`}>
+              <Link to={`/${s.slug}`} className="hub-link" aria-label={`${s.name} — ${s.kind}`} data-cursor="View site">
                 <div className="hub-thumb">
                   <img
                     src={`${import.meta.env.BASE_URL}hub/${s.slug}.jpg`}

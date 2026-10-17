@@ -101,3 +101,29 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Smooth scrolling (Lenis). Native smooth scrolling must be off while Lenis drives the page. */
+html.lenis {
+  scroll-behavior: auto !important;
+}
+
+/* Floating label that follows the pointer over [data-cursor] elements (see MotionRoot). */
+.motion-cursor-label {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.6);
+  margin: 14px 0 0 14px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--ml-bg, #111);
+  color: var(--ml-fg, #fff);
+  font: 500 12.5px/1 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.45);
+}

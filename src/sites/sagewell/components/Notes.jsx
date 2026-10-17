@@ -6,29 +6,30 @@ import Modal from './Modal.jsx';
 export default function Notes() {
   const { openNote } = useSagewell();
   return (
-    <section className="cr-section cr-notes" id="journal" aria-labelledby="cr-notes-title">
+    <section className="cr-section cr-notes" id="journal" data-bg="#e8e1d2" aria-labelledby="cr-notes-title">
       <div className="cr-wrap cr-notes__grid">
         <header className="cr-notes__head">
-          <p className="cr-eyebrow" data-cr-reveal>
+          <p className="cr-eyebrow" data-reveal="fade">
             <b>06</b> Journal
           </p>
-          <h2 id="cr-notes-title" className="cr-h2" data-cr-reveal>
+          <h2 id="cr-notes-title" className="cr-h2" data-reveal="lines">
             Notes from the reading room.
           </h2>
-          <p className="cr-lede" data-cr-reveal>
+          <p className="cr-lede" data-reveal="fade" data-reveal-delay="0.12">
             Release notes, field guides and the occasional essay on reasoning you can inspect.
           </p>
         </header>
 
-        <ol className="cr-notes__list" role="list">
+        <ol className="cr-notes__list" role="list" data-reveal="stagger" data-reveal-stagger="0.1">
           {NOTES.map(n => (
-            <li key={n.id} data-cr-reveal>
+            <li key={n.id}>
               <button
                 type="button"
                 id={`note-${n.id}`}
                 className="cr-note"
                 onClick={() => openNote(n.id)}
                 aria-haspopup="dialog"
+                data-cursor="Read"
               >
                 <span className="cr-note__meta">
                   <time dateTime={n.date}>{n.dateLabel}</time>

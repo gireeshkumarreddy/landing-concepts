@@ -1,3 +1,4 @@
+import { scrollToTarget } from '../../shared/motion/index.js';
 import { FPS } from './data.js';
 
 const pad = n => String(n).padStart(2, '0');
@@ -24,29 +25,15 @@ export function seeded(seed) {
   };
 }
 
-/** Scrolls to the contact section and puts focus on the first field once the scroll settles. */
+/** Glides to the contact section (shared smooth scroll) and focuses the first field once it lands. */
 export function goToContact(e) {
   e?.preventDefault?.();
   const section = document.getElementById('contact');
-  const field = document.getElementById('pf-f-name');
   if (!section) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  section.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-  if (!field) return;
-  let done = false;
-  const focus = () => {
-    if (done) return;
-    done = true;
-    window.removeEventListener('scrollend', focus);
-    field.focus({ preventScroll: true });
-  };
-  if ('onscrollend' in window && !reduce) {
-    window.addEventListener('scrollend', focus, { once: true });
-    setTimeout(focus, 1400);
-  } else {
-    setTimeout(focus, reduce ? 0 : 700);
-  }
-  if (history.replaceState) history.replaceState(null, '', '#contact');
+  scrollToTarget(section, { immediate: reduce });
+  history.replaceState?.(history.state, '', '#contact');
+  setTimeout(() => document.getElementById('pf-f-name')?.focus({ preventScroll: true }), reduce ? 0 : 1350);
 }
 
 /** True on devices with a precise pointer that can hover. */

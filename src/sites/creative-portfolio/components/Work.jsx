@@ -4,6 +4,7 @@ import { unsplash, unsplashSrcSet } from '../../../shared/img.js';
 import { FPS, PROJECTS, TYPES, TYPE_TONE } from '../data.js';
 import { timecode } from '../utils.js';
 import { IconArrowUpRight } from '../icons.jsx';
+import ScaleStrip from './ScaleStrip.jsx';
 
 const EASE = [0.2, 0.7, 0.2, 1];
 const FILTERS = ['All', ...TYPES];
@@ -25,7 +26,7 @@ const SIZES = {
   cine: '100vw',
 };
 
-function WorkCard({ ref, p, size, onOpen }) {
+function WorkCard({ ref, p, size, index, onOpen }) {
   const [hot, setHot] = useState(false);
   const tcRef = useRef(null);
   const tone = TYPE_TONE[p.type];
@@ -58,47 +59,59 @@ function WorkCard({ ref, p, size, onOpen }) {
       transition={{ duration: 0.55, ease: EASE }}
       onPointerEnter={e => e.pointerType === 'mouse' && setHot(true)}
       onPointerLeave={() => setHot(false)}
+      data-cursor="Play"
     >
-      <div className="pf-card-media">
-        <img
-          src={unsplash(p.img, { w: 1200, h: size === 'cine' ? 502 : undefined })}
-          srcSet={unsplashSrcSet(p.img, [480, 800, 1200, 1800], { ratio: size === 'cine' ? 0.42 : 0.75 })}
-          sizes={SIZES[size]}
-          alt={p.alt}
-          loading="lazy"
-          decoding="async"
-          width="1200"
-          height="900"
-        />
-        <span className="pf-card-rec" aria-hidden="true">
-          <i />
-          REC <span ref={tcRef}>00:00:00:00</span>
-        </span>
-        <span className="pf-card-view" aria-hidden="true">
-          Open film <IconArrowUpRight size={12} />
-        </span>
-        <span className="pf-card-scrub" aria-hidden="true">
-          <i />
-        </span>
-      </div>
-      <div className="pf-card-info">
-        <h3 className="pf-card-title">
-          <button type="button" className="pf-card-btn" onClick={() => onOpen(p.id)}>
-            {p.title}
-            <span className="sr-only">: open project details</span>
-          </button>
-        </h3>
-        <span className="pf-card-rt">{p.runtime}</span>
-        <p className="pf-card-meta">
-          <i className={`pf-dot pf-tone-${tone}`} aria-hidden="true" />
-          {p.type}
-          <span aria-hidden="true"> · </span>
-          <span className="sr-only">, client </span>
-          {p.client}
-          <span aria-hidden="true"> · </span>
-          <span className="sr-only">, </span>
-          {p.year}
-        </p>
+      <div className="pf-card-in">
+        <div
+          className="pf-card-media"
+          data-reveal="fade"
+          data-reveal-delay={String((index % 3) * 0.08)}
+          data-expand={size === 'cine' ? '5% 7%' : undefined}
+          data-expand-radius="18px"
+        >
+          <span className="pf-card-zoom">
+            <img
+              data-parallax="0.1"
+              src={unsplash(p.img, { w: 1200, h: size === 'cine' ? 502 : undefined })}
+              srcSet={unsplashSrcSet(p.img, [480, 800, 1200, 1800], { ratio: size === 'cine' ? 0.42 : 0.75 })}
+              sizes={SIZES[size]}
+              alt={p.alt}
+              loading="lazy"
+              decoding="async"
+              width="1200"
+              height="900"
+            />
+          </span>
+          <span className="pf-card-rec" aria-hidden="true">
+            <i />
+            REC <span ref={tcRef}>00:00:00:00</span>
+          </span>
+          <span className="pf-card-view" aria-hidden="true">
+            Open film <IconArrowUpRight size={12} />
+          </span>
+          <span className="pf-card-scrub" aria-hidden="true">
+            <i />
+          </span>
+        </div>
+        <div className="pf-card-info">
+          <h3 className="pf-card-title">
+            <button type="button" className="pf-card-btn" onClick={() => onOpen(p.id)}>
+              {p.title}
+              <span className="sr-only">: open project details</span>
+            </button>
+          </h3>
+          <span className="pf-card-rt">{p.runtime}</span>
+          <p className="pf-card-meta">
+            <i className={`pf-dot pf-tone-${tone}`} aria-hidden="true" />
+            {p.type}
+            <span aria-hidden="true"> · </span>
+            <span className="sr-only">, client </span>
+            {p.client}
+            <span aria-hidden="true"> · </span>
+            <span className="sr-only">, </span>
+            {p.year}
+          </p>
+        </div>
       </div>
     </motion.li>
   );
@@ -110,18 +123,19 @@ export default function Work({ onOpen }) {
   const layout = LAYOUTS[list.length] || list.map(() => 'w6');
 
   return (
-    <section id="reel" className="pf-sec pf-work" aria-labelledby="pf-work-title">
+    <section id="reel" className="pf-sec pf-work" aria-labelledby="pf-work-title" data-bg="#101010">
+      <ScaleStrip onOpen={onOpen} />
       <div className="pf-wrap">
         <div className="pf-sec-head pf-work-head">
           <div>
-            <p className="pf-eyebrow pf-reveal">
+            <p className="pf-eyebrow" data-reveal="fade">
               <span className="pf-eyebrow-n">01</span> Reel
             </p>
-            <h2 id="pf-work-title" className="pf-h2 pf-reveal">
+            <h2 id="pf-work-title" className="pf-h2" data-reveal="lines">
               Six films I cut, graded <span className="pf-h2-soft">and handed over.</span>
             </h2>
           </div>
-          <div className="pf-chips pf-reveal" role="group" aria-label="Filter films by type">
+          <div className="pf-chips" role="group" aria-label="Filter films by type">
             {FILTERS.map(t => {
               const n = t === 'All' ? PROJECTS.length : PROJECTS.filter(p => p.type === t).length;
               const on = filter === t;
@@ -139,7 +153,7 @@ export default function Work({ onOpen }) {
         <motion.ul role="list" className="pf-grid" layout>
           <AnimatePresence mode="popLayout" initial={false}>
             {list.map((p, i) => (
-              <WorkCard key={p.id} p={p} size={layout[i]} onOpen={onOpen} />
+              <WorkCard key={p.id} p={p} size={layout[i]} index={i} onOpen={onOpen} />
             ))}
           </AnimatePresence>
         </motion.ul>

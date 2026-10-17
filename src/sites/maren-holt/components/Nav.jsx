@@ -116,6 +116,7 @@ function MobileMenu({ active, onClose, onPick, onSearch, onSignIn }) {
         role="dialog"
         aria-modal="true"
         aria-label="Site menu"
+        data-lenis-prevent
         initial={{ opacity: 0, y: reduce ? 0 : -14 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: reduce ? 0 : -10 }}

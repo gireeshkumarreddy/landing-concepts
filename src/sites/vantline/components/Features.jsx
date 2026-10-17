@@ -53,22 +53,7 @@ export default function Features() {
     () => {
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
-        const q = gsap.utils.selector(ref);
-        gsap.from(q('.au-panel'), {
-          scale: 0.94,
-          opacity: 0.4,
-          duration: 1.4,
-          ease: 'expo.out',
-          scrollTrigger: { trigger: q('.au-panel')[0], start: 'top 88%', once: true },
-        });
-        gsap.from(q('.au-panel__grid > *'), {
-          y: 40,
-          opacity: 0,
-          duration: 1.1,
-          stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: q('.au-panel__grid')[0], start: 'top 82%', once: true },
-        });
+        // Panel expansion, parallax and reveals come from the shared motion system (data attributes).
         const { line, area } = chartApi.current || {};
         if (line) {
           gsap.set(line, { strokeDasharray: 1, strokeDashoffset: 1 });
@@ -87,21 +72,21 @@ export default function Features() {
 
   return (
     <section className="au-features" id="product" aria-labelledby="au-features-title" ref={ref}>
-      <div className="au-panel">
+      <div className="au-panel" data-expand="7% 8%" data-expand-radius="22px">
         <div className="au-panel__bg" aria-hidden="true">
-          <Photo id={IMG.panel} alt="" widths={[800, 1200, 1600, 2200]} sizes="100vw" ratio={0.62} />
+          <Photo id={IMG.panel} alt="" widths={[800, 1200, 1600, 2200, 2800]} sizes="100vw" ratio={0.62} data-parallax="0.12" />
         </div>
         <div className="au-panel__inner">
           <div className="au-head au-head--tight">
-            <h2 className="au-h2" id="au-features-title" data-au-reveal>
+            <h2 className="au-h2" id="au-features-title" data-reveal="lines">
               Clarity, <em>built into every view</em>
             </h2>
-            <p className="au-lede" data-au-reveal>
+            <p className="au-lede" data-reveal="fade" data-reveal-delay="0.1">
               Read the numbers, question them and act, without opening another dashboard.
             </p>
           </div>
 
-          <div className="au-panel__grid">
+          <div className="au-panel__grid" data-reveal="stagger" data-reveal-stagger="0.1">
             <article className="au-glass au-glass--chart">
               <SignalChart ref={chartApi} />
               <div className="au-glass__foot">
@@ -115,13 +100,15 @@ export default function Features() {
 
             <div className="au-panel__side">
               <article className="au-people">
-                <Photo
-                  className="au-people__img"
-                  id={IMG.people}
-                  alt="A man in a dark shirt walking into a hazy valley of dry grass"
-                  widths={[480, 800, 1200]}
-                  sizes="(max-width: 960px) 92vw, 440px"
-                />
+                <div className="au-people__plx" data-parallax="0.08">
+                  <Photo
+                    className="au-people__img"
+                    id={IMG.people}
+                    alt="A man in a dark shirt walking into a hazy valley of dry grass"
+                    widths={[480, 800, 1200, 1600]}
+                    sizes="(max-width: 960px) 92vw, 440px"
+                  />
+                </div>
                 <div className="au-people__copy">
                   <h3 className="au-card-title">Made for the people in the room</h3>
                   <p className="au-glass__text">Briefs written for product, finance and ops, not only whoever owns the dashboard.</p>

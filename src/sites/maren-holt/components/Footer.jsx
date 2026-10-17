@@ -8,7 +8,7 @@ export default function Footer({ onSearch }) {
   return (
     <footer className="ch-footer">
       <div className="ch-wrap">
-        <p className="ch-footer__big" aria-hidden="true">
+        <p className="ch-footer__big" aria-hidden="true" data-reveal="fade">
           Notes for <Keycap tone="white" glyph="pencil" className="ch-key--sm" /> better books
         </p>
 

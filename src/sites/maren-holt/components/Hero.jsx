@@ -88,9 +88,11 @@ function Headline({ pinkRef }) {
 function FeaturedCard({ a, onOpen, i }) {
   const p = PHOTOS[a.photo];
   return (
-    <article className="ch-fcard">
+    <article className="ch-fcard" data-cursor="Read">
       <div className="ch-fcard__media">
+        <span className="ch-zoom">
         <img
+          data-parallax="0.1"
           src={photoSrc(a.photo, 640, 2 / 3)}
           srcSet={photoSet(a.photo, [400, 640, 960], 2 / 3)}
           sizes="(max-width: 700px) 78vw, (max-width: 1100px) 30vw, 300px"
@@ -100,6 +102,7 @@ function FeaturedCard({ a, onOpen, i }) {
           decoding="async"
           loading={i === 0 ? 'eager' : 'lazy'}
         />
+        </span>
         {a.overlay && (
           <span className="ch-fcard__overlay" aria-hidden="true">
             <span className="ch-fcard__otitle">{a.overlay.title}</span>
@@ -232,7 +235,7 @@ export default function Hero({ onOpen }) {
               From the notebook
             </h2>
             <a className="ch-textlink" href="#essays">
-              All essays <ArrowRight size={14} />
+              <span className="ch-ul">All essays</span> <ArrowRight size={14} />
             </a>
           </div>
           <div className="ch-tray">

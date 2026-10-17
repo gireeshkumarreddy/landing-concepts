@@ -5,12 +5,14 @@ import './sagewell.css';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MotionConfig } from 'motion/react';
 import { useSiteMeta } from '../../shared/useSiteMeta.js';
-import { gsap, MOTION_OK, ScrollTrigger, prefersReducedMotion, useGSAP } from '../../shared/gsap.js';
-import { SagewellCtx, scrollBehavior, scrollToId } from './lib.js';
+import { prefersReducedMotion } from '../../shared/gsap.js';
+import { scrollToTarget, useMotion } from '../../shared/motion/index.js';
+import { SagewellCtx, scrollToId } from './lib.js';
 import { FloatingNav, HeroNav, MobileMenu, useScrollSpy } from './components/Nav.jsx';
 import Hero from './components/Hero.jsx';
 import Quickstart from './components/Quickstart.jsx';
 import Playground from './components/Playground.jsx';
+import Statement from './components/Statement.jsx';
 import HowItThinks from './components/HowItThinks.jsx';
 import UseCases from './components/UseCases.jsx';
 import Pricing from './components/Pricing.jsx';
@@ -59,37 +61,6 @@ export default function SagewellPage() {
     };
   }, []);
 
-  // In-page links scroll smoothly via JS (respecting reduced motion) and move focus to the target,
-  // so programmatic scrolling elsewhere stays instant and scroll-linked effects stay in sync.
-  useEffect(() => {
-    const html = document.documentElement;
-    const prev = html.style.scrollBehavior;
-    html.style.scrollBehavior = 'auto';
-    // ScrollTrigger restores the stylesheet's smooth value after each refresh; keep it instant here.
-    const mo = new MutationObserver(() => {
-      if (html.style.scrollBehavior !== 'auto') html.style.scrollBehavior = 'auto';
-    });
-    mo.observe(html, { attributes: true, attributeFilter: ['style'] });
-    const onClick = e => {
-      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      const a = e.target.closest?.('a[href^="#"]');
-      if (!a || !rootRef.current?.contains(a)) return;
-      const id = decodeURIComponent(a.getAttribute('href').slice(1));
-      const el = id && document.getElementById(id);
-      if (!el) return;
-      e.preventDefault();
-      el.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
-      if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
-      el.focus({ preventScroll: true });
-    };
-    document.addEventListener('click', onClick);
-    return () => {
-      mo.disconnect();
-      html.style.scrollBehavior = prev;
-      document.removeEventListener('click', onClick);
-    };
-  }, []);
-
   // Close the mobile menu if the viewport grows past the breakpoint.
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 821px)');
@@ -103,23 +74,19 @@ export default function SagewellPage() {
   const showRelease = useCallback(() => {
     const btn = document.getElementById('note-introducing');
     if (!btn) return setNoteId('introducing');
-    btn.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'center' });
-    btn.focus({ preventScroll: true });
+    const reduced = prefersReducedMotion();
+    scrollToTarget(btn, { offset: -(window.innerHeight / 2 - btn.offsetHeight / 2), duration: 1.2 });
     btn.classList.add('is-flash');
-    setTimeout(() => btn.classList.remove('is-flash'), 1600);
-    if (prefersReducedMotion() || !('onscrollend' in window)) {
-      setTimeout(() => setNoteId('introducing'), prefersReducedMotion() ? 0 : 900);
-      return;
-    }
-    let done = false;
-    const open = () => {
-      if (done) return;
-      done = true;
-      window.removeEventListener('scrollend', open);
-      setTimeout(() => setNoteId('introducing'), 120);
-    };
-    window.addEventListener('scrollend', open, { once: true });
-    setTimeout(open, 1400);
+    setTimeout(() => btn.classList.remove('is-flash'), 1800);
+    // Open after the glide has settled (the reader pauses page scrolling while it is open). Focus the row
+    // first, once its reveal has started, so closing the reader returns focus to it.
+    setTimeout(
+      () => {
+        btn.focus({ preventScroll: true });
+        setNoteId('introducing');
+      },
+      reduced ? 0 : 1300
+    );
   }, []);
 
   const loadPrompt = useCallback(text => {
@@ -132,30 +99,8 @@ export default function SagewellPage() {
     [openNote, showRelease, loadPrompt]
   );
 
-  // Generic scroll reveals for headings and blocks marked data-cr-reveal.
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
-        const items = gsap.utils.toArray('[data-cr-reveal]');
-        gsap.set(items, { opacity: 0, y: 22 });
-        const batch = ScrollTrigger.batch(items, {
-          start: 'top 90%',
-          once: true,
-          onEnter: els =>
-            gsap.to(els, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.07, overwrite: true }),
-        });
-        return () => batch.forEach(t => t.kill());
-      });
-      // Image boxes are sized up front, so only the web font swap can move trigger positions.
-      let alive = true;
-      document.fonts?.ready.then(() => alive && ScrollTrigger.refresh());
-      return () => {
-        alive = false;
-      };
-    },
-    { scope: rootRef }
-  );
+  // Shared scroll motion: masked reveals, word fill, parallax, expand, magnetic CTAs and page tints.
+  useMotion(rootRef);
 
   return (
     <SagewellCtx.Provider value={ctx}>
@@ -171,6 +116,7 @@ export default function SagewellPage() {
           <main id="main" tabIndex={-1}>
             <Hero composerRef={composerRef} />
             <Quickstart />
+            <Statement />
             <Playground />
             <HowItThinks />
             <UseCases />

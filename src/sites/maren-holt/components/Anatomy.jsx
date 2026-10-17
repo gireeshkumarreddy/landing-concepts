@@ -80,7 +80,7 @@ function AnatomyCard({ c, i }) {
     requestAnimationFrame(() => (to ? backBtn : frontBtn).current?.focus({ preventScroll: true }));
   };
   return (
-    <li className={`ch-anat__item ${flipped ? 'is-flipped' : ''}`}>
+    <li className={`ch-anat__item ${flipped ? 'is-flipped' : ''}`} data-cursor={flipped ? 'Back' : 'Flip'}>
       <div className="ch-anat__inner">
         <div className="ch-anat__face ch-anat__front" inert={flipped || undefined}>
           <span className="ch-anat__num">0{i + 1}</span>
@@ -120,23 +120,23 @@ function AnatomyCard({ c, i }) {
 
 export default function Anatomy() {
   return (
-    <section className="ch-section ch-books" id="anatomy" aria-labelledby="ch-books-title">
+    <section className="ch-section ch-books" id="anatomy" aria-labelledby="ch-books-title" data-bg="#1b1b1b">
       <div className="ch-wrap">
         <div className="ch-deck">
-          <header className="ch-deck__head" data-reveal>
+          <header className="ch-deck__head">
             <div>
-              <p className="ch-label ch-label--light">
+              <p className="ch-label ch-label--light" data-reveal="fade">
                 <BookIcon size={15} /> What I read for
               </p>
-              <h2 className="ch-h2 ch-h2--light" id="ch-books-title">
+              <h2 className="ch-h2 ch-h2--light" id="ch-books-title" data-reveal="lines">
                 Four things every strong draft gets right.
               </h2>
             </div>
-            <p className="ch-lede ch-lede--light">
+            <p className="ch-lede ch-lede--light" data-reveal="fade" data-reveal-delay="0.15">
               Whatever the genre, my first read checks the same four foundations. Press a key to see what each one needs.
             </p>
           </header>
-          <ol role="list" className="ch-anat" data-reveal-stagger>
+          <ol role="list" className="ch-anat" data-reveal="stagger" data-reveal-stagger="0.09">
             {ANATOMY.map((c, i) => (
               <AnatomyCard key={c.id} c={c} i={i} />
             ))}
@@ -144,7 +144,7 @@ export default function Anatomy() {
           <p className="ch-deck__foot">
             <span>Checklists are sample content written for this concept.</span>
             <a href="#essays" className="ch-textlink ch-textlink--light">
-              Read the essays <ArrowRight size={14} />
+              <span className="ch-ul">Read the essays</span> <ArrowRight size={14} />
             </a>
           </p>
         </div>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useEscape, useFocusTrap, useScrollLock } from '../../../shared/a11y.js';
-import { prefersReducedMotion } from '../../../shared/gsap.js';
+import { scrollToTarget } from '../../../shared/motion/index.js';
 import { goToWaitlist, useMedia } from '../lib.js';
 import { Bolt, Close, Menu, ArrowRight } from '../icons.jsx';
 import Wordmark from './Wordmark.jsx';
@@ -37,17 +37,21 @@ export default function Nav() {
   const go = href => e => {
     e.preventDefault();
     setOpen(false);
-    requestAnimationFrame(() => {
-      const el = document.querySelector(href);
-      el?.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
-      el?.focus?.({ preventScroll: true });
-    });
+    // Two frames: the menu closes and the scroll lock releases before we glide.
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        const el = document.querySelector(href);
+        if (!el) return;
+        scrollToTarget(el);
+        el.focus?.({ preventScroll: true });
+      })
+    );
   };
 
   const early = e => {
     e.preventDefault();
     setOpen(false);
-    requestAnimationFrame(() => goToWaitlist());
+    requestAnimationFrame(() => requestAnimationFrame(() => goToWaitlist()));
   };
 
   return (
@@ -59,7 +63,7 @@ export default function Nav() {
             <a href="#manifesto">Manifesto</a>
             <a href="#workflows">Workflows</a>
           </nav>
-          <a href="#waitlist" className="ta-btn ta-btn--ink ta-nav__cta" onClick={early}>
+          <a href="#waitlist" className="ta-btn ta-btn--ink ta-nav__cta" onClick={early} data-magnetic="0.25">
             <span className="ta-nav__cta-long">Join the waitlist</span>
             <span className="ta-nav__cta-short">Waitlist</span>
             <Bolt size={13} />

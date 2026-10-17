@@ -104,7 +104,7 @@ const Hero = forwardRef(function Hero({ onSignup }, outerRef) {
           <p className="au-hero__sub">
             Vantline reads your metrics, docs and team threads, explains every shift in plain language, and suggests the next move.
           </p>
-          <PillButton className="au-hero__cta" tone="light" onClick={onSignup}>
+          <PillButton className="au-hero__cta" tone="light" onClick={onSignup} data-magnetic="0.3">
             Try Vantline free
           </PillButton>
         </div>

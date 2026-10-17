@@ -99,13 +99,13 @@ export default function Quickstart() {
     <section className="cr-section cr-qs" id="developers" ref={rootRef} aria-labelledby="cr-qs-title">
       <div className="cr-wrap cr-qs__grid">
         <div className="cr-qs__intro">
-          <p className="cr-eyebrow" data-cr-reveal>
+          <p className="cr-eyebrow" data-reveal="fade">
             <b>01</b> Getting started
           </p>
-          <h2 id="cr-qs-title" className="cr-h2" data-cr-reveal>
+          <h2 id="cr-qs-title" className="cr-h2" data-reveal="lines">
             Three steps to your first traced answer.
           </h2>
-          <p className="cr-lede" data-cr-reveal>
+          <p className="cr-lede" data-reveal="fade" data-reveal-delay="0.12">
             One key, one endpoint, and a depth setting you can change per question. Tools, schemas and live
             trails are there when you want them.
           </p>
@@ -141,7 +141,7 @@ export default function Quickstart() {
           </div>
         </div>
 
-        <div className="cr-qs__aside cr-plate" data-cr-reveal>
+        <div className="cr-qs__aside cr-plate" data-reveal="fade" data-reveal-delay="0.1">
           <img className="cr-plate__img" src={unsplash(IMG.heroWide, { w: 480, q: 60 })} alt="" width="480" height="315" loading="lazy" decoding="async" aria-hidden="true" />
           <div
             className="cr-term"

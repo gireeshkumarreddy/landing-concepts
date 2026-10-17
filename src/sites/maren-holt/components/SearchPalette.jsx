@@ -111,7 +111,7 @@ export default function SearchPalette({ onClose, onPick }) {
         </p>
 
         {n ? (
-          <ul className="ch-palette__list" id="ch-search-list" role="listbox" aria-labelledby="ch-search-group" ref={listRef}>
+          <ul className="ch-palette__list" id="ch-search-list" role="listbox" aria-labelledby="ch-search-group" ref={listRef} data-lenis-prevent>
             {list.map(({ a, topic }, i) => (
               <li
                 key={a.slug}

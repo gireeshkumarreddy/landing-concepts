@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { gsap, MOTION_OK, SplitText, useGSAP } from '../../../shared/gsap.js';
+import { gsap, MOTION_OK, useGSAP } from '../../../shared/gsap.js';
 import { unsplash, unsplashSrcSet } from '../../../shared/img.js';
 import { CHIP_EXAMPLES, IMG, TRAIL_TITLES, fallbackRun, findExample } from '../data.js';
 import { useSagewell } from '../lib.js';
@@ -27,18 +27,8 @@ export default function Hero({ composerRef }) {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
+      // No load-in choreography: the hero is simply there. Only scroll and pointer motion below.
       mm.add(MOTION_OK, () => {
-        const page = rootRef.current.closest('.cr');
-        const split = SplitText.create('.cr-hero__title', { type: 'words', wordsClass: 'cr-word' });
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        tl.from(driftRef.current, { scale: 1.06, duration: 2.2, ease: 'expo.out' }, 0)
-          .from(page.querySelector('.cr-header__inner'), { y: -10, opacity: 0, duration: 0.8 }, 0.1)
-          .from('[data-cr-intro="badge"]', { y: 12, opacity: 0, duration: 0.7 }, 0.2)
-          .from(split.words, { yPercent: 45, opacity: 0, filter: 'blur(10px)', duration: 1.05, stagger: 0.06 }, 0.26)
-          .from('[data-cr-intro="sub"]', { y: 14, opacity: 0, filter: 'blur(4px)', duration: 0.9 }, 0.62)
-          .from('[data-cr-intro="composer"]', { y: 24, opacity: 0, duration: 0.95 }, 0.74)
-          .from('[data-cr-intro="chips"] li', { y: 10, opacity: 0, duration: 0.6, stagger: 0.05 }, 0.95);
-
         // Slow parallax: the painting drifts at roughly a quarter of the scroll speed.
         gsap.to(mediaRef.current, {
           yPercent: 16,
@@ -46,7 +36,6 @@ export default function Hero({ composerRef }) {
           ease: 'none',
           scrollTrigger: { trigger: rootRef.current, start: 'top top', end: 'bottom top', scrub: true },
         });
-        return () => split.revert();
       });
 
       // Subtle mouse drift (±6px) on fine pointers only.

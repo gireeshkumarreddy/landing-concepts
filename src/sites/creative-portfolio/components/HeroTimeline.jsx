@@ -23,6 +23,7 @@ function Monitor({ index, frame, playing, onOpen, style, monRef }) {
       ref={monRef}
       type="button"
       className="pf-mon"
+      data-cursor="Open"
       style={style}
       onClick={() => onOpen(p.id)}
       aria-label={`Open project: ${p.title}`}
@@ -94,10 +95,10 @@ export default function HeroTimeline({ onOpen }) {
     return () => io.disconnect();
   }, []);
 
-  // Gentle autoplay once the intro has settled; never under reduced motion.
+  // Gentle autoplay shortly after load; never under reduced motion.
   useEffect(() => {
     if (prefersReducedMotion()) return;
-    const t = setTimeout(() => !interacted.current && setPlaying(true), 2100);
+    const t = setTimeout(() => !interacted.current && setPlaying(true), 1200);
     return () => clearTimeout(t);
   }, []);
 

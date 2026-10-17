@@ -135,6 +135,7 @@ function MobileMenu({ open, onClose }) {
             ref={ref}
             id="ar-mobile-menu"
             className="ar-sheet"
+            data-lenis-prevent
             role="dialog"
             aria-modal="true"
             aria-label="Menu"

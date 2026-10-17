@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { gsap, ScrollTrigger, useGSAP, MOTION_OK, prefersReducedMotion } from '../../../shared/gsap.js';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { gsap, useGSAP, MOTION_OK, prefersReducedMotion } from '../../../shared/gsap.js';
 import { STEPS } from '../data.js';
 import { ArrowLeft, ArrowRight } from '../icons.jsx';
 import { Eyebrow, Photo, PillButton, useMediaQuery } from './ui.jsx';
@@ -12,6 +12,24 @@ const offsetOf = (i, active) => {
   if (d > N / 2) d -= N;
   return d;
 };
+// Keep a continuous slot value inside (-2.5, 2.5]; cards crossing the back of the loop wrap while invisible.
+const wrapSlot = d => (d > N / 2 ? d - N : d <= -N / 2 ? d + N : d);
+const lerp = (a, b, t) => a + (b - a) * t;
+const clamp01 = v => Math.max(0, Math.min(1, v));
+const easeInOut = gsap.parseEase('power2.inOut');
+const easeIn = gsap.parseEase('power1.in');
+
+/**
+ * Scroll progress through the deck (0 = deck top at the viewport bottom, 1 = deck bottom at the top)
+ * mapped to how far the fan is open: stacked while it enters, fully spread around the centre,
+ * easing partly closed again as it leaves.
+ */
+function spreadFor(t) {
+  if (t <= 0.1) return 0;
+  if (t < 0.44) return easeInOut((t - 0.1) / 0.34);
+  if (t <= 0.62) return 1;
+  return 1 - 0.6 * easeIn(clamp01((t - 0.62) / 0.38));
+}
 
 export default function HowItWorks() {
   const ref = useRef(null);
@@ -19,11 +37,14 @@ export default function HowItWorks() {
   const listRef = useRef(null);
   const itemRefs = useRef([]);
   const btnRefs = useRef([]);
-  const dealt = useRef(false);
   const focusAfter = useRef(false);
   const [active, setActive] = useState(0);
   const [size, setSize] = useState(0);
   const mobile = useMediaQuery('(max-width: 767px)');
+
+  // Fan state: `open` (0 stacked → 1 spread) comes from scroll; `slots` are each card's
+  // continuous position on the arc (-2 … 2, 0 = centre) and glide when the active card changes.
+  const fan = useRef({ open: 1, slots: STEPS.map((_, i) => offsetOf(i, 0)), live: false });
 
   // Track deck width so the fan re-lays out on resize.
   useEffect(() => {
@@ -32,73 +53,102 @@ export default function HowItWorks() {
     return () => ro.disconnect();
   }, []);
 
-  const activeRef = useRef(active);
-  activeRef.current = active;
-  const laidOutFor = useRef(active);
-
-  const layout = (duration, stagger = 0) => {
+  /** Writes every card's transform from the current open amount and slots (transforms only). */
+  const render = () => {
+    const f = fan.current;
+    if (!f.live) return;
     const items = itemRefs.current;
     const w = items[0]?.offsetWidth || 240;
-    laidOutFor.current = activeRef.current;
+    const p = f.open;
     items.forEach((el, i) => {
-      const d = offsetOf(i, activeRef.current);
+      if (!el) return;
+      const d = wrapSlot(f.slots[i]);
       const a = Math.abs(d);
-      gsap.set(el, { zIndex: 10 - a * 2 });
-      gsap.to(el, {
-        x: d === 0 ? 0 : Math.sign(d) * (a === 1 ? w * 0.94 : w * 1.68),
-        y: a === 0 ? 0 : a === 1 ? w * 0.085 : w * 0.31,
-        rotation: d * 7,
-        scale: a === 0 ? 1 : a === 1 ? 0.88 : 0.78,
-        opacity: 1,
-        duration,
-        delay: stagger ? a * stagger : 0,
-        ease: 'expo.out',
-        overwrite: 'auto',
+      const sgn = Math.sign(d);
+      // Spread: cards sit on an arc, tilting outward and stepping down and back from the centre.
+      const xs = sgn * w * (a <= 1 ? 0.94 * a : a <= 2 ? 0.94 + 0.74 * (a - 1) : 1.68 + 0.64 * (a - 2));
+      const ys = w * 0.0775 * a * a;
+      const rs = d * 7;
+      const ss = 1 - 0.11 * a;
+      // Stacked: a tight pile tucked up under the heading, each card barely offset.
+      const xc = d * w * 0.045;
+      const yc = -w * 0.34 + a * w * 0.025;
+      const rc = d * 2.4;
+      const sc = 0.8 - 0.015 * a;
+      gsap.set(el, {
+        x: lerp(xc, xs, p),
+        y: lerp(yc, ys, p),
+        rotation: lerp(rc, rs, p),
+        scale: lerp(sc, ss, p),
+        opacity: a <= 2 ? 1 : Math.max(0, 1 - (a - 2) * 2),
+        zIndex: Math.round(20 - a * 4),
       });
     });
   };
 
-  // Desktop + motion: start stacked, then deal the cards out when the deck scrolls into view.
+  // Desktop: the fan's spread is scrubbed by scroll. Reduced motion: a static, fully spread fan.
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
+      mm.add('(min-width: 768px)', () => {
+        const f = fan.current;
+        f.live = true;
+        f.open = 1;
+        render();
+        return () => {
+          f.live = false;
+          gsap.set(itemRefs.current, { clearProps: 'transform,zIndex,opacity' });
+        };
+      });
       mm.add(`${MOTION_OK} and (min-width: 768px)`, () => {
-        if (dealt.current) return;
-        const items = itemRefs.current;
-        gsap.set(items, { x: 0, y: 40, rotation: 0, scale: 0.86, opacity: 0 });
-        gsap.set(items[activeRef.current], { opacity: 1, zIndex: 10 });
-        ScrollTrigger.create({
-          trigger: deckRef.current,
-          start: 'top 80%',
-          once: true,
-          onEnter: () => {
-            if (dealt.current) return;
-            dealt.current = true;
-            layout(1.3, 0.08);
+        const f = fan.current;
+        const progress = { t: 0 };
+        gsap.to(progress, {
+          t: 1,
+          ease: 'none',
+          scrollTrigger: { trigger: deckRef.current, start: 'top bottom', end: 'bottom top', scrub: 0.7 },
+          onUpdate: () => {
+            f.open = spreadFor(progress.t);
+            render();
           },
         });
+        return () => {
+          f.open = 1;
+        };
       });
     },
     { scope: ref }
   );
 
-  // Desktop fan layout on change / resize. Mobile uses a native scroll-snap carousel instead.
-  useGSAP(
-    () => {
-      const items = itemRefs.current;
-      if (mobile) {
-        gsap.set(items, { clearProps: 'transform,zIndex,opacity' });
-        return;
-      }
-      const reduce = prefersReducedMotion();
-      // Still waiting for the deal and only the size changed: stay stacked.
-      if (!dealt.current && !reduce && laidOutFor.current === activeRef.current) return;
-      const first = !dealt.current;
-      dealt.current = true;
-      layout(reduce ? 0 : first ? 1.3 : 0.85, first && !reduce ? 0.08 : 0);
-    },
-    { dependencies: [active, mobile, size], scope: ref }
-  );
+  // Glide the cards to their new slots when the active card changes (desktop only).
+  useLayoutEffect(() => {
+    const f = fan.current;
+    if (!f.live) return;
+    const targets = {};
+    f.slots = f.slots.map(wrapSlot);
+    f.slots.forEach((cur, i) => {
+      let delta = offsetOf(i, active) - cur;
+      if (delta > N / 2) delta -= N;
+      if (delta < -N / 2) delta += N;
+      targets[i] = cur + delta;
+    });
+    const reduce = prefersReducedMotion();
+    const tween = gsap.to(f.slots, {
+      ...targets,
+      duration: reduce ? 0 : 0.9,
+      ease: 'expo.out',
+      overwrite: true,
+      onUpdate: render,
+      onComplete: () => {
+        f.slots = f.slots.map(wrapSlot);
+        render();
+      },
+    });
+    return () => tween.kill();
+  }, [active]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Re-measure on resize.
+  useLayoutEffect(render, [size, mobile]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Keep keyboard focus on the card that just became active.
   useEffect(() => {
@@ -171,7 +221,7 @@ export default function HowItWorks() {
     <section className="au-how au-section" id="workflows" aria-labelledby="au-how-title" ref={ref}>
       <div className="au-head">
         <Eyebrow>The Vantline loop</Eyebrow>
-        <h2 className="au-h2" id="au-how-title" data-au-reveal>
+        <h2 className="au-h2" id="au-how-title" data-reveal="lines">
           From raw numbers to a clear brief —<em className="au-break">in minutes</em>
         </h2>
       </div>
@@ -194,6 +244,7 @@ export default function HowItWorks() {
                   ref={el => (btnRefs.current[i] = el)}
                   tabIndex={on ? 0 : -1}
                   aria-current={on ? 'step' : undefined}
+                  data-cursor={on ? undefined : 'Open'}
                   aria-label={`Stage ${i + 1} of ${N}: ${s.title}. ${s.text}`}
                   onClick={() => (on ? undefined : go(mobile ? i : active + offsetOf(i, active)))}
                 >
@@ -216,7 +267,7 @@ export default function HowItWorks() {
         Stage {active + 1} of {N}: {current.title}
       </p>
 
-      <div className="au-fan__controls" data-au-reveal>
+      <div className="au-fan__controls" data-reveal="fade" data-reveal-delay="0.15">
         <button
           type="button"
           className="au-round"

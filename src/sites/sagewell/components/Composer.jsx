@@ -279,6 +279,7 @@ export default function Composer({ ref, onSubmit }) {
           aria-describedby="cr-composer-hint"
           autoComplete="off"
           spellCheck="true"
+          data-lenis-prevent
         />
         {!value && <TypedPlaceholder />}
       </div>

@@ -189,3 +189,17 @@
     grid-template-columns: auto 1fr;
   }
 }
+
+/* Dark interlude: the whole page re-tints while this is centred (data-bg in useMotion). */
+.hub-statement {
+  padding: clamp(96px, 16vw, 200px) 0;
+  color: #efeee9;
+}
+.hub-statement p {
+  max-width: 16em;
+  font-size: clamp(34px, 5.2vw, 76px);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+  text-wrap: balance;
+}

@@ -10,19 +10,19 @@ export default function Services({ onEnquire }) {
     <section id="services" className="pf-sec pf-services" aria-labelledby="pf-svc-title">
       <div className="pf-wrap pf-svc-grid">
         <div className="pf-svc-intro">
-          <p className="pf-eyebrow pf-reveal">
+          <p className="pf-eyebrow" data-reveal="fade">
             <span className="pf-eyebrow-n">03</span> Services
           </p>
-          <h2 id="pf-svc-title" className="pf-h2 pf-reveal">
+          <h2 id="pf-svc-title" className="pf-h2" data-reveal="lines">
             Ways we can <span className="pf-h2-soft">work together.</span>
           </h2>
-          <p className="pf-lede pf-reveal">
+          <p className="pf-lede" data-reveal="fade">
             Laid out like an EDL, because old habits stick. The rates are examples for this concept; a real project
             gets a written quote after a short call.
           </p>
         </div>
 
-        <div className="pf-edl pf-reveal">
+        <div className="pf-edl">
           <div className="pf-edl-head" aria-hidden="true">
             <span>#</span>
             <span>Service</span>
@@ -40,6 +40,7 @@ export default function Services({ onEnquire }) {
                       type="button"
                       id={`pf-svc-btn-${s.id}`}
                       className="pf-edl-btn"
+                      data-cursor={isOpen ? 'Close' : 'Open'}
                       aria-expanded={isOpen}
                       aria-controls={`pf-svc-${s.id}`}
                       onClick={() => setOpen(isOpen ? null : s.id)}

@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ScrollManager from './shared/ScrollManager.jsx';
+import MotionRoot from './shared/motion/MotionRoot.jsx';
+import 'lenis/dist/lenis.css';
 import Hub from './hub/Hub.jsx';
 import NotFound from './NotFound.jsx';
 
@@ -14,6 +16,7 @@ const MarenHolt = lazy(() => import('./sites/maren-holt/index.jsx'));
 export default function App() {
   return (
     <>
+      <MotionRoot />
       <ScrollManager />
       <Suspense fallback={<div style={{ minHeight: '100vh' }} aria-busy="true" />}>
         <Routes>

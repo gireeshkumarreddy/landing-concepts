@@ -504,16 +504,16 @@ export default function Features() {
   return (
     <section id="features" className="ta-sec ta-features" aria-labelledby="ta-features-title" tabIndex={-1}>
       <div className="ta-wrap">
-        <div className="ta-sec__head" data-reveal>
+        <div className="ta-sec__head">
           <div className="ta-sec__title">
-            <p className="ta-eyebrow">
+            <p className="ta-eyebrow" data-reveal="fade">
               <span>02</span> Tools
             </p>
-            <h2 id="ta-features-title" className="ta-h2">
+            <h2 id="ta-features-title" className="ta-h2" data-reveal="lines">
               Four small tools, one calm inbox.
             </h2>
           </div>
-          <div className="ta-sec__aside">
+          <div className="ta-sec__aside" data-reveal="fade" data-reveal-delay="0.12">
             <p className="ta-lead">
               None of them shout. Each one takes away a small decision you would otherwise make dozens of times a day.
             </p>
@@ -521,16 +521,16 @@ export default function Features() {
         </div>
 
         <div className="ta-feats">
-          <div data-reveal className="ta-feats__screener">
+          <div data-reveal="fade" className="ta-feats__screener">
             <Screener />
           </div>
-          <div data-reveal className="ta-feats__split">
+          <div data-reveal="fade" className="ta-feats__split">
             <SplitInbox />
           </div>
-          <div data-reveal className="ta-feats__follow">
+          <div data-reveal="fade" data-reveal-delay="0.14" className="ta-feats__follow">
             <FollowUp />
           </div>
-          <div data-reveal className="ta-feats__keys">
+          <div data-reveal="fade" className="ta-feats__keys">
             <KeyboardFirst />
           </div>
         </div>

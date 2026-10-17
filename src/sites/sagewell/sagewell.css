@@ -29,8 +29,12 @@
 
   --cr-font: 'Figtree Variable', 'Figtree', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --cr-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-  --cr-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --cr-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --cr-grade: saturate(1.08) contrast(1.05);
+  --cr-on-dark: #f6f3ec;
   --scroll-pad: 84px;
+  --cursor-bg: #141512;
+  --cursor-fg: #faf8f3;
 
   font-family: var(--cr-font);
   font-size: 16px;
@@ -170,6 +174,12 @@
   padding: 0 20px;
   font-size: 15px;
   border-radius: 11px;
+}
+.cr-btn[data-magnetic] {
+  transition: background-color 0.4s, box-shadow 0.4s, color 0.4s, opacity 0.2s;
+}
+.cr-btn[data-magnetic]:hover {
+  transform: none;
 }
 .cr-btn:disabled {
   opacity: 0.5;
@@ -1509,7 +1519,7 @@
 
 /* ---------- 6. API playground ---------- */
 .cr-api {
-  background: linear-gradient(to bottom, var(--cr-paper), var(--cr-fog) 30%, var(--cr-paper));
+  position: relative;
 }
 .cr-api__head,
 .cr-uses__head {
@@ -1752,6 +1762,164 @@
   background: rgba(20, 21, 18, 0.05);
 }
 
+/* ---------- 6b. Statement & dark interlude ---------- */
+/* While the statement and playground are centred the whole page tints to ink (shared data-bg);
+   the root then carries data-scroll-theme="dark" and these sections switch their text to light. */
+.cr-statement {
+  padding-block: clamp(120px, 15vw, 220px) clamp(40px, 6vw, 80px);
+}
+.cr-statement__label {
+  display: block;
+}
+.cr-statement__text {
+  margin-top: 28px;
+  max-width: 30ch;
+  font-size: clamp(30px, 2.9vw + 14px, 62px);
+  font-weight: 430;
+  letter-spacing: -0.032em;
+  line-height: 1.1;
+  text-wrap: pretty;
+  color: var(--cr-ink);
+}
+.cr-statement,
+.cr-api {
+  --cr-dk: 0.8s var(--cr-ease);
+}
+.cr-statement .cr-eyebrow,
+.cr-statement__text,
+.cr-api .cr-eyebrow,
+.cr-api .cr-eyebrow b,
+.cr-api .cr-h2,
+.cr-api .cr-soft,
+.cr-api .cr-lede,
+.cr-api .cr-cap__num,
+.cr-api .cr-cap__title,
+.cr-api .cr-cap__body,
+.cr-api .cr-cap__sig {
+  transition: color var(--cr-dk), background-color var(--cr-dk);
+}
+.cr-api .cr-caps,
+.cr-api .cr-cap {
+  transition: border-color var(--cr-dk);
+}
+.cr[data-scroll-theme='dark'] .cr-statement .cr-eyebrow,
+.cr[data-scroll-theme='dark'] .cr-api .cr-eyebrow {
+  color: rgba(246, 243, 236, 0.58);
+}
+.cr[data-scroll-theme='dark'] .cr-api .cr-eyebrow b {
+  color: var(--cr-on-dark);
+}
+.cr[data-scroll-theme='dark'] .cr-statement__text,
+.cr[data-scroll-theme='dark'] .cr-api .cr-h2,
+.cr[data-scroll-theme='dark'] .cr-api .cr-cap__title {
+  color: var(--cr-on-dark);
+}
+.cr[data-scroll-theme='dark'] .cr-api .cr-soft {
+  color: rgba(246, 243, 236, 0.5);
+}
+.cr[data-scroll-theme='dark'] .cr-api .cr-lede,
+.cr[data-scroll-theme='dark'] .cr-api .cr-cap__body {
+  color: rgba(246, 243, 236, 0.66);
+}
+.cr[data-scroll-theme='dark'] .cr-api .cr-cap__num {
+  color: rgba(246, 243, 236, 0.5);
+}
+.cr[data-scroll-theme='dark'] .cr-api .cr-cap__sig {
+  color: rgba(246, 243, 236, 0.82);
+  background: rgba(255, 255, 255, 0.08);
+}
+.cr[data-scroll-theme='dark'] .cr-api .cr-caps,
+.cr[data-scroll-theme='dark'] .cr-api .cr-cap {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.cr[data-scroll-theme='dark'] .cr-api .cr-code {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 50px 90px -40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* The getting-started section sits just above the interlude, so its tail stays legible as the page darkens */
+.cr-qs .cr-eyebrow,
+.cr-qs .cr-eyebrow b,
+.cr-qs .cr-h2,
+.cr-qs .cr-lede,
+.cr-qs-step__title,
+.cr-qs-step__body {
+  transition: color 0.8s var(--cr-ease), opacity 0.3s;
+}
+.cr-qs-step__num,
+.cr-qs__rail {
+  transition: background-color 0.8s var(--cr-ease), color 0.8s var(--cr-ease), border-color 0.8s var(--cr-ease),
+    box-shadow 0.35s;
+}
+.cr[data-scroll-theme='dark'] .cr-qs .cr-eyebrow {
+  color: rgba(246, 243, 236, 0.58);
+}
+.cr[data-scroll-theme='dark'] .cr-qs .cr-eyebrow b,
+.cr[data-scroll-theme='dark'] .cr-qs .cr-h2,
+.cr[data-scroll-theme='dark'] .cr-qs-step.is-active .cr-qs-step__title,
+.cr[data-scroll-theme='dark'] .cr-qs-step:hover .cr-qs-step__title {
+  color: var(--cr-on-dark);
+}
+.cr[data-scroll-theme='dark'] .cr-qs .cr-lede,
+.cr[data-scroll-theme='dark'] .cr-qs-step__title,
+.cr[data-scroll-theme='dark'] .cr-qs-step__body {
+  color: rgba(246, 243, 236, 0.62);
+}
+.cr[data-scroll-theme='dark'] .cr-qs-step__num {
+  background: #1e1f1b;
+  border-color: rgba(255, 255, 255, 0.16);
+  color: rgba(246, 243, 236, 0.7);
+}
+.cr[data-scroll-theme='dark'] .cr-qs-step.is-active .cr-qs-step__num {
+  background: var(--cr-on-dark);
+  border-color: var(--cr-on-dark);
+  color: var(--cr-ink);
+}
+.cr[data-scroll-theme='dark'] .cr-qs__rail {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Floating nav follows the page into the dark interlude */
+.cr-float__inner,
+.cr-float__inner .cr-wordmark,
+.cr-float__links a,
+.cr-float__cta,
+.cr-menu-btn--float {
+  transition: background-color 0.8s var(--cr-ease), color 0.8s var(--cr-ease), border-color 0.8s var(--cr-ease),
+    box-shadow 0.8s var(--cr-ease);
+}
+.cr[data-scroll-theme='dark'] .cr-float__inner {
+  background: rgba(30, 31, 27, 0.72);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 14px 34px -16px rgba(0, 0, 0, 0.6);
+}
+.cr[data-scroll-theme='dark'] .cr-float__inner .cr-wordmark {
+  color: var(--cr-on-dark);
+}
+.cr[data-scroll-theme='dark'] .cr-float__links a {
+  color: rgba(246, 243, 236, 0.72);
+}
+.cr[data-scroll-theme='dark'] .cr-float__links a:hover,
+.cr[data-scroll-theme='dark'] .cr-float__links a[aria-current='true'] {
+  color: var(--cr-on-dark);
+}
+.cr[data-scroll-theme='dark'] .cr-float__links a[aria-current='true'] {
+  background: rgba(255, 255, 255, 0.1);
+}
+.cr[data-scroll-theme='dark'] .cr-float__cta {
+  color: var(--cr-ink);
+  background: var(--cr-on-dark);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.12), 0 6px 14px -6px rgba(0, 0, 0, 0.5);
+}
+.cr[data-scroll-theme='dark'] .cr-menu-btn--float {
+  color: var(--cr-on-dark);
+  background: rgba(255, 255, 255, 0.1);
+}
+.cr[data-scroll-theme='dark'] {
+  --cursor-bg: #faf8f3;
+  --cursor-fg: #141512;
+}
+
 /* ---------- 7. How it thinks ---------- */
 .cr-how {
   padding: 0 var(--cr-gap);
@@ -1761,7 +1929,7 @@
   isolation: isolate;
   overflow: hidden;
   display: flex;
-  min-height: clamp(720px, 96vh, 940px);
+  min-height: clamp(500px, 66vh, 660px);
   border-radius: var(--cr-r-frame);
   background: var(--cr-sand);
 }
@@ -1778,6 +1946,7 @@
   height: 100%;
   max-width: none;
   object-fit: cover;
+  filter: var(--cr-grade);
   object-position: 50% 62%;
 }
 .cr-how__fog {
@@ -1833,7 +2002,7 @@
   -webkit-backdrop-filter: blur(18px) saturate(1.2);
   backdrop-filter: blur(18px) saturate(1.2);
   box-shadow: var(--cr-shadow);
-  transition: transform 0.5s var(--cr-ease), background-color 0.35s, box-shadow 0.5s var(--cr-ease);
+  transition: transform 0.8s var(--cr-ease), background-color 0.5s, box-shadow 0.8s var(--cr-ease);
   cursor: default;
 }
 .cr-think__num {
@@ -1863,7 +2032,7 @@
   filter: blur(5px);
   opacity: 0.35;
   transform: translateY(4px);
-  transition: filter 0.5s var(--cr-ease), opacity 0.5s var(--cr-ease), transform 0.5s var(--cr-ease);
+  transition: filter 0.7s var(--cr-ease), opacity 0.7s var(--cr-ease), transform 0.7s var(--cr-ease);
 }
 .cr-think:hover,
 .cr-think:focus-visible {
@@ -1882,6 +2051,266 @@
     filter: none;
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ---------- 7b. Kinetic pills: the four passes ---------- */
+.cr-pills {
+  padding: clamp(64px, 7vw, 112px) 0 clamp(16px, 2vw, 32px);
+}
+.cr-pills__track {
+  position: relative;
+  width: min(100% - 48px, 1180px);
+  margin: 0 auto;
+}
+.cr-pills__thread {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.cr-pills__dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: rgba(20, 21, 18, 0.34);
+}
+.cr .cr-pills__list {
+  position: relative;
+  display: grid;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cr-pill {
+  display: flex;
+}
+.cr-pill--l {
+  justify-content: flex-start;
+  padding-right: 56px;
+}
+.cr-pill--r {
+  justify-content: flex-end;
+  padding-left: 56px;
+}
+.cr-pill__shape {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  width: 80%;
+  min-height: 120px;
+  padding: 12px 88px 12px 12px;
+}
+.cr-pill--r .cr-pill__shape {
+  flex-direction: row-reverse;
+  padding: 12px 12px 12px 88px;
+  text-align: right;
+}
+.cr-pill__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--cr-r-pill);
+  transform-origin: 0% 50%;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 28px 50px -34px rgba(40, 50, 30, 0.55);
+}
+.cr-pill--r .cr-pill__bg {
+  transform-origin: 100% 50%;
+}
+.cr-pill__word {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  height: 96px;
+  padding: 0 42px;
+  border-radius: var(--cr-r-pill);
+  background: var(--cr-fog);
+  box-shadow: 0 1px 0 #fff inset, 0 12px 26px -16px rgba(20, 21, 18, 0.5);
+  font-size: clamp(40px, 2.6vw + 22px, 66px);
+  font-weight: 680;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: var(--cr-ink);
+  white-space: nowrap;
+}
+.cr-pill__text {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 34ch;
+  font-size: 15px;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.cr-pill--r .cr-pill__text {
+  margin-left: auto;
+}
+.cr-pill__line {
+  display: block;
+  font-weight: 560;
+}
+.cr-pill__detail {
+  display: block;
+  margin-top: 3px;
+  opacity: 0.8;
+}
+.cr-pill__chip {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: -56px;
+  display: grid;
+  place-items: center;
+  width: 108px;
+  height: 108px;
+  margin-top: -54px;
+  border-radius: 50%;
+  background: var(--cr-fog);
+  border: 8px solid var(--cr-paper);
+  box-shadow: 0 18px 36px -18px rgba(40, 50, 30, 0.55);
+  color: var(--cr-ink);
+}
+.cr-pill--r .cr-pill__chip {
+  right: auto;
+  left: -56px;
+}
+.cr-pill__num {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--cr-mono);
+  font-size: 10px;
+  color: var(--cr-muted);
+}
+.cr-pill__chip svg {
+  margin-bottom: 8px;
+}
+
+/* Tones: moss, leaf, sand and ink, with the one bloom accent saved for the conclusion. */
+.cr-pill--moss .cr-pill__bg {
+  background: var(--cr-moss);
+}
+.cr-pill--moss .cr-pill__text {
+  color: #f3efe6;
+}
+.cr-pill--leaf .cr-pill__bg {
+  background: var(--cr-leaf);
+}
+.cr-pill--leaf .cr-pill__text {
+  color: var(--cr-ink);
+}
+.cr-pill--sand .cr-pill__bg {
+  background: var(--cr-sand);
+  box-shadow: 0 0 0 1px rgba(20, 21, 18, 0.06) inset, 0 28px 50px -34px rgba(40, 50, 30, 0.4);
+}
+.cr-pill--sand .cr-pill__text {
+  color: var(--cr-ink-2);
+}
+.cr-pill--ink .cr-pill__bg {
+  background: var(--cr-ink);
+}
+.cr-pill--ink .cr-pill__text {
+  color: #f3efe6;
+}
+.cr-pill--ink .cr-pill__chip {
+  color: var(--cr-bloom);
+}
+.cr-pill--ink .cr-pill__chip::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--cr-bloom);
+}
+
+@media (max-width: 1100px) {
+  .cr-pill__shape {
+    width: 88%;
+  }
+}
+
+@media (max-width: 700px) {
+  .cr-pills {
+    padding-top: 48px;
+  }
+  .cr-pills__track {
+    width: calc(100% - 32px);
+  }
+  .cr .cr-pills__list {
+    gap: 30px;
+  }
+  .cr-pill--l,
+  .cr-pill--r {
+    padding: 0;
+  }
+  .cr-pill__shape,
+  .cr-pill--r .cr-pill__shape {
+    width: calc(100% - 20px);
+    min-height: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 10px 18px;
+    text-align: left;
+  }
+  .cr-pill--r .cr-pill__shape {
+    align-items: flex-end;
+    text-align: right;
+  }
+  .cr-pill__bg {
+    border-radius: 36px;
+  }
+  .cr-pill__word {
+    height: 62px;
+    padding: 0 24px;
+    font-size: 34px;
+  }
+  .cr-pill__text {
+    max-width: none;
+    padding: 0 14px;
+    font-size: 14px;
+  }
+  .cr-pill--r .cr-pill__text {
+    margin-left: 0;
+  }
+  .cr-pill__chip,
+  .cr-pill--r .cr-pill__chip {
+    top: -16px;
+    right: -16px;
+    left: auto;
+    width: 64px;
+    height: 64px;
+    margin-top: 0;
+    border-width: 5px;
+  }
+  .cr-pill--r .cr-pill__chip {
+    right: auto;
+    left: -16px;
+  }
+  .cr-pill__chip svg {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 0;
+  }
+  .cr-pill__num {
+    display: none;
+  }
+  .cr-pill--ink .cr-pill__chip::after {
+    top: 4px;
+    right: 6px;
+    width: 7px;
+    height: 7px;
   }
 }
 
@@ -1905,18 +2334,23 @@
   border-radius: var(--cr-r-card);
   background: var(--cr-sand);
 }
-.cr-use__img {
+.cr-use__media {
   position: absolute;
   inset: 0;
   z-index: -1;
+  overflow: hidden;
+  transition: transform 1.2s var(--cr-ease);
+}
+.cr-use__img {
   width: 100%;
   height: 100%;
+  max-width: none;
   object-fit: cover;
-  transition: transform 1.4s var(--cr-ease);
+  filter: var(--cr-grade);
 }
-.cr-use:hover .cr-use__img,
-.cr-use:focus-within .cr-use__img {
-  transform: scale(1.045);
+.cr-use:hover .cr-use__media,
+.cr-use:focus-within .cr-use__media {
+  transform: scale(1.05);
 }
 .cr-use__card {
   width: 100%;
@@ -2190,14 +2624,14 @@
   font-weight: 460;
   line-height: 1.15;
   letter-spacing: -0.026em;
-  transition: transform 0.45s var(--cr-ease);
+  transition: transform 0.7s var(--cr-ease);
 }
 .cr-note__dek {
   grid-area: dek;
   font-size: 15px;
   line-height: 1.5;
   color: var(--cr-muted);
-  transition: transform 0.45s var(--cr-ease);
+  transition: transform 0.7s var(--cr-ease);
 }
 .cr-note__go {
   grid-area: go;
@@ -2209,7 +2643,7 @@
   border-radius: 50%;
   border: 1px solid var(--cr-line-2);
   color: var(--cr-ink);
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.45s var(--cr-ease);
+  transition: background-color 0.5s, color 0.5s, border-color 0.5s, transform 0.7s var(--cr-ease);
 }
 .cr-note:hover .cr-note__title,
 .cr-note:hover .cr-note__dek {
@@ -2262,6 +2696,7 @@
   height: 100%;
   max-width: none;
   object-fit: cover;
+  filter: var(--cr-grade);
   object-position: 50% 55%;
 }
 .cr-closing__fog {
@@ -2326,18 +2761,20 @@
 .cr-footer__col a,
 .cr-footer__col button {
   display: inline-block;
-  padding: 5px 0;
+  margin: 5px 0;
+  padding-bottom: 2px;
   font-size: 15px;
   color: var(--cr-ink-2);
   text-align: left;
-  transition: color 0.2s;
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px;
+  transition: color 0.4s, background-size 0.7s var(--cr-ease);
 }
 .cr-footer__col a:hover,
-.cr-footer__col button:hover {
+.cr-footer__col button:hover,
+.cr-footer__col a:focus-visible,
+.cr-footer__col button:focus-visible {
   color: var(--cr-ink);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
+  background-size: 100% 1px;
 }
 .cr-footer__bottom {
   display: flex;
@@ -2871,7 +3308,7 @@
   }
 
   .cr-how__frame {
-    min-height: 0;
+    min-height: 460px;
   }
   .cr-how__inner {
     width: calc(100% - 32px);
@@ -2971,4 +3408,9 @@
   .cr-calc__split dd {
     font-size: 14px;
   }
+}
+
+/* The journal sits on a sand tint; deepen its secondary text so it keeps AA contrast there. */
+.cr-notes {
+  --cr-muted: #5f5e58;
 }

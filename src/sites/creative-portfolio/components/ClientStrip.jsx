@@ -14,7 +14,7 @@ const Row = ({ hidden }) => (
 export default function ClientStrip() {
   return (
     <div className="pf-clients">
-      <div className="pf-clients-view">
+      <div className="pf-clients-view" data-velocity>
         <div className="pf-clients-track">
           <Row />
           <Row hidden />

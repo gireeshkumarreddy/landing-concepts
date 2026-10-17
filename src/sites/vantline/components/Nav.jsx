@@ -102,6 +102,7 @@ export function MobileMenu({ open, onClose, onSignup }) {
           <motion.div
             ref={ref}
             className="au-menu"
+            data-lenis-prevent
             role="dialog"
             aria-modal="true"
             aria-label="Site menu"

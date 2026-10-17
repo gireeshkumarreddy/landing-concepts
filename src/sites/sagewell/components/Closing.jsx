@@ -1,6 +1,4 @@
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { gsap, MOTION_OK, useGSAP } from '../../../shared/gsap.js';
 import { unsplash, unsplashSrcSet } from '../../../shared/img.js';
 import { IMG } from '../data.js';
 import { scrollToId, useSagewell } from '../lib.js';
@@ -9,33 +7,12 @@ import { Wordmark } from './Nav.jsx';
 
 export function ClosingCta() {
   const { openAccess } = useSagewell();
-  const rootRef = useRef(null);
-  const mediaRef = useRef(null);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
-        gsap.fromTo(
-          mediaRef.current,
-          { yPercent: -6, scale: 1.04 },
-          {
-            yPercent: 6,
-            scale: 1,
-            ease: 'none',
-            scrollTrigger: { trigger: rootRef.current, start: 'top bottom', end: 'bottom top', scrub: true },
-          }
-        );
-      });
-    },
-    { scope: rootRef }
-  );
-
   return (
-    <section className="cr-closing" ref={rootRef} aria-labelledby="cr-closing-title">
-      <div className="cr-closing__frame">
-        <div className="cr-closing__media" ref={mediaRef} aria-hidden="true">
+    <section className="cr-closing" aria-labelledby="cr-closing-title">
+      <div className="cr-closing__frame" data-expand="9% 14%" data-expand-radius="22px" data-expand-end="center 60%">
+        <div className="cr-closing__media" aria-hidden="true">
           <img
+            data-parallax="0.12"
             src={unsplash(IMG.stream, { w: 1600, q: 70 })}
             srcSet={unsplashSrcSet(IMG.stream, [640, 1000, 1400, 1800, 2400], { q: 70 })}
             sizes="100vw"
@@ -48,16 +25,16 @@ export function ClosingCta() {
         </div>
         <div className="cr-closing__fog" aria-hidden="true" />
         <div className="cr-closing__inner">
-          <h2 id="cr-closing-title" className="cr-closing__title" data-cr-reveal>
+          <h2 id="cr-closing-title" className="cr-closing__title" data-reveal="lines">
             Ask something <br className="cr-br-lg" />
             difficult.
           </h2>
-          <p className="cr-closing__sub" data-cr-reveal>
+          <p className="cr-closing__sub" data-reveal="fade" data-reveal-delay="0.15">
             Join the preview, work through the three-step setup, and read the trail behind each reply for
             yourself.
           </p>
-          <div className="cr-closing__actions" data-cr-reveal>
-            <button type="button" className="cr-btn cr-btn--ink cr-btn--lg" onClick={openAccess}>
+          <div className="cr-closing__actions" data-reveal="fade" data-reveal-delay="0.25">
+            <button type="button" className="cr-btn cr-btn--ink cr-btn--lg" data-magnetic="0.3" onClick={openAccess}>
               Request access
             </button>
             <a href="#developers" className="cr-btn cr-btn--glass cr-btn--lg">

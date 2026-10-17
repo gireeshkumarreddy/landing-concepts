@@ -83,14 +83,6 @@ export default function Pricing({ billing, onBilling, onChoose }) {
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
         const q = gsap.utils.selector(ref);
-        gsap.from(q('.au-plan'), {
-          y: 60,
-          opacity: 0,
-          duration: 1.2,
-          stagger: 0.12,
-          ease: 'expo.out',
-          scrollTrigger: { trigger: q('.au-plans')[0], start: 'top 85%', once: true },
-        });
         gsap.fromTo(
           q('.au-pricing__bg img'),
           { yPercent: -6 },
@@ -105,21 +97,22 @@ export default function Pricing({ billing, onBilling, onChoose }) {
     <section className="au-pricing" id="plans" aria-labelledby="au-pricing-title" ref={ref}>
       <div className="au-pricing__bg" aria-hidden="true">
         <Photo id={IMG.plans} alt="" widths={[800, 1200, 1600, 2200, 2800]} sizes="100vw" />
+        <span className="au-pricing__night" />
       </div>
       <div className="au-pricing__inner">
         <div className="au-head au-head--tight">
-          <h2 className="au-h2" id="au-pricing-title" data-au-reveal>
+          <h2 className="au-h2" id="au-pricing-title" data-reveal="lines">
             Plans that <em>grow with your team</em>
           </h2>
-          <p className="au-lede" data-au-reveal>
+          <p className="au-lede" data-reveal="fade" data-reveal-delay="0.1">
             Per-seat pricing with every plan billed the same way, monthly or yearly.
           </p>
-          <div data-au-reveal>
+          <div data-reveal="fade" data-reveal-delay="0.18">
             <BillingToggle billing={billing} onChange={onBilling} />
           </div>
         </div>
 
-        <ul className="au-plans" role="list">
+        <ul className="au-plans" role="list" data-reveal="stagger" data-reveal-stagger="0.12">
           {PLANS.map(plan => {
             const price = priceFor(plan, billing);
             const featured = plan.id === 'business';

@@ -307,8 +307,8 @@ export default function Products() {
           }
           lead="Four connected tools on one opted-in audience — the message, the product, the payment and the follow-up all live in the same thread."
         />
-        <div className="ar-bento">
-          <article id="product-broadcasts" className="ar-bento-card is-broadcast" data-reveal>
+        <div className="ar-bento" data-reveal="stagger" data-reveal-stagger="0.1" data-reveal-start="top 82%">
+          <article id="product-broadcasts" className="ar-bento-card is-broadcast">
             <div className="ar-bento-copy">
               <span className="ar-bento-num">01</span>
               <h3 className="ar-h3">Broadcasts</h3>
@@ -316,7 +316,7 @@ export default function Products() {
             </div>
             <Broadcast />
           </article>
-          <article id="product-messages" className="ar-bento-card is-links" data-reveal>
+          <article id="product-messages" className="ar-bento-card is-links">
             <div className="ar-bento-copy">
               <span className="ar-bento-num">02</span>
               <h3 className="ar-h3">Product messages</h3>
@@ -324,7 +324,7 @@ export default function Products() {
             </div>
             <Links />
           </article>
-          <article id="product-pay" className="ar-bento-card is-checkout" data-reveal>
+          <article id="product-pay" className="ar-bento-card is-checkout">
             <div className="ar-bento-copy">
               <span className="ar-bento-num">03</span>
               <h3 className="ar-h3">Pay in chat</h3>
@@ -332,7 +332,7 @@ export default function Products() {
             </div>
             <Checkout />
           </article>
-          <article id="product-journeys" className="ar-bento-card is-auto" data-reveal>
+          <article id="product-journeys" className="ar-bento-card is-auto">
             <div className="ar-bento-copy">
               <span className="ar-bento-num">04</span>
               <h3 className="ar-h3">Journeys</h3>

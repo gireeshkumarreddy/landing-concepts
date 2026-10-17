@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import { isEmail } from '../../../shared/a11y.js';
 import { FORMATS, TALKS } from '../data.js';
+import { scrollToTarget } from '../../../shared/motion/index.js';
 import { required, useDemoForm, useReduced } from '../lib.jsx';
 import { ArrowRight, CheckIcon, GroupIcon, Spinner, UndoIcon } from '../icons.jsx';
 import Field from './Field.jsx';
@@ -145,26 +146,28 @@ export default function Workshops() {
     setTalk(id);
     const el = formRef.current;
     if (!el) return;
-    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
-    setTimeout(() => el.querySelector('#ch-talk-name')?.focus({ preventScroll: true }), reduce ? 0 : 450);
+    scrollToTarget(el, { offset: -Math.max(96, (window.innerHeight - el.offsetHeight) / 2) });
+    setTimeout(() => el.querySelector('#ch-talk-name')?.focus({ preventScroll: true }), reduce ? 0 : 900);
   };
 
   return (
     <section className="ch-section ch-speaking" id="workshops" aria-labelledby="ch-speaking-title">
       <div className="ch-wrap ch-speak">
         <div className="ch-speak__main">
-          <header className="ch-shead" data-reveal>
-            <p className="ch-label">
+          <header className="ch-shead">
+            <p className="ch-label" data-reveal="fade">
               <GroupIcon size={15} /> Workshops
             </p>
-            <h2 className="ch-h2" id="ch-speaking-title">
+            <h2 className="ch-h2" id="ch-speaking-title" data-reveal="lines">
               Small rooms, real pages, practical change.
             </h2>
-            <p className="ch-lede">Three sample workshops for writing groups, festivals and courses. Filter by format, then choose one to request.</p>
+            <p className="ch-lede" data-reveal="fade" data-reveal-delay="0.15">
+              Three sample workshops for writing groups, festivals and courses. Filter by format, then choose one to request.
+            </p>
           </header>
 
           <LayoutGroup id="ch-formats">
-            <div className="ch-chips" role="group" aria-label="Filter workshops by format" data-reveal>
+            <div className="ch-chips" role="group" aria-label="Filter workshops by format" data-reveal="fade" data-reveal-delay="0.1">
               {['All', ...FORMATS].map(c => {
                 const on = c === fmt;
                 return (
@@ -180,7 +183,7 @@ export default function Workshops() {
             {`${list.length} ${list.length === 1 ? 'workshop' : 'workshops'} shown`}
           </p>
 
-          <ol role="list" className="ch-talks">
+          <ol role="list" className="ch-talks" data-reveal="stagger" data-reveal-stagger="0.1">
             <AnimatePresence mode="popLayout" initial={false}>
               {list.map(t => {
                 const n = TALKS.indexOf(t) + 1;
@@ -220,7 +223,7 @@ export default function Workshops() {
           </ol>
         </div>
 
-        <aside className="ch-formcard" aria-label="Workshop request form" data-reveal>
+        <aside className="ch-formcard" aria-label="Workshop request form" data-reveal="fade" data-reveal-delay="0.1">
           <RequestForm talk={talk} setTalk={setTalk} formRef={formRef} />
         </aside>
       </div>

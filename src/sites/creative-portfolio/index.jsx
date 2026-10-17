@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { AnimatePresence, MotionConfig } from 'motion/react';
 import '@fontsource-variable/archivo';
 import '@fontsource-variable/archivo/wdth.css';
@@ -7,12 +7,14 @@ import '@fontsource-variable/caveat';
 import '@fontsource/instrument-serif/400-italic.css';
 import '@fontsource-variable/newsreader';
 import { useSiteMeta } from '../../shared/useSiteMeta.js';
-import { gsap, MOTION_OK, REDUCED, ScrollTrigger, useGSAP } from '../../shared/gsap.js';
+import { REDUCED } from '../../shared/gsap.js';
+import { useMotion } from '../../shared/motion/index.js';
 import { useMedia } from './hooks.js';
 import { PROJECTS } from './data.js';
 import Nav from './components/Nav.jsx';
 import Hero from './components/Hero.jsx';
 import Work from './components/Work.jsx';
+import Statement from './components/Statement.jsx';
 import Process from './components/Process.jsx';
 import Services from './components/Services.jsx';
 import About from './components/About.jsx';
@@ -46,71 +48,9 @@ export default function Page() {
   }, []);
   const enquire = useCallback(type => setPrefill(p => ({ type, key: p.key + 1 })), []);
 
-  // In-page links scroll smoothly via JS, so the document itself can use instant scrolling.
-  // That keeps programmatic scrolls (and ScrollTrigger) exact; restored when leaving the page.
-  useLayoutEffect(() => {
-    const html = document.documentElement;
-    const prev = html.style.scrollBehavior;
-    html.style.scrollBehavior = 'auto';
-    return () => {
-      html.style.scrollBehavior = prev;
-    };
-  }, []);
-
-  useEffect(() => {
-    const node = root.current;
-    const onClick = e => {
-      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      const a = e.target.closest?.('a[href^="#"]');
-      if (!a || !node?.contains(a)) return;
-      const id = decodeURIComponent(a.getAttribute('href').slice(1));
-      const target = id && document.getElementById(id);
-      if (!target) return;
-      e.preventDefault();
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
-      target.focus({ preventScroll: true });
-      history.replaceState?.(null, '', `#${id}`);
-    };
-    // Listen on document so React handlers (which may preventDefault) run first.
-    document.addEventListener('click', onClick);
-    return () => document.removeEventListener('click', onClick);
-  }, []);
-
-  useGSAP(
-    () => {
-      document.fonts?.ready.then(() => ScrollTrigger.refresh());
-      const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
-        gsap.from('.pf-nav-in > *', { y: -8, autoAlpha: 0, duration: 0.8, stagger: 0.06, ease: 'expo.out' });
-
-        const items = gsap.utils.toArray('.pf-reveal');
-        // opacity (not autoAlpha) so hidden items stay focusable; focusing one scrolls it in and reveals it.
-        gsap.set(items, { opacity: 0, y: 22 });
-        ScrollTrigger.batch(items, {
-          start: 'top 90%',
-          once: true,
-          onEnter: batch =>
-            gsap.to(batch, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.07, overwrite: true }),
-        });
-
-        // Images settle slightly as they scroll in: a slow push-in, like the end of a dolly move.
-        gsap.utils.toArray('.pf-card-media img, .pf-about-frame img').forEach(img => {
-          gsap.fromTo(
-            img,
-            { '--pf-push': 1.08 },
-            {
-              '--pf-push': 1,
-              ease: 'none',
-              scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'center center', scrub: 0.6 },
-            },
-          );
-        });
-      });
-    },
-    { scope: root },
-  );
+  // Shared motion system: smooth scroll is global; this wires reveals, fills, parallax,
+  // page re-tints, magnetic CTAs and velocity skew for everything marked up below.
+  useMotion(root);
 
   return (
     // Reduced motion: skip Motion animations outright (and keep its dev warning quiet).
@@ -123,6 +63,7 @@ export default function Page() {
         <main id="main" tabIndex={-1}>
           <Hero onOpenProject={openProject} />
           <Work onOpen={openProject} />
+          <Statement />
           <Process />
           <Services onEnquire={enquire} />
           <About />

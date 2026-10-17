@@ -30,9 +30,14 @@ const PHRASES = [
   // 6 — editorial reference
   'charlie', 'hoehn', 'legendary books', '1m copies', 'bestselling editor', 'i help bestselling',
   'featured articles', 'author alliance', 'elevate their books',
+  // Second batch of references (animation studies)
+  'reimagine reality', 'trusted by leaders', 'from various industries', 'read success stories',
+  'customer journeys', 'stunning ai generated', 'start generating now', 'realistic results', 'fast generation',
+  'diverse styles', 'we deliver what counts', 'top class results', 'creative mines', 'make this',
+  "let,s do it", 'plasma one', 'the one app for your money', 'unique rewards', 'countries covered',
 ];
 // Word-boundary match for short names that could appear inside other words.
-const WORDS = ['julie', 'nyt'];
+const WORDS = ['julie', 'nyt', 'reve'];
 
 
 const files = [];

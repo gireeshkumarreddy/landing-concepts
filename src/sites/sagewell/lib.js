@@ -1,19 +1,17 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { prefersReducedMotion } from '../../shared/gsap.js';
+import { scrollToTarget } from '../../shared/motion/index.js';
 
 /** Page-level actions shared by sections (open the access modal, load a prompt, open a note). */
 export const SagewellCtx = createContext(null);
 export const useSagewell = () => useContext(SagewellCtx);
 
-export const scrollBehavior = () => (prefersReducedMotion() ? 'auto' : 'smooth');
-
 /** Motion transition that collapses to an instant change for reduced-motion users. */
 export const tx = t => (prefersReducedMotion() ? { duration: 0 } : t);
 
+/** Glides to a section through the shared smooth scroller ("top" scrolls to the page start). */
 export function scrollToId(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
+  scrollToTarget(`#${id}`);
 }
 
 /** Copies text with the async clipboard API, falling back to a hidden textarea. */

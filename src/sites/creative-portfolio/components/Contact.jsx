@@ -125,21 +125,21 @@ export default function Contact({ prefillType, prefillKey }) {
   });
 
   return (
-    <section id="contact" className="pf-sec pf-contact" aria-labelledby="pf-contact-title">
+    <section id="contact" className="pf-sec pf-contact" aria-labelledby="pf-contact-title" data-bg="#f7f7f5">
       <div className="pf-wrap pf-contact-grid">
         <div className="pf-contact-copy">
-          <p className="pf-eyebrow pf-reveal">
+          <p className="pf-eyebrow" data-reveal="fade">
             <span className="pf-eyebrow-n">05</span> Contact
           </p>
-          <h2 id="pf-contact-title" className="pf-h2 pf-h2--xl pf-reveal">
+          <h2 id="pf-contact-title" className="pf-h2 pf-h2--xl" data-reveal="lines">
             Send me <span className="pf-h2-soft">the footage.</span>
           </h2>
-          <p className="pf-lede pf-reveal">
+          <p className="pf-lede" data-reveal="fade">
             A few lines are enough: what you shot, how long it should run and where it will be seen. I’ll come back
             with questions, a rough schedule and a quote.
           </p>
 
-          <div className="pf-mail pf-reveal">
+          <div className="pf-mail">
             <span className="pf-mail-k">Email</span>
             <span className="pf-mail-v">{EMAIL}</span>
             <button type="button" className="pf-mail-copy" onClick={copy}>
@@ -153,7 +153,7 @@ export default function Contact({ prefillType, prefillKey }) {
           </div>
         </div>
 
-        <div className="pf-contact-panel pf-reveal">
+        <div className="pf-contact-panel">
           <AnimatePresence mode="wait" initial={false}>
             {status === 'done' ? (
               <motion.div

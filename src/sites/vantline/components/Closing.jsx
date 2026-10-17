@@ -7,15 +7,15 @@ import { PillButton } from './ui.jsx';
 
 export const CtaBand = forwardRef(function CtaBand({ onSignup }, ref) {
   return (
-    <section className="au-cta" aria-labelledby="au-cta-title" ref={ref}>
+    <section className="au-cta" aria-labelledby="au-cta-title" ref={ref} data-bg="#111511">
       <div className="au-cta__inner">
-        <p className="au-cta__kicker" data-au-cta>
+        <p className="au-cta__kicker" data-reveal="fade">
           (Ready when you are)
         </p>
-        <h2 className="au-cta__title" id="au-cta-title" data-au-cta>
+        <h2 className="au-cta__title" id="au-cta-title" data-reveal="lines" data-reveal-delay="0.05">
           Make the next call <em className="au-break">a clear one.</em>
         </h2>
-        <div className="au-cta__row" data-au-cta>
+        <div className="au-cta__row" data-reveal="fade" data-reveal-delay="0.2">
           <p className="au-cta__sub">Connect a few sources and read your first Vantline brief this week.</p>
           <PillButton tone="light" onClick={onSignup}>
             Try Vantline free
@@ -28,7 +28,7 @@ export const CtaBand = forwardRef(function CtaBand({ onSignup }, ref) {
 
 export function Footer({ onSignup, onChoose }) {
   return (
-    <footer className="au-footer">
+    <footer className="au-footer" data-bg="#111511">
       <div className="au-footer__grid">
         <div className="au-footer__about">
           <p className="au-wordmark au-footer__brand">

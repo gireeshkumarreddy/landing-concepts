@@ -6,7 +6,8 @@ import './ch.css';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, MotionConfig } from 'motion/react';
 import { useSiteMeta } from '../../shared/useSiteMeta.js';
-import { gsap, ScrollTrigger, useGSAP, MOTION_OK, prefersReducedMotion } from '../../shared/gsap.js';
+import { gsap, ScrollTrigger, prefersReducedMotion } from '../../shared/gsap.js';
+import { useMotion, scrollToTarget } from '../../shared/motion/index.js';
 import { NAV } from './data.js';
 import Nav from './components/Nav.jsx';
 import Hero from './components/Hero.jsx';
@@ -28,8 +29,8 @@ export default function MarenHolt() {
     title: 'Maren Holt — developmental editor and Sunday notes (concept)',
     description:
       'Concept site for Maren Holt, a fictional developmental editor: keycap headline, sample essays with a reader and search, services, workshops and contact.',
-    themeColor: '#e7e2d8',
-    background: '#e7e2d8',
+    themeColor: '#e9e9e9',
+    background: '#e9e9e9',
     site: 'maren-holt',
   });
 
@@ -42,16 +43,19 @@ export default function MarenHolt() {
 
   const anyModal = !!reader || search || signIn;
 
-  /* Smooth in-page navigation that can also move focus to a field. */
+  /* Shared scroll motion: reveals, fill, parallax, magnetic CTAs, page re-tints. */
+  useMotion(root);
+
+  /* Eased in-page navigation (shared smooth scroll) that can also move focus to a field. */
   const goTo = useCallback((id, focusSelector) => {
     const el = document.getElementById(id);
     if (!el) return;
     const reduce = prefersReducedMotion();
-    // Give a closing menu/dialog a frame to release the scroll lock first.
+    // Give a closing menu/dialog a frame to release its scroll lock first.
     requestAnimationFrame(() => {
-      el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      scrollToTarget(el);
       if (focusSelector) {
-        setTimeout(() => document.querySelector(focusSelector)?.focus({ preventScroll: true }), reduce ? 0 : 650);
+        setTimeout(() => document.querySelector(focusSelector)?.focus({ preventScroll: true }), reduce ? 0 : 900);
       }
     });
   }, []);
@@ -88,77 +92,37 @@ export default function MarenHolt() {
     return () => io.disconnect();
   }, []);
 
-  /* Section reveals (motion-ok only).
-     Content is visible by default. A block is only hidden-then-revealed when the reader is actively
-     scrolling (wheel/touch/keys) and the block is still below the fold, so programmatic jumps,
-     full-page captures and no-JS states never show empty sections. */
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, ctx => {
-        const blocks = [
-          ...gsap.utils.toArray('[data-reveal]', root.current),
-          ...gsap.utils.toArray('[data-reveal-stagger]', root.current),
-        ];
-        const isGroup = el => el.hasAttribute('data-reveal-stagger');
-        const targets = el => (isGroup(el) ? [...el.children] : el);
-        let engaged = false;
-        const engage = () => (engaged = true);
-        const evs = ['wheel', 'touchmove', 'keydown', 'pointerdown'];
-        evs.forEach(ev => window.addEventListener(ev, engage, { passive: true }));
+  /* Keyboard safety net: elements still waiting for their scroll reveal are visibility:hidden and
+     would be skipped by Tab. The first Tab press finishes every pending reveal instantly. */
+  useEffect(() => {
+    const onKey = e => {
+      if (e.key !== 'Tab' || !root.current) return;
+      window.removeEventListener('keydown', onKey, true);
+      root.current.querySelectorAll('[data-reveal="fade"], [data-reveal="stagger"] > *').forEach(el =>
+        gsap.getTweensOf(el).forEach(t => {
+          const st = t.scrollTrigger;
+          t.progress(1);
+          st?.kill(false, true); // keep the (now finished) animation
+        })
+      );
+    };
+    window.addEventListener('keydown', onKey, true);
+    return () => window.removeEventListener('keydown', onKey, true);
+  }, []);
 
-        const show = new IntersectionObserver(
-          entries =>
-            entries.forEach(e => {
-              if (!e.isIntersecting) return;
-              show.unobserve(e.target);
-              ctx.add(() =>
-                gsap.to(targets(e.target), {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.9,
-                  stagger: isGroup(e.target) ? +e.target.dataset.revealStagger || 0.07 : 0,
-                  ease: 'power3.out',
-                  overwrite: 'auto',
-                })
-              );
-            }),
-          { rootMargin: '0px 0px -8% 0px' }
-        );
-        const arm = new IntersectionObserver(
-          entries =>
-            entries.forEach(e => {
-              if (!e.isIntersecting || !engaged) return;
-              if (e.boundingClientRect.top < window.innerHeight) return; // already on screen: leave it visible
-              arm.unobserve(e.target);
-              // data-reveal-y="0" fades without movement (used for inline words, where transforms don't apply).
-              const y = e.target.dataset.revealY !== undefined ? +e.target.dataset.revealY : isGroup(e.target) ? 30 : 26;
-              // Opacity only (never visibility), so armed blocks stay focusable and in the tab order.
-              ctx.add(() => gsap.set(targets(e.target), { y, opacity: 0 }));
-              show.observe(e.target);
-            }),
-          { rootMargin: '0px 0px 60% 0px' }
-        );
-        blocks.forEach(el => arm.observe(el));
-
-        // Keep scroll-linked effects (About statement) in sync with late layout changes.
-        let t = 0;
-        const ro = new ResizeObserver(() => {
-          clearTimeout(t);
-          t = setTimeout(() => ScrollTrigger.refresh(), 200);
-        });
-        ro.observe(root.current);
-        return () => {
-          evs.forEach(ev => window.removeEventListener(ev, engage));
-          arm.disconnect();
-          show.disconnect();
-          ro.disconnect();
-          clearTimeout(t);
-        };
-      });
-    },
-    { scope: root }
-  );
+  /* Filters, accordions and lazy images change the page height; keep scroll triggers measured. */
+  useEffect(() => {
+    let t = 0;
+    const ro = new ResizeObserver(() => {
+      clearTimeout(t);
+      t = setTimeout(() => ScrollTrigger.refresh(), 180);
+    });
+    ro.observe(root.current);
+    return () => {
+      ro.disconnect();
+      clearTimeout(t);
+    };
+  }, []);
 
   const openArticle = useCallback(slug => {
     setSearch(false);

@@ -67,20 +67,20 @@ export default function Waitlist() {
   return (
     <section id="waitlist" className="ta-sec ta-ea" aria-labelledby="ta-ea-title" tabIndex={-1}>
       <div className="ta-wrap">
-        <div className="ta-ea__head" data-reveal>
-          <p className="ta-eyebrow">
+        <div className="ta-ea__head">
+          <p className="ta-eyebrow" data-reveal="fade">
             <span>05</span> Waitlist
           </p>
-          <h2 id="ta-ea-title" className="ta-ea__title">
+          <h2 id="ta-ea-title" className="ta-ea__title" data-reveal="lines">
             Keep the
             <br /> conversation going.
           </h2>
-          <p className="ta-lead">
+          <p className="ta-lead" data-reveal="fade" data-reveal-delay="0.12">
             Small teams get in first. Tell us how you handle email today and we’ll hold a place for you in the queue.
           </p>
         </div>
 
-        <div id="ta-ea-form" className="ta-ea__card" data-reveal>
+        <div id="ta-ea-form" className="ta-ea__card" data-reveal="fade" data-reveal-delay="0.1">
           {status === 'done' ? (
             <div className="ta-ea__done" id="ta-ea-done" tabIndex={-1} ref={doneRef} role="status">
               <span className="ta-ea__tick" aria-hidden="true">

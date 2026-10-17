@@ -15,6 +15,12 @@ export const PEOPLE = {
   nora: { name: 'Nora Fitzgerald', photo: '1780733058027-680a7c841fe5', role: 'Trademark lawyer' },
   elin: { name: 'Elin Sandberg', photo: '1764971591006-b6eb67a8f0cb', role: 'Radio host' },
   rosa: { name: 'Rosa Vidal', initials: 'R', tone: 'violet', role: 'Venue coordinator' },
+  tomas: { name: 'Tomás Herrera', photo: '1500648767791-00dcc994a43e', role: 'Accountant' },
+  lena: { name: 'Lena Hartmann', photo: '1494790108377-be9c29b29330', role: 'Event florist' },
+  yusuf: { name: 'Yusuf Kaya', photo: '1758874574397-e56dfcfc116d', role: 'Ceramics supplier' },
+  camille: { name: 'Camille Dubois', photo: '1609371497456-3a55a205d5eb', role: 'Copy editor' },
+  jonas: { name: 'Jonas Weber', photo: '1592234789031-94bf65f630ed', role: 'Freelance developer' },
+  ruby: { name: 'Ruby Okafor', photo: '1623717217554-72ca676de535', role: 'Community lead' },
   billing: { name: 'Billing', initials: 'B', service: true },
   calendar: { name: 'Calendar', initials: 'C', service: true },
   status: { name: 'Status alerts', initials: 'S', service: true },
@@ -274,3 +280,19 @@ export const PRINCIPLES = [
 
 export const TEAM_SIZES = ['Only me', '2–10 people', '11–50 people', '51–200 people', 'More than 200'];
 export const CLIENTS = ['Gmail', 'Outlook', 'Apple Mail', 'Something else'];
+
+/* ---------------------------------------------------------------- people wall */
+// Columns hang from the top edge. `drop` = how much of the faded top card shows (px at desktop),
+// `speed` = parallax drift factor. Outer columns are longer so the centre stays clear for the copy.
+export const WALL = [
+  { drop: 104, speed: 0.55, people: ['tomas', 'maya'] },
+  { drop: 46, speed: 1, people: ['lena', 'marcus'] },
+  { drop: 112, speed: 0.35, people: ['yusuf'] },
+  { drop: 54, speed: 0.85, people: ['sofia'] },
+  { drop: 92, speed: 0.5, people: ['oliver'] },
+  { drop: 40, speed: 1.05, people: ['camille'] },
+  { drop: 108, speed: 0.4, people: ['theo'] },
+  { drop: 50, speed: 0.9, people: ['amara'] },
+  { drop: 100, speed: 0.6, people: ['jonas', 'nora'] },
+  { drop: 58, speed: 0.95, people: ['ruby', 'elin'] },
+];

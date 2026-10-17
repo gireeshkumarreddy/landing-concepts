@@ -10,17 +10,19 @@ export default function Faq() {
   return (
     <section id="faq" className="ar-section ar-faq" aria-labelledby="ar-faq-title">
       <div className="ar-wrap ar-faq-grid">
-        <div className="ar-faq-intro" data-reveal>
-          <p className="ar-eyebrow">Learn · FAQ</p>
-          <h2 id="ar-faq-title" className="ar-h2">
+        <div className="ar-faq-intro">
+          <p className="ar-eyebrow" data-reveal="fade">
+            Learn · FAQ
+          </p>
+          <h2 id="ar-faq-title" className="ar-h2" data-reveal="lines">
             Good questions, straight answers.
           </h2>
-          <p className="ar-lead">Opt-in, templates, numbers and where your data lives. Missing something? Ask the team directly.</p>
+          <p className="ar-lead" data-reveal="fade" data-reveal-delay="0.15">Opt-in, templates, numbers and where your data lives. Missing something? Ask the team directly.</p>
           <button type="button" className="ar-btn ar-btn-ghost" onClick={openContact}>
             Talk to sales <IconArrow size={16} sw={2} />
           </button>
         </div>
-        <ul className="ar-acc" role="list" data-reveal>
+        <ul className="ar-acc" role="list" data-reveal="fade" data-reveal-delay="0.1">
           {FAQS.map((f, i) => {
             const isOpen = open === i;
             return (

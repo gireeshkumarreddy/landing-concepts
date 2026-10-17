@@ -3,3 +3,5 @@ dist/
 .claude/
 *.log
 .DS_Store
+references/
+.qa/

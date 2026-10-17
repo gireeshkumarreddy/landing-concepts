@@ -81,19 +81,19 @@ export default function Pricing() {
     <section className="cr-section cr-pricing" id="pricing" aria-labelledby="cr-pricing-title">
       <div className="cr-wrap cr-pricing__grid">
         <div className="cr-pricing__main">
-          <p className="cr-eyebrow" data-cr-reveal>
+          <p className="cr-eyebrow" data-reveal="fade">
             <b>05</b> Pricing
           </p>
-          <h2 id="cr-pricing-title" className="cr-h2" data-cr-reveal>
+          <h2 id="cr-pricing-title" className="cr-h2" data-reveal="lines">
             Pay for thinking, <br className="cr-br-lg" />
             not seats.
           </h2>
-          <p className="cr-lede" data-cr-reveal>
+          <p className="cr-lede" data-reveal="fade" data-reveal-delay="0.12">
             Billed per million tokens, with the trail counted as output. Choosing a lighter depth for routine
             questions is the simplest way to keep a bill small.
           </p>
 
-          <div className="cr-table-wrap" data-cr-reveal>
+          <div className="cr-table-wrap" data-reveal="fade" data-reveal-delay="0.1">
             <table className="cr-table">
               <caption className="sr-only">Cost per million tokens for each Sagewell model</caption>
               <thead>
@@ -124,7 +124,7 @@ export default function Pricing() {
           </div>
         </div>
 
-        <div className="cr-calc" data-cr-reveal>
+        <div className="cr-calc" data-reveal="fade" data-reveal-delay="0.15">
           <div className="cr-calc__head">
             <h3 className="cr-calc__title">Rough monthly cost</h3>
             <fieldset className="cr-seg" aria-label="Model">
@@ -204,7 +204,7 @@ export default function Pricing() {
 
           <div className="cr-calc__foot">
             <p>A sketch, not a quote. Trail length varies with the question and the depth you choose.</p>
-            <button type="button" className="cr-btn cr-btn--ink" onClick={openAccess}>
+            <button type="button" className="cr-btn cr-btn--ink" data-magnetic="0.25" onClick={openAccess}>
               Request access
               <IconArrowRight size={16} />
             </button>

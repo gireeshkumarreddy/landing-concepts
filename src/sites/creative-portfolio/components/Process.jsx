@@ -30,16 +30,16 @@ export default function Process() {
   };
 
   return (
-    <section id="process" className="pf-sec pf-why" aria-labelledby="pf-why-title">
+    <section id="process" className="pf-sec pf-why" aria-labelledby="pf-why-title" data-bg="#f7f7f5">
       <div className="pf-wrap pf-why-grid">
         <div className="pf-why-head">
-          <p className="pf-eyebrow pf-reveal">
+          <p className="pf-eyebrow" data-reveal="fade">
             <span className="pf-eyebrow-n">02</span> Process
           </p>
-          <h2 id="pf-why-title" className="pf-h2 pf-reveal">
+          <h2 id="pf-why-title" className="pf-h2" data-reveal="lines">
             One timeline, <span className="pf-h2-soft">four honest passes.</span>
           </h2>
-          <p className="pf-lede pf-reveal">
+          <p className="pf-lede" data-reveal="fade">
             Each film goes through the same four stages, and you get to see the sequence after every one. Choose a
             stage, or keep scrolling, and watch the timeline tighten from first sync to final mix.
           </p>

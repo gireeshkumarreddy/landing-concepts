@@ -40,6 +40,7 @@ function Panel({ onClose, labelledBy, children, className, sheet, closeLabel }) 
         aria-modal="true"
         aria-labelledby={labelledBy}
         tabIndex={-1}
+        data-lenis-prevent
         className={`cr-modal__panel ${className}`}
         {...variants}
         transition={tx({ duration: asSheet ? 0.42 : 0.38, ease: [0.2, 0.7, 0.2, 1] })}

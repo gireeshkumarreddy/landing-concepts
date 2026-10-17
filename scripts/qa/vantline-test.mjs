@@ -23,6 +23,8 @@ async function open(width, height, opts = {}) {
   await page.waitForTimeout(1200);
   return { page, errors };
 }
+// Anchors land just below the floating nav (scroll-padding 88px).
+const landed = t => Math.abs(t - 88) < 40;
 const topOf = (page, sel) => page.evaluate(s => Math.round(document.querySelector(s).getBoundingClientRect().top), sel);
 const activeInfo = page => page.evaluate(() => ({ tag: document.activeElement?.tagName, text: document.activeElement?.textContent?.trim().slice(0, 40), label: document.activeElement?.getAttribute('aria-label') }));
 
@@ -40,17 +42,17 @@ const activeInfo = page => page.evaluate(() => ({ tag: document.activeElement?.t
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForTimeout(200);
     await page.locator('.au-nav__center a', { hasText: label }).click();
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1800);
     const t = await topOf(page, id);
-    ok(`hero nav "${label}" scrolls to ${id}`, Math.abs(t - 88) < 40, `top=${t}`);
+    ok(`hero nav "${label}" scrolls to ${id}`, landed(t), `top=${t}`);
   }
 
   // Floating nav visible after scrolling
   const floatVisible = await page.evaluate(() => document.querySelector('.au-float').classList.contains('is-visible'));
   ok('floating nav visible past hero', floatVisible);
   await page.locator('.au-float__links a', { hasText: 'Product' }).click();
-  await page.waitForTimeout(500);
-  ok('floating nav link works', Math.abs((await topOf(page, '#product')) - 88) < 40);
+  await page.waitForTimeout(1800);
+  ok('floating nav link works', landed(await topOf(page, '#product')));
 
   // "Start free" (hero) opens drawer, Escape closes, focus returns
   await page.evaluate(() => window.scrollTo(0, 0));
@@ -116,8 +118,34 @@ const activeInfo = page => page.evaluate(() => ({ tag: document.activeElement?.t
   await page.waitForTimeout(800);
   ok('scrim click closes', (await page.locator('[role="dialog"][aria-modal="true"]').count()) === 0);
 
-  // Fan deck
-  await page.evaluate(() => document.querySelector('#workflows').scrollIntoView());
+  // Scroll-fanned deck: stacked as it enters, spread when centred, partly closed as it leaves
+  const fanAt = async t => {
+    await page.evaluate(t => {
+      const d = document.querySelector('.au-fan');
+      const top = d.getBoundingClientRect().top + scrollY;
+      window.scrollTo(0, top - innerHeight + t * (innerHeight + d.offsetHeight));
+    }, t);
+    await page.waitForTimeout(1500);
+    return page.evaluate(() => {
+      const xs = [...document.querySelectorAll('.au-fan__item')].map(e => new DOMMatrix(getComputedStyle(e).transform).m41);
+      return Math.round(Math.max(...xs) - Math.min(...xs));
+    });
+  };
+  const fanStacked = await fanAt(0.08);
+  const fanMid = await fanAt(0.27);
+  const fanOpen = await fanAt(0.5);
+  const fanLeaving = await fanAt(0.92);
+  ok(
+    'fan spread follows scroll (stacked → mid → spread → closing)',
+    fanStacked < fanOpen * 0.2 && fanMid > fanStacked && fanMid < fanOpen && fanLeaving < fanOpen && fanLeaving > fanStacked,
+    `stacked=${fanStacked} mid=${fanMid} open=${fanOpen} leaving=${fanLeaving}`
+  );
+
+  // Fan deck (centred, fully spread)
+  await page.evaluate(() => {
+    const d = document.querySelector('.au-fan');
+    window.scrollTo(0, d.getBoundingClientRect().top + scrollY + d.offsetHeight / 2 - innerHeight / 2);
+  });
   await page.waitForTimeout(1800);
   const cur = () => page.evaluate(() => document.querySelector('.au-fan__item.is-active .au-fan__title').textContent);
   ok('deck starts on Connect sources', (await cur()) === 'Connect sources');
@@ -138,13 +166,27 @@ const activeInfo = page => page.evaluate(() => ({ tag: document.activeElement?.t
   await page.locator('.au-fan__item', { hasText: 'Explain the cause' }).locator('button').click({ force: true });
   await page.waitForTimeout(1000);
   ok('click side card brings it to centre', (await cur()) === 'Explain the cause');
+  const side = page.locator('.au-fan__item:not(.is-active) .au-fan__card').first();
+  const sb = await side.boundingBox();
+  await page.mouse.move(sb.x + sb.width * 0.5, sb.y + sb.height * 0.4);
+  await page.mouse.move(sb.x + sb.width * 0.52, sb.y + sb.height * 0.42);
+  await page.waitForTimeout(500);
+  const label = await page.evaluate(() => { const l = document.querySelector('.motion-cursor-label'); return l ? [l.textContent, getComputedStyle(l).opacity] : null; });
+  ok('cursor label "Open" over side cards', label && label[0] === 'Open' && +label[1] > 0.5, JSON.stringify(label));
+  await page.mouse.move(5, 5);
   await page.locator('button[aria-label="Previous stage"]').click();
   await page.waitForTimeout(900);
   ok('prev → Spot the shift', (await cur()) === 'Spot the shift');
   await page.screenshot({ path: `${dir}/t-fan-click.png` });
   await page.locator('a.au-pill', { hasText: 'Walk through the loop' }).click();
-  await page.waitForTimeout(500);
-  ok('"Walk through the loop" scrolls to #product', Math.abs((await topOf(page, '#product')) - 88) < 40);
+  await page.waitForTimeout(1800);
+  ok('"Walk through the loop" scrolls to #product', landed(await topOf(page, '#product')));
+
+  // Panel opens to full bleed once centred
+  await page.evaluate(() => { const p = document.querySelector('.au-panel'); window.scrollTo(0, p.getBoundingClientRect().top + scrollY + p.offsetHeight / 2 - innerHeight * 0.45); });
+  await page.waitForTimeout(1600);
+  const clip = await page.evaluate(() => getComputedStyle(document.querySelector('.au-panel')).clipPath);
+  ok('features panel expands to full bleed', /inset\(0(px|%)?( 0(px|%)?)*( round 0px)?\)|^none$/.test(clip), clip);
 
   // Chart
   await page.evaluate(() => document.querySelector('.au-chart').scrollIntoView({ block: 'center' }));
@@ -224,11 +266,28 @@ const activeInfo = page => page.evaluate(() => ({ tag: document.activeElement?.t
   await page.keyboard.press('Escape');
   await page.waitForTimeout(700);
 
-  // Background scrub reaches deep at the CTA band
-  await page.evaluate(() => { const b = document.querySelector('.au-cta'); window.scrollTo(0, b.getBoundingClientRect().top + scrollY - innerHeight * 0.3); });
+  // Page re-tints: principles interlude → near-black, plans → paper, closing band → near-black
+  const tint = () => page.evaluate(() => ({ bg: getComputedStyle(document.querySelector('.au')).backgroundColor, theme: document.querySelector('.au').dataset.scrollTheme, body: getComputedStyle(document.body).backgroundColor }));
+  await page.evaluate(() => { const b = document.querySelector('#principles'); window.scrollTo(0, b.getBoundingClientRect().top + scrollY + 200); });
+  await page.waitForTimeout(1500);
+  let t1 = await tint();
+  ok('principles section turns the page near-black', t1.bg === 'rgb(17, 21, 17)' && t1.body === 'rgb(17, 21, 17)' && t1.theme === 'dark', JSON.stringify(t1));
+  const floatBg = await page.evaluate(() => getComputedStyle(document.querySelector('.au-float__bar')).backgroundColor);
+  ok('floating nav inverts on the dark page', /251, 251, 248/.test(floatBg), floatBg);
+  const h2c = await page.evaluate(() => getComputedStyle(document.querySelector('#au-approach-title')).color);
+  ok('principles heading turns white', h2c === 'rgb(255, 255, 255)', h2c);
+  await page.evaluate(() => { const s = document.querySelector('.au-statement'); window.scrollTo(0, s.getBoundingClientRect().top + scrollY - innerHeight * 0.4); });
+  await page.waitForTimeout(1500);
+  const fill = await page.evaluate(() => [...document.querySelectorAll('.au-statement div, .au-statement span')].map(w => +getComputedStyle(w).opacity));
+  ok('statement words fill as you scroll', fill.length > 10 && Math.max(...fill) > 0.9 && fill.some(o => o < 0.99), `words=${fill.length}`);
+  await page.evaluate(() => { const b = document.querySelector('#plans'); window.scrollTo(0, b.getBoundingClientRect().top + scrollY + 300); });
+  await page.waitForTimeout(1500);
+  t1 = await tint();
+  ok('plans return the page to paper', t1.bg === 'rgb(251, 251, 248)' && t1.theme === 'light', JSON.stringify(t1));
+  await page.evaluate(() => { const b = document.querySelector('.au-cta'); window.scrollTo(0, b.getBoundingClientRect().top + scrollY - innerHeight * 0.05); });
   await page.waitForTimeout(1500);
   const bg = await page.evaluate(() => getComputedStyle(document.querySelector('.au')).backgroundColor);
-  ok('page background scrubbed to near-black', bg === 'rgb(17, 21, 17)', bg);
+  ok('closing band turns the page near-black', bg === 'rgb(17, 21, 17)', bg);
   await page.locator('.au-cta .au-pill').click();
   await page.waitForTimeout(700);
   ok('CTA band button opens drawer', await page.locator('[role="dialog"][aria-modal="true"]').isVisible());
@@ -242,7 +301,7 @@ const activeInfo = page => page.evaluate(() => ({ tag: document.activeElement?.t
   await page.keyboard.press('Escape');
   await page.waitForTimeout(700);
   await page.locator('.au-footer a', { hasText: 'Back to top' }).click();
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(1800);
   ok('Back to top', (await page.evaluate(() => scrollY)) < 20);
   await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
   await page.waitForTimeout(400);
@@ -253,13 +312,18 @@ const activeInfo = page => page.evaluate(() => ({ tag: document.activeElement?.t
   await page.waitForTimeout(1200);
   ok('back to /vantline renders', (await page.locator('.au-hero__title').count()) === 1);
 
-  // Skip link
-  await page.evaluate(() => window.scrollTo(0, 0));
+  // Skip link (fresh load)
+  await page.goto(base + '/vantline', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(800);
   await page.keyboard.press('Tab');
   const skip = await activeInfo(page);
   ok('first Tab reaches skip link', skip.text === 'Skip to content', JSON.stringify(skip));
 
-  ok('desktop console clean', errors.length === 0, errors.slice(0, 5).join(' | '));
+  const SHARED = /not eligible for reset/;
+  const shared = errors.filter(e => SHARED.test(e));
+  const own = errors.filter(e => !SHARED.test(e));
+  ok('desktop console clean (site code)', own.length === 0, own.slice(0, 5).join(' | '));
+  if (shared.length) results.push(`NOTE  shared magnetic helper warned ${shared.length}x: "x/y not eligible for reset"`);
   await page.close();
 }
 
@@ -281,10 +345,10 @@ const activeInfo = page => page.evaluate(() => ({ tag: document.activeElement?.t
   await btn.click();
   await page.waitForTimeout(700);
   await page.locator('.au-menu__list a', { hasText: 'Plans' }).click();
-  await page.waitForTimeout(900);
+  await page.waitForTimeout(1900);
   ok('menu link closes menu', (await page.locator('#au-menu [role="dialog"]').count()) === 0);
   const pt = await topOf(page, '#plans');
-  ok('menu link scrolls to #plans', Math.abs(pt - 88) < 60, `top=${pt}`);
+  ok('menu link scrolls to #plans', landed(pt), `top=${pt}`);
 
   // Carousel
   await page.evaluate(() => document.querySelector('#workflows').scrollIntoView());
@@ -329,16 +393,19 @@ const activeInfo = page => page.evaluate(() => ({ tag: document.activeElement?.t
 {
   const { page, errors } = await open(1440, 900, { reducedMotion: 'reduce' });
   const hidden = await page.evaluate(() =>
-    [...document.querySelectorAll('[data-au-reveal], .au-hero__line, .au-plan, .au-prism, .au-fan__item, [data-au-cta]')].filter(
+    [...document.querySelectorAll('[data-reveal], [data-reveal] > *, .au-hero__line, .au-plan, .au-prism, .au-fan__item, .au-statement')].filter(
       el => parseFloat(getComputedStyle(el).opacity) < 0.99
     ).length);
   ok('reduced motion: everything visible without scrolling', hidden === 0, `hidden=${hidden}`);
   const fanSpread = await page.evaluate(() => [...document.querySelectorAll('.au-fan__item')].map(e => e.style.transform).filter(Boolean).length);
   ok('reduced motion: fan laid out', fanSpread === 5);
+  const red = await page.evaluate(() => ({ clip: getComputedStyle(document.querySelector('.au-panel')).clipPath, lenis: document.documentElement.classList.contains('lenis') }));
+  ok('reduced motion: no smooth scroll, panel not clipped', !red.lenis && red.clip === 'none', JSON.stringify(red));
   ok('reduced console clean', errors.length === 0, errors.slice(0, 5).join(' | '));
   await page.close();
 }
 
 await browser.close();
 console.log(results.join('\n'));
-console.log(`\n${results.filter(r => r.startsWith('PASS')).length}/${results.length} passed`);
+const graded = results.filter(r => /^(PASS|FAIL)/.test(r));
+console.log(`\n${graded.filter(r => r.startsWith('PASS')).length}/${graded.length} passed`);

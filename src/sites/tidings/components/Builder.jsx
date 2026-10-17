@@ -139,7 +139,7 @@ export default function Builder() {
   };
 
   return (
-    <section id="builder" className="ar-section ar-builder" aria-labelledby="ar-builder-title">
+    <section id="builder" className="ar-section ar-builder" aria-labelledby="ar-builder-title" data-bg="">
       <div className="ar-wrap">
         <SectionHead
           id="ar-builder-title"
@@ -153,8 +153,8 @@ export default function Builder() {
           }
           lead="Choose a template, drop in personal details and preview exactly what each customer sees — nothing leaves until you say so."
         />
-        <div className="ar-builder-grid">
-          <form className="ar-controls" onSubmit={sendTest} noValidate aria-label="Campaign settings" data-reveal>
+        <div className="ar-builder-grid" data-reveal="stagger" data-reveal-stagger="0.12">
+          <form className="ar-controls" onSubmit={sendTest} noValidate aria-label="Campaign settings">
             <div className="ar-ctl">
               <label htmlFor="ar-b-tpl" className="ar-label">
                 Template
@@ -309,7 +309,7 @@ export default function Builder() {
             </div>
           </form>
 
-          <div className="ar-builder-stage" data-reveal>
+          <div className="ar-builder-stage">
             <Columns className="is-stage" specks={false} />
             <dl className="ar-bstats">
               <div>

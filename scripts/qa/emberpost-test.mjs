@@ -22,7 +22,7 @@ const browser = await chromium.launch({ channel: 'msedge', headless: true });
   const selected = () => page.$eval('.ta-main__title strong', el => el.textContent).catch(() => null);
 
   // Auto notification (before any interaction resets nothing; timer runs while hero visible)
-  await page.waitForTimeout(6500);
+  await page.waitForTimeout(7600);
   const cards = await page.$$eval('.ta-ncard strong', els => els.map(e => e.textContent));
   ok('auto notification card appears after ~8s', cards.includes('Amara Osei'), cards.join(', '));
   await shot(page, 'd01-auto-notification');
@@ -107,6 +107,19 @@ const browser = await chromium.launch({ channel: 'msedge', headless: true });
   const nAfter = await page.$$eval('.ta-msg', els => els.length);
   ok('show earlier messages expands thread', nAfter > nBefore, `${nBefore} -> ${nAfter}`);
 
+  // The thread is an inner scroller: the wheel scrolls it, not the page (smooth scroll is on)
+  const thread = await page.$('.ta-thread');
+  const tb = await thread.boundingBox();
+  await page.mouse.move(tb.x + tb.width / 2, tb.y + 40);
+  const pageY0 = await page.evaluate(() => scrollY);
+  const st0 = await thread.evaluate(el => el.scrollTop);
+  await page.mouse.wheel(0, 240);
+  await page.waitForTimeout(700);
+  const st1 = await thread.evaluate(el => el.scrollTop);
+  const pageY1 = await page.evaluate(() => scrollY);
+  ok('inbox thread scrolls natively under smooth scroll', st1 > st0 && Math.abs(pageY1 - pageY0) < 4, `thread ${st0}->${st1}, page ${pageY0}->${pageY1}`);
+  await thread.evaluate(el => (el.scrollTop = 0));
+
   // Send empty
   await page.click('.ta-send');
   const note = await page.$eval('.ta-composer__note', el => el.textContent);
@@ -134,17 +147,23 @@ const browser = await chromium.launch({ channel: 'msedge', headless: true });
 
   // Nav links
   await page.click('.ta-nav__links a[href="#workflows"]');
-  await page.waitForTimeout(1400);
+  await page.waitForTimeout(1900);
   const csTop = await page.$eval('#workflows', el => Math.round(el.getBoundingClientRect().top));
   ok('nav Workflows scrolls to section', csTop > -60 && csTop < 140, `top=${csTop}`);
   await page.click('.ta-nav__links a[href="#manifesto"]');
-  await page.waitForTimeout(1400);
+  await page.waitForTimeout(1900);
   const abTop = await page.$eval('#manifesto', el => Math.round(el.getBoundingClientRect().top));
   ok('nav Manifesto scrolls to section', abTop > -60 && abTop < 140, `top=${abTop}`);
 
+  // Dark interlude while the manifesto is centred
+  const theme = await page.evaluate(() => document.querySelector('.ta').dataset.scrollTheme);
+  const bodyBg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+  ok('manifesto turns the page dark', theme === 'dark', `${theme} ${bodyBg}`);
+  await shot(page, 'd05b-manifesto-dark');
+
   // Join the waitlist (nav) focuses the form
   await page.click('.ta-nav__cta');
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(1900);
   ok('nav CTA focuses waitlist email', await page.evaluate(() => document.activeElement?.id === 'ta-ea-email'));
   ok('waitlist form highlights', await page.$eval('#ta-ea-form', el => el.classList.contains('is-flash')));
   await shot(page, 'd06-waitlist-focus');
@@ -227,6 +246,41 @@ const browser = await chromium.launch({ channel: 'msedge', headless: true });
   await page.waitForTimeout(300);
   ok('keycap click updates readout', (await page.$eval('.ta-keys__readout', el => el.textContent)).includes('Reply'));
 
+  // People wall: hanging columns, parallax drift, 3D tilt + name chip on hover
+  await page.evaluate(() => window.scrollTo(0, document.getElementById('people-wall').offsetTop - 200));
+  await page.waitForTimeout(1600);
+  const visCols = await page.$$eval('.ta-wall__col', els => els.filter(e => e.offsetParent !== null).length);
+  ok('people wall shows 10 hanging columns at 1440', visCols === 10, `cols=${visCols}`);
+  const imgsOk = await page.$$eval('.ta-wall__card img', els =>
+    els.filter(i => i.complete && i.naturalWidth >= 100 && /w=224.*h=280.* 2x/.test(i.srcset)).length
+  );
+  ok('wall portraits load, with 2x sources', imgsOk >= 10, `loaded=${imgsOk}`);
+  const ysA = await page.$$eval('.ta-wall__col', els => els.map(e => Math.round(e.getBoundingClientRect().top)));
+  await page.evaluate(() => window.scrollBy(0, 300));
+  await page.waitForTimeout(1200);
+  const ysB = await page.$$eval('.ta-wall__col', els => els.map(e => Math.round(e.getBoundingClientRect().top)));
+  const moved = ysA.map((y, i) => ysB[i] - y);
+  ok('wall columns drift at different speeds', new Set(moved.map(m => Math.round(m / 4))).size >= 3, moved.join(','));
+  const target = page.locator('.ta-wall__col').nth(3).locator('.ta-wall__card').first();
+  const tbx = await target.boundingBox();
+  await page.mouse.move(tbx.x + tbx.width * 0.85, tbx.y + tbx.height * 0.2, { steps: 6 });
+  await page.waitForTimeout(900);
+  const tf = await target.evaluate(el => getComputedStyle(el).transform);
+  ok('hovered wall card tilts in 3D', tf.startsWith('matrix3d'), tf.slice(0, 40));
+  const chip = page.locator('.ta-wall__col').nth(3).locator('.ta-wall__chip').first();
+  const chipOp = await chip.evaluate(el => +getComputedStyle(el).opacity);
+  ok('hovered wall card shows name + role chip', chipOp > 0.9 && (await chip.textContent()).includes('Sofia Reyes'), `opacity=${chipOp}`);
+  await shot(page, 'd11b-people-wall-hover');
+  await page.mouse.move(5, 5);
+  await page.waitForTimeout(1300);
+  const settled = await target.evaluate(el => {
+    const t = getComputedStyle(el).transform;
+    if (t === 'none') return true;
+    const m = t.replace(/^matrix(3d)?\(|\)$/g, '').split(',').map(Number);
+    return m.length === 16 ? Math.abs(m[0] - 1) < 0.01 && Math.abs(m[2]) < 0.01 && Math.abs(m[6]) < 0.01 : Math.abs(m[0] - 1) < 0.01;
+  });
+  ok('wall card settles flat after hover', settled);
+
   // Workflows
   await page.evaluate(() => window.scrollTo(0, document.getElementById('workflows').offsetTop));
   await page.waitForTimeout(1200);
@@ -285,13 +339,18 @@ const browser = await chromium.launch({ channel: 'msedge', headless: true });
   ok('mobile menu opens', (await menuBtn.getAttribute('aria-expanded')) === 'true');
   ok('focus moves into menu', await page.evaluate(() => !!document.activeElement?.closest('.ta-nav__ring')));
   await shot(page, 'm01-menu');
+  const lockY0 = await page.evaluate(() => scrollY);
+  await page.mouse.move(195, 600);
+  await page.mouse.wheel(0, 500);
+  await page.waitForTimeout(600);
+  ok('open menu pauses page scrolling', Math.abs((await page.evaluate(() => scrollY)) - lockY0) < 4);
   await page.keyboard.press('Escape');
   await page.waitForTimeout(300);
   ok('Escape closes menu', (await menuBtn.getAttribute('aria-expanded')) === 'false');
   await menuBtn.click();
   await page.waitForTimeout(300);
   await page.click('.ta-menu a[href="#features"]');
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(1900);
   ok('menu link closes menu', (await menuBtn.getAttribute('aria-expanded')) === 'false');
   const fTop = await page.$eval('#features', el => Math.round(el.getBoundingClientRect().top));
   ok('menu link scrolls to section', fTop > -60 && fTop < 140, `top=${fTop}`);
@@ -300,17 +359,35 @@ const browser = await chromium.launch({ channel: 'msedge', headless: true });
   await page.waitForTimeout(500);
   await page.click('.ta-strip__item:has-text("Sofia")');
   await page.waitForTimeout(500);
+  await page.evaluate(() => window.scrollTo(0, document.getElementById('people-wall').offsetTop));
+  await page.waitForTimeout(1200);
+  ok('mobile wall shows 4 columns', (await page.$$eval('.ta-wall__col', els => els.filter(e => e.offsetParent !== null).length)) === 4);
+  await shot(page, 'm03-people-wall');
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(600);
   ok('mobile people strip switches conversation', (await page.$eval('.ta-main__title strong', el => el.textContent)) === 'Sofia Reyes');
   await page.evaluate(() => window.scrollTo(0, document.querySelector('.ta-win').getBoundingClientRect().top + scrollY - 80));
   await page.waitForTimeout(400);
   await shot(page, 'm02-inbox');
 
   await page.click('.ta-nav__cta');
-  await page.waitForTimeout(1600);
+  await page.waitForTimeout(1900);
   ok('mobile waitlist CTA focuses form', await page.evaluate(() => document.activeElement?.id === 'ta-ea-email'));
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   ok('mobile no horizontal overflow', overflow === 0, `overflow=${overflow}`);
   ok('mobile console clean', errors.length === 0, errors.slice(0, 5).join(' || '));
+  await page.close();
+}
+
+/* ------------------------------------------------------------ reduced motion */
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+  await page.goto(BASE, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(1200);
+  await page.evaluate(() => window.scrollTo(0, document.getElementById('people-wall').offsetTop));
+  await page.waitForTimeout(800);
+  const st = await page.$$eval('.ta-wall__col, .ta-wall__item', els => els.map(e => [getComputedStyle(e).transform, +getComputedStyle(e).opacity]));
+  ok('reduced motion: wall is static and visible', st.every(([t, o]) => t === 'none' && o === 1), JSON.stringify(st.find(([t, o]) => t !== 'none' || o !== 1) || ''));
   await page.close();
 }
 

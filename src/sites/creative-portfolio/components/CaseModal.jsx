@@ -77,7 +77,7 @@ export default function CaseModal({ id, onClose, onStep }) {
           </div>
         </div>
 
-        <div className="pf-case-scroll" ref={scrollRef}>
+        <div className="pf-case-scroll" ref={scrollRef} data-lenis-prevent>
           <AnimatePresence mode="wait" initial={false}>
             <motion.article
               key={p.id}

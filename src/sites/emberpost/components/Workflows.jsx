@@ -11,7 +11,15 @@ function Case({ c, i, open, onToggle }) {
   return (
     <motion.li layout="position" transition={{ type: 'spring', bounce: 0, duration: 0.5 }} className={`ta-case${open ? ' is-open' : ''}`}>
       <h3 className="ta-case__h">
-        <button type="button" id={btnId} className="ta-case__btn" aria-expanded={open} aria-controls={panelId} onClick={onToggle}>
+        <button
+          type="button"
+          id={btnId}
+          className="ta-case__btn"
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={onToggle}
+          data-cursor={open ? 'Close' : 'Open'}
+        >
           <span className="ta-case__n">{String(i + 1).padStart(2, '0')}</span>
           <span className="ta-case__title">
             <span>{c.title}</span>
@@ -71,16 +79,16 @@ export default function Workflows() {
   return (
     <section id="workflows" className="ta-sec ta-cases" aria-labelledby="ta-cases-title" tabIndex={-1}>
       <div className="ta-wrap">
-        <div className="ta-sec__head" data-reveal>
+        <div className="ta-sec__head">
           <div className="ta-sec__title">
-            <p className="ta-eyebrow">
+            <p className="ta-eyebrow" data-reveal="fade">
               <span>03</span> Workflows
             </p>
-            <h2 id="ta-cases-title" className="ta-h2">
+            <h2 id="ta-cases-title" className="ta-h2" data-reveal="lines">
               How small teams use Emberpost
             </h2>
           </div>
-          <div className="ta-sec__aside">
+          <div className="ta-sec__aside" data-reveal="fade" data-reveal-delay="0.12">
             <p className="ta-flag">
               <span className="ta-tag ta-tag--solid">Illustrative scenarios, not customer stories</span>
             </p>
@@ -91,7 +99,7 @@ export default function Workflows() {
           </div>
         </div>
 
-        <ol className="ta-case-list" role="list" data-reveal>
+        <ol className="ta-case-list" role="list" data-reveal="stagger" data-reveal-stagger="0.1">
           {WORKFLOWS.map((c, i) => (
             <Case key={c.id} c={c} i={i} open={open === c.id} onToggle={() => setOpen(o => (o === c.id ? null : c.id))} />
           ))}

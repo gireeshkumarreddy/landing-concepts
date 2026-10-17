@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { prefersReducedMotion } from '../../../shared/gsap.js';
 import { CHIP_EXAMPLES } from '../data.js';
-import { scrollBehavior, tx, useCopy } from '../lib.js';
+import { scrollToTarget } from '../../../shared/motion/index.js';
+import { tx, useCopy } from '../lib.js';
 import { IconCheck, IconChevronDown, IconCopy, IconRefresh, IconStop } from '../icons.jsx';
 
 const BASE_STEP_MS = [900, 1400, 1650, 1050];
@@ -110,7 +111,7 @@ export default function ReasoningPanel({ run, onAskAnother, onPickExample }) {
     if (!el) return;
     const r = el.getBoundingClientRect();
     if (r.top > window.innerHeight * 0.62) {
-      window.scrollBy({ top: r.top - window.innerHeight * 0.32, behavior: scrollBehavior() });
+      scrollToTarget(window.scrollY + r.top - window.innerHeight * 0.32, { duration: 1.1 });
     }
   }, []);
 

@@ -66,19 +66,21 @@ export default function Services({ onStart }) {
   return (
     <section className="ch-section ch-authors" id="services" aria-labelledby="ch-authors-title">
       <div className="ch-wrap ch-authors__grid">
-        <header className="ch-authors__intro" data-reveal>
-          <p className="ch-label">
+        <header className="ch-authors__intro">
+          <p className="ch-label" data-reveal="fade">
             <PencilIcon size={15} /> Services
           </p>
-          <h2 className="ch-h2" id="ch-authors-title">
+          <h2 className="ch-h2" id="ch-authors-title" data-reveal="lines">
             Editing that starts with the whole book.
           </h2>
-          <p className="ch-lede">
+          <p className="ch-lede" data-reveal="fade" data-reveal-delay="0.15">
             I work on the big questions first — premise, structure, pace — so the sentence-level polish lands on pages that will stay.
           </p>
-          <p className="ch-note">Services describe a fictional practice and are sample content.</p>
+          <p className="ch-note" data-reveal="fade" data-reveal-delay="0.25">
+            Services describe a fictional practice and are sample content.
+          </p>
         </header>
-        <ul role="list" className="ch-services" data-reveal>
+        <ul role="list" className="ch-services" data-reveal="stagger" data-reveal-stagger="0.1">
           {SERVICES.map((s, i) => (
             <ServiceRow
               key={s.id}

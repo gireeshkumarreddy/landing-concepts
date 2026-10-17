@@ -43,7 +43,7 @@ function ChatList({ onOpen, read, query, setQuery }) {
           const unread = read[c.id] ? 0 : c.unread;
           return (
             <li key={c.id}>
-              <button type="button" className="ar-chat" data-chat={c.id} onClick={() => onOpen(c.id)}>
+              <button type="button" className="ar-chat" data-chat={c.id} data-cursor="Open" onClick={() => onOpen(c.id)}>
                 <Avatar person={c.person} size={46} eager />
                 <span className="ar-chat-main">
                   <span className="ar-chat-row">

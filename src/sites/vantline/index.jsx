@@ -6,7 +6,8 @@ import './vantline.css';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MotionConfig } from 'motion/react';
 import { useSiteMeta } from '../../shared/useSiteMeta.js';
-import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from '../../shared/gsap.js';
+import { gsap, useGSAP, MOTION_OK } from '../../shared/gsap.js';
+import { useMotion } from '../../shared/motion/index.js';
 import Hero from './components/Hero.jsx';
 import HowItWorks from './components/HowItWorks.jsx';
 import Features from './components/Features.jsx';
@@ -17,7 +18,6 @@ import SignupDrawer from './components/SignupDrawer.jsx';
 import { FloatingNav, HeroNav, MobileMenu } from './components/Nav.jsx';
 
 const PAPER = '#fbfbf8';
-const DEEP = '#111511';
 
 export default function Page() {
   useSiteMeta({
@@ -30,7 +30,6 @@ export default function Page() {
 
   const rootRef = useRef(null);
   const heroRef = useRef(null);
-  const ctaRef = useRef(null);
   const [drawer, setDrawer] = useState(false);
   const [plan, setPlan] = useState('team');
   const [billing, setBilling] = useState('monthly');
@@ -61,34 +60,15 @@ export default function Page() {
     return () => mq.removeEventListener('change', on);
   }, []);
 
+  // Shared motion: smooth scroll hooks, masked reveals, scroll fill, parallax, panel expansion,
+  // magnetic CTA and page re-tints ([data-bg] on the principles interlude, closing band and footer).
+  useMotion(rootRef);
+
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
         gsap.from('[data-au-hero-nav] > *', { y: -14, opacity: 0, duration: 0.9, stagger: 0.07, ease: 'power3.out', delay: 0.25 });
-
-        // Generic heading reveals.
-        const els = gsap.utils.toArray('[data-au-reveal]');
-        gsap.set(els, { opacity: 0, y: 26 });
-        ScrollTrigger.batch(els, {
-          start: 'top 90%',
-          once: true,
-          onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 1, stagger: 0.08, ease: 'power3.out', overwrite: true }),
-        });
-
-        // Page background scrubs from paper to near-black as the closing band arrives; the band's
-        // copy fades in on the same scrub so it only appears once the ground is dark.
-        const band = ctaRef.current;
-        gsap.set(band, { backgroundColor: 'transparent' });
-        gsap
-          .timeline({ scrollTrigger: { trigger: band, start: 'top 98%', end: 'top 38%', scrub: 0.4 } })
-          .fromTo(rootRef.current, { backgroundColor: PAPER }, { backgroundColor: DEEP, ease: 'none', duration: 1 }, 0)
-          .fromTo(
-            band.querySelectorAll('[data-au-cta]'),
-            { opacity: 0, y: 48 },
-            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.45, stagger: 0.08 },
-            0.4
-          );
       });
     },
     { scope: rootRef }
@@ -96,7 +76,7 @@ export default function Page() {
 
   return (
     <MotionConfig reducedMotion="never">
-      <div className="au" id="top" ref={rootRef}>
+      <div className="au" id="top" ref={rootRef} data-bg-base={PAPER}>
         <a className="skip-link" href="#main">
           Skip to content
         </a>
@@ -110,7 +90,7 @@ export default function Page() {
           <Features />
           <Approach />
           <Pricing billing={billing} onBilling={setBilling} onChoose={choose} />
-          <CtaBand ref={ctaRef} onSignup={openSignup} />
+          <CtaBand onSignup={openSignup} />
         </main>
         <Footer onSignup={openSignup} onChoose={choose} />
 

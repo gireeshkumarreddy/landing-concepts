@@ -21,12 +21,13 @@ function Tile({ side, person, tileRef, onOpen }) {
       className={`ta-ftile ta-ftile--${side}`}
       onClick={() => onOpen(person)}
       aria-label={`Open the conversation with ${p.name}`}
+      data-cursor="Open"
     >
       <span className="ta-ftile__par">
         <span className="ta-ftile__float">
           <span className="ta-ftile__tilt">
           <span className="ta-ftile__card">
-            <img src={src} srcSet={srcSet} width="124" height="124" alt="" decoding="async" fetchPriority="high" />
+            <img src={src} srcSet={srcSet} width="124" height="124" alt="" decoding="async" fetchPriority="high" data-parallax="0.1" />
           </span>
           </span>
         </span>
@@ -270,7 +271,7 @@ export default function Hero() {
           Emberpost groups every email by the person behind it, so you can catch up on a relationship in
           seconds and reply like you’re in the same room.
         </p>
-        <a href="#waitlist" className="ta-btn ta-btn--violet ta-hero__cta" onClick={goToWaitlist}>
+        <a href="#waitlist" className="ta-btn ta-btn--violet ta-hero__cta" onClick={goToWaitlist} data-magnetic="0.3">
           Join the waitlist <Bolt size={14} />
         </a>
       </div>

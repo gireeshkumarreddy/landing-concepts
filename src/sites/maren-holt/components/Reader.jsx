@@ -73,7 +73,7 @@ export default function Reader({ slug, onClose, onGo }) {
           </span>
         </div>
 
-        <div className="ch-reader__scroll" ref={scroller} onScroll={progress} tabIndex={-1} data-autofocus>
+        <div className="ch-reader__scroll" ref={scroller} onScroll={progress} tabIndex={-1} data-autofocus data-lenis-prevent>
           <AnimatePresence mode="wait" initial={false}>
             <motion.article
               key={a.slug}

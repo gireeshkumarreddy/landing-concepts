@@ -39,7 +39,7 @@ export function PillButton({ as: Tag = 'button', tone = 'light', children, class
 /** Small rounded label that sits above a section heading. */
 export function Eyebrow({ children, mark = 'plus' }) {
   return (
-    <p className="au-eyebrow" data-au-reveal>
+    <p className="au-eyebrow" data-reveal="fade">
       <span className={`au-eyebrow__mark au-eyebrow__mark--${mark}`} aria-hidden="true" />
       {children}
     </p>

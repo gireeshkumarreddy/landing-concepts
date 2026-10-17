@@ -3,7 +3,8 @@ import './tidings.css';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useSiteMeta } from '../../shared/useSiteMeta.js';
-import { gsap, ScrollTrigger, useGSAP, MOTION_OK, prefersReducedMotion } from '../../shared/gsap.js';
+import { ScrollTrigger } from '../../shared/gsap.js';
+import { useMotion } from '../../shared/motion/index.js';
 import { TidingsCtx } from './hooks.jsx';
 import { IconCheck } from './icons.jsx';
 import Nav from './components/Nav.jsx';
@@ -48,8 +49,8 @@ export default function Page() {
     title: 'Tidings — WhatsApp campaigns customers actually want to open',
     description:
       'Tidings is a concept WhatsApp commerce platform: personalised broadcasts, product messages, payments in the chat and automated journeys, with a live campaign builder.',
-    themeColor: '#fbfaf6',
-    background: '#fbfaf6',
+    themeColor: '#ffffff',
+    background: '#ffffff',
     site: 'tidings',
   });
 
@@ -78,85 +79,26 @@ export default function Page() {
     [region, showToast]
   );
 
-  // In-page anchors scroll smoothly via JS (reduced-motion aware) and move focus to the target.
-  // Programmatic scrolling stays instant while this page is mounted.
+  // Shared motion system: masked reveals, fills, page re-tints, magnetic CTAs, parallax.
+  useMotion(root);
+
+  // Accordions, tabs and the builder change page height; keep scroll triggers measured.
   useEffect(() => {
-    const node = root.current;
-    const html = document.documentElement;
-    const prev = html.style.scrollBehavior;
-    // ScrollTrigger restores inline "smooth" a frame after each refresh; re-assert "auto" after it.
-    let raf;
-    const forceAuto = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        raf = requestAnimationFrame(() => (html.style.scrollBehavior = 'auto'));
-      });
-    };
-    html.style.scrollBehavior = 'auto';
-    forceAuto();
-    ScrollTrigger.addEventListener('refresh', forceAuto);
     let t;
-    const onClick = e => {
-      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      const a = e.target.closest('a[href^="#"]');
-      if (!a) return;
-      const id = decodeURIComponent(a.getAttribute('href').slice(1));
-      const el = id && document.getElementById(id);
-      if (!el) return;
-      e.preventDefault();
+    const ro = new ResizeObserver(() => {
       clearTimeout(t);
-      // wait a tick so menus/sheets can close (and release the scroll lock) first
-      t = setTimeout(() => {
-        el.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
-        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
-        setTimeout(() => el.focus({ preventScroll: true }), 60);
-      }, 30);
-    };
-    node.addEventListener('click', onClick);
+      t = setTimeout(() => ScrollTrigger.refresh(), 200);
+    });
+    ro.observe(root.current);
     return () => {
       clearTimeout(t);
-      cancelAnimationFrame(raf);
-      ScrollTrigger.removeEventListener('refresh', forceAuto);
-      node.removeEventListener('click', onClick);
-      html.style.scrollBehavior = prev === 'auto' ? '' : prev;
+      ro.disconnect();
     };
   }, []);
 
-  // Scroll reveals for section content (motion-safe only; content is visible by default).
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
-        const items = gsap.utils.toArray('main [data-reveal]', root.current);
-        gsap.set(items, { opacity: 0, y: 28 });
-        ScrollTrigger.batch(items, {
-          start: 'clamp(top 88%)',
-          once: true,
-          onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.07, overwrite: true }),
-        });
-      });
-      // The route is lazy-loaded after window "load", so keep trigger positions fresh
-      // when web fonts land or the page height changes (accordions, tabs, images).
-      let t;
-      const refresh = () => {
-        clearTimeout(t);
-        t = setTimeout(() => ScrollTrigger.refresh(), 160);
-      };
-      document.fonts?.ready.then(refresh);
-      const ro = new ResizeObserver(refresh);
-      ro.observe(root.current);
-      return () => {
-        clearTimeout(t);
-        ro.disconnect();
-        mm.revert();
-      };
-    },
-    { scope: root }
-  );
-
   return (
     <TidingsCtx.Provider value={ctx}>
-      <div className="ar" ref={root}>
+      <div className="ar" ref={root} data-bg-base="#ffffff">
         <a className="skip-link" href="#main">
           Skip to content
         </a>

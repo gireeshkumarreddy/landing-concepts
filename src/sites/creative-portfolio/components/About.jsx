@@ -19,9 +19,10 @@ export default function About() {
   return (
     <section id="studio" className="pf-sec pf-about" aria-labelledby="pf-about-title">
       <div className="pf-wrap pf-about-grid">
-        <figure className="pf-about-photo pf-reveal">
+        <figure className="pf-about-photo" data-reveal="fade">
           <div className="pf-about-frame">
             <img
+              data-parallax="0.08"
               src={unsplash(HEADSHOT, { w: 900, h: 1125, crop: 'faces' })}
               srcSet={unsplashSrcSet(HEADSHOT, [480, 720, 960, 1280], { ratio: 1.25, crop: 'faces' })}
               sizes="(min-width: 1024px) 40vw, 100vw"
@@ -40,13 +41,13 @@ export default function About() {
         </figure>
 
         <div className="pf-about-text">
-          <p className="pf-eyebrow pf-reveal">
+          <p className="pf-eyebrow" data-reveal="fade">
             <span className="pf-eyebrow-n">04</span> Studio
           </p>
-          <h2 id="pf-about-title" className="pf-h2 pf-reveal">
+          <h2 id="pf-about-title" className="pf-h2" data-reveal="lines">
             I edit for rhythm first. <span className="pf-h2-soft">The rest follows.</span>
           </h2>
-          <div className="pf-about-bio pf-reveal">
+          <div className="pf-about-bio" data-reveal="fade">
             <p>
               I’m Ines, a film and commercial editor working from a small studio in Copenhagen. Before cutting my own
               projects I spent years as an assistant editor, which taught me to respect the unglamorous parts: logging,
@@ -59,7 +60,7 @@ export default function About() {
             </p>
           </div>
 
-          <div className="pf-about-cols pf-reveal">
+          <div className="pf-about-cols" data-reveal="stagger">
             <div>
               <h3 className="pf-mini-h">Toolkit</h3>
               <ul role="list" className="pf-kv">
@@ -84,7 +85,7 @@ export default function About() {
             </div>
           </div>
 
-          <p className="pf-status pf-reveal">
+          <p className="pf-status" data-reveal="fade">
             <span className="pf-status-dot" aria-hidden="true" />
             <span className="pf-status-k">Availability</span>
             Booking from February 2027

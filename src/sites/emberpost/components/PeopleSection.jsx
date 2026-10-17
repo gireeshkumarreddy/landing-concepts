@@ -36,18 +36,18 @@ export default function PeopleSection() {
   const [mode, setMode] = useState('classic');
 
   return (
-    <section id="people" className="ta-sec ta-people" aria-labelledby="ta-people-title" tabIndex={-1}>
+    <section id="people" className="ta-sec ta-people" aria-labelledby="ta-people-title" tabIndex={-1} data-bg="">
       <div className="ta-wrap">
-        <div className="ta-sec__head" data-reveal>
+        <div className="ta-sec__head">
           <div className="ta-sec__title">
-            <p className="ta-eyebrow">
+            <p className="ta-eyebrow" data-reveal="fade">
               <span>01</span> By person
             </p>
-            <h2 id="ta-people-title" className="ta-h2">
+            <h2 id="ta-people-title" className="ta-h2" data-reveal="lines">
               Sorted by who, not by when.
             </h2>
           </div>
-          <div className="ta-sec__aside">
+          <div className="ta-sec__aside" data-reveal="fade" data-reveal-delay="0.12">
             <p className="ta-lead ta-people__copy" aria-live="polite">
               {COPY[mode]}
             </p>
@@ -68,7 +68,7 @@ export default function PeopleSection() {
           </div>
         </div>
 
-        <div className={`ta-compare is-${mode}`} data-reveal>
+        <div className={`ta-compare is-${mode}`} data-reveal="fade">
           <LayoutGroup id="ta-compare">
             {mode === 'classic' ? (
               <div className="ta-classic">

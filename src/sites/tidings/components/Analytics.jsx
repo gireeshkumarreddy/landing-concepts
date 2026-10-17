@@ -156,7 +156,7 @@ export default function Analytics() {
   const money = v => `${r.symbol}${fmt(v)}`;
 
   return (
-    <section id="analytics" className="ar-section ar-analytics" aria-labelledby="ar-analytics-title">
+    <section id="analytics" className="ar-section ar-analytics" aria-labelledby="ar-analytics-title" data-bg="#15162b">
       <div className="ar-wrap">
         <SectionHead
           id="ar-analytics-title"
@@ -164,7 +164,7 @@ export default function Analytics() {
           title="See what every message earns."
           lead="Follow each campaign from the first delivery to the last sale. Pick a sample campaign to explore."
         />
-        <div className="ar-dash" ref={panelRef} data-reveal>
+        <div className="ar-dash" ref={panelRef} data-reveal="fade" data-reveal-delay="0.1">
           <div className="ar-dash-top">
             <div className="ar-tabs" role="tablist" aria-label="Sample campaigns">
               {CAMPAIGNS.map((x, i) => (

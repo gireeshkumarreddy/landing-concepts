@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { pauseScroll, resumeScroll } from './motion/smooth.js';
 
 const FOCUSABLE =
   'a[href], area[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -60,7 +61,9 @@ export function useScrollLock(active) {
     const prev = { overflow: body.style.overflow, paddingRight: body.style.paddingRight };
     body.style.overflow = 'hidden';
     if (gap > 0) body.style.paddingRight = `${gap}px`;
+    pauseScroll();
     return () => {
+      resumeScroll();
       body.style.overflow = prev.overflow;
       body.style.paddingRight = prev.paddingRight;
     };
