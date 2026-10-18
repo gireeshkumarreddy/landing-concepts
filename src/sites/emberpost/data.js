@@ -166,17 +166,19 @@ export const INCOMING = [
   { convo: 'maya', body: 'Newsletter is scheduled for Tuesday at 08:00. Preview link is in the doc.' },
 ];
 
-// The two cards that sit on the window in the hero composition.
+// The two cards that sit on the window in the hero composition. Times match the last message of
+// each thread (Friday evening; the demo is set on Saturday morning), in the page's 24-hour style.
 export const SEED_CARDS = {
-  left: { key: 'seed-sofia', convo: 'sofia', time: '10:14 PM', body: 'Could we move Thursday’s review to the morning?' },
-  right: { key: 'seed-theo', convo: 'theo', time: '11:05 PM', body: 'Sent the revised contract, two small changes on page 3…' },
+  left: { key: 'seed-sofia', convo: 'sofia', time: 'Fri 22:14', body: 'Could we move Thursday’s review to the morning?' },
+  right: { key: 'seed-theo', convo: 'theo', time: 'Fri 23:05', body: 'Sent the revised contract, two small changes on page 3…' },
 };
 
 /* ---------------------------------------------------------------- by person, not by time */
+// Newest first. The rows that are also hero threads carry the same day as the inbox and Lanes.
 export const CLASSIC_ROWS = [
   { id: 'c1', who: 'marcus', subject: 'Draft budget for the spring launch', time: '09:40' },
-  { id: 'c2', who: 'sofia', subject: 'Thursday packaging review', time: '08:52' },
-  { id: 'c3', who: 'theo', subject: 'Revised supplier contract', time: '08:15' },
+  { id: 'c2', who: 'theo', subject: 'Revised supplier contract', time: 'Fri' },
+  { id: 'c3', who: 'sofia', subject: 'Thursday packaging review', time: 'Fri' },
   { id: 'c4', who: 'marcus', subject: 'Pop-up venue shortlist', time: 'Fri' },
   { id: 'c5', who: 'sofia', subject: 'Second round of label samples', time: 'Fri' },
   { id: 'c6', who: 'theo', subject: 'Delivery window for April', time: 'Thu' },

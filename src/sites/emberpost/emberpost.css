@@ -377,6 +377,19 @@
     display: inline;
   }
 }
+/* 320 px phones: everything still fits on one line, bolt included */
+@media (max-width: 359px) {
+  .ta-nav__bar {
+    gap: 6px;
+    padding-left: 12px;
+  }
+  .ta-wordmark {
+    font-size: 20px;
+  }
+  .ta-nav__cta {
+    padding: 0 12px;
+  }
+}
 
 /* ---------------------------------------------------------------- hero */
 .ta-hero {
@@ -689,6 +702,28 @@
   font-size: 11.5px;
   font-weight: 600;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 10px -4px rgba(91, 76, 240, 0.7);
+}
+/* The cards overlap the inbox on purpose, so a card fades away while the visitor works in the part
+   of the window it covers (left card: sidebar rows, right card: the open thread) and comes back
+   afterwards. A resting pointer counts after a short pause, so a pointer on its way to a card does
+   not chase it off; keyboard focus anywhere in the window clears both at once (the cards stay
+   focusable, and return as focus reaches them). GSAP owns the slots' transform and opacity.
+   Below 1024px only the right card shows, over the hint bar, so nothing needs to step aside. */
+@media (min-width: 1024px) {
+  .ta-slot {
+    transition: filter 0.35s var(--ta-ease-soft);
+  }
+  .ta-stage:has(.ta-side:hover) .ta-slot--left,
+  .ta-stage:has(.ta-main:hover) .ta-slot--right {
+    filter: opacity(0);
+    pointer-events: none;
+    transition: filter 0.35s var(--ta-ease-soft) 0.3s, pointer-events 0s 0.3s allow-discrete;
+  }
+  .ta-stage:has(.ta-win:focus-visible, .ta-win :focus-visible) .ta-slot {
+    filter: opacity(0);
+    pointer-events: none;
+    transition: filter 0.2s var(--ta-ease-soft);
+  }
 }
 
 /* ---------------------------------------------------------------- avatars */
@@ -1335,6 +1370,7 @@ button.ta-live:hover {
 .ta-sec__aside {
   grid-column: 8 / -1;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 22px;
   justify-items: start;
   padding-bottom: 6px;
@@ -2114,6 +2150,15 @@ button.ta-live:hover {
 /* ---------------------------------------------------------------- workflows */
 .ta-flag {
   margin-bottom: -6px;
+}
+/* A whole sentence in a tag: on the narrowest phones it wraps rather than running off-screen. */
+.ta-flag .ta-tag {
+  height: auto;
+  min-height: 28px;
+  padding-block: 5px;
+  line-height: 1.4;
+  white-space: normal;
+  text-wrap: balance;
 }
 .ta-case-list {
   display: grid;

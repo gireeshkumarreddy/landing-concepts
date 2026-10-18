@@ -40,12 +40,30 @@ function Slot({ side, card, convos, onOpen }) {
   const c = card ? convos[card.convo] : null;
   const show = !!c && c.unread > 0;
   const p = c ? PEOPLE[c.person] : null;
+  const slotRef = useRef(null);
+  const key = show ? card.key : null;
+
+  // A new demo message can replace the card that has keyboard focus. The old card is still
+  // leaving at this point, so hand focus to the new one before it is removed (focus would
+  // otherwise drop to the top of the page). A Tab that lands on a leaving card during its short
+  // exit is passed on to the new card the same way.
+  const arriving = () => (key ? slotRef.current?.querySelector(`[data-card="${key}"]`) : null);
+  useEffect(() => {
+    const next = arriving();
+    if (next && next !== document.activeElement && slotRef.current.contains(document.activeElement)) next.focus();
+  }, [key]); // eslint-disable-line react-hooks/exhaustive-deps
+  const onFocus = e => {
+    const next = arriving();
+    if (next && e.target !== next) next.focus();
+  };
+
   return (
-    <div className={`ta-slot ta-slot--${side}`}>
+    <div className={`ta-slot ta-slot--${side}`} ref={slotRef} onFocus={onFocus}>
       <AnimatePresence mode="popLayout" initial={false}>
         {show && (
           <motion.button
             key={card.key}
+            data-card={card.key}
             type="button"
             className="ta-ncard"
             onClick={() => onOpen(side, card)}

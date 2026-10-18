@@ -21,7 +21,9 @@ export default function Manifesto() {
           </h2>
         </div>
 
-        <p className="ta-about__big" data-fill data-fill-from="0.16" data-fill-start="top 80%" data-fill-end="bottom 50%">
+        {/* The fill completes while the paragraph sits mid-screen, so the whole statement is lit in one
+            view; it is 6 to 14 lines tall, so an end tied to its bottom edge left the top under the nav. */}
+        <p className="ta-about__big" data-fill data-fill-from="0.16" data-fill-start="top 80%" data-fill-end="center 55%">
           An ember is the part of a fire that keeps glowing after the flames die down, ready to catch again.{' '}
           <em>Good conversations work the same way.</em>{' '}
           <span>
