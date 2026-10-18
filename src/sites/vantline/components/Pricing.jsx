@@ -97,7 +97,6 @@ export default function Pricing({ billing, onBilling, onChoose }) {
     <section className="au-pricing" id="plans" aria-labelledby="au-pricing-title" ref={ref}>
       <div className="au-pricing__bg" aria-hidden="true">
         <Photo id={IMG.plans} alt="" widths={[800, 1200, 1600, 2200, 2800]} sizes="100vw" />
-        <span className="au-pricing__night" />
       </div>
       <div className="au-pricing__inner">
         <div className="au-head au-head--tight">

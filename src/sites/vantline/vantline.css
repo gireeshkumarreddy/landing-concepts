@@ -25,6 +25,9 @@
   --au-edge: 14px;
   --au-wrap: 1224px;
   --au-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* The shared page re-tint tweens the page colour with GSAP power2.out (an ease-out cubic) over
+     0.85s; whatever re-tints with the page (its type, the floating bar) uses the same curve. */
+  --au-retint: cubic-bezier(0.33, 1, 0.68, 1);
   --cursor-bg: #0f1210;
   --cursor-fg: #fff;
   --au-glass: rgba(255, 255, 255, 0.14);
@@ -380,9 +383,9 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.45);
   transition:
-    background-color 0.85s var(--au-ease),
-    color 0.85s var(--au-ease),
-    border-color 0.85s var(--au-ease);
+    background-color 0.85s var(--au-retint),
+    color 0.85s var(--au-retint),
+    border-color 0.85s var(--au-retint);
 }
 .au-float__brand {
   font-size: 17px;
@@ -733,9 +736,11 @@
 .au-fan__item.is-active .au-fan__card {
   cursor: default;
 }
+/* On narrow cards the photo gives way to the copy and its bottom padding, so a fourth line of text
+   is never clipped. */
 .au-fan__media {
   position: relative;
-  flex: 0 0 64%;
+  flex: 0 1 64%;
   overflow: hidden;
   background: #1a1d1a;
 }
@@ -762,7 +767,8 @@
   padding: 4px 8px;
   border-radius: 999px;
   border: 1px solid var(--au-glass-line);
-  background: rgba(15, 18, 16, 0.22);
+  /* Dark enough to keep the number readable on the palest photo (03, the hazy hilltop). */
+  background: rgba(15, 18, 16, 0.6);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   color: #fff;
@@ -827,6 +833,10 @@
    ========================================================================== */
 .au-features {
   padding: clamp(96px, 10vw, 150px) 0 0;
+}
+/* The lede sits on the paper fade over misty hills, not on flat paper: one step darker. */
+.au-features .au-lede {
+  color: var(--au-ink-2);
 }
 .au-panel {
   position: relative;
@@ -902,6 +912,10 @@
   display: flex;
   flex-direction: column;
   padding: 22px 24px 24px;
+  /* Smoked top: the card's small header type sits where the paper fade meets the misty hilltops. */
+  background:
+    linear-gradient(180deg, rgba(12, 18, 10, 0.3), rgba(12, 18, 10, 0.12) 46%, rgba(12, 18, 10, 0) 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.1));
 }
 .au-glass__foot {
   margin-top: auto;
@@ -925,7 +939,8 @@
 .au-chart__label {
   grid-column: 1 / -1;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.78);
+  /* Small type over the misty hills: strong enough to stay above 4.5:1 on the palest patch. */
+  color: rgba(255, 255, 255, 0.86);
 }
 .au-chart__tags {
   display: flex;
@@ -1396,11 +1411,16 @@
   margin-top: clamp(72px, 8vw, 120px);
   padding: clamp(100px, 11vw, 160px) 20px clamp(120px, 13vw, 190px);
 }
+/* The field fades out into the page colour itself (a mask, not a paper or night overlay painted on
+   top), so its top edge always matches the page, also mid-way through a re-tint. The stops are the
+   overlay's own, inverted: the settled look is the same. */
 .au-pricing__bg {
   position: absolute;
   inset: -6% 0;
   z-index: -1;
   background: #b9c1b4;
+  -webkit-mask-image: linear-gradient(180deg, transparent 6%, rgba(0, 0, 0, 0.14) 18%, rgba(0, 0, 0, 0.7) 36%, #000 52%);
+  mask-image: linear-gradient(180deg, transparent 6%, rgba(0, 0, 0, 0.14) 18%, rgba(0, 0, 0, 0.7) 36%, #000 52%);
 }
 .au-pricing__bg img {
   width: 100%;
@@ -1408,44 +1428,13 @@
   object-fit: cover;
   object-position: 50% 70%;
 }
-.au-pricing__bg::before,
-.au-pricing__bg::after,
-.au-pricing__night {
+.au-pricing__bg::after {
   content: '';
   position: absolute;
   z-index: 1;
   inset: 0;
   pointer-events: none;
-}
-.au-pricing__bg::before {
-  background: linear-gradient(
-    180deg,
-    var(--au-paper) 6%,
-    rgba(251, 251, 248, 0.86) 18%,
-    rgba(251, 251, 248, 0.3) 36%,
-    rgba(251, 251, 248, 0) 52%
-  );
-  transition: opacity 0.85s var(--au-ease);
-}
-.au-pricing__night {
-  background: linear-gradient(
-    180deg,
-    var(--au-deep) 6%,
-    rgba(17, 21, 17, 0.86) 18%,
-    rgba(17, 21, 17, 0.3) 36%,
-    rgba(17, 21, 17, 0) 52%
-  );
-  opacity: 0;
-  transition: opacity 0.85s var(--au-ease);
-}
-.au-pricing__bg::after {
   background: linear-gradient(0deg, rgba(20, 30, 18, 0.28) 0%, rgba(20, 30, 18, 0) 40%);
-}
-.au[data-scroll-theme='dark'] .au-pricing__bg::before {
-  opacity: 0;
-}
-.au[data-scroll-theme='dark'] .au-pricing__night {
-  opacity: 1;
 }
 
 .au-billing {
@@ -2123,8 +2112,8 @@
 .au-approach .au-eyebrow,
 .au-statement {
   transition:
-    color 0.85s var(--au-ease),
-    background-color 0.85s var(--au-ease);
+    color 0.85s var(--au-retint),
+    background-color 0.85s var(--au-retint);
 }
 .au[data-scroll-theme='dark'] .au-approach .au-h2 {
   color: #fff;
@@ -2159,26 +2148,30 @@
   color: #fff;
 }
 
-/* Pricing heading stays legible while the page is still dark above it. */
+/* Pricing heading stays legible while the page is still dark above it. The lede sits where the
+   misty field fades out, so it runs one step stronger than on flat paper. */
 .au-pricing .au-h2,
 .au-pricing .au-lede {
-  transition: color 0.85s var(--au-ease);
+  transition: color 0.85s var(--au-retint);
+}
+.au-pricing .au-lede {
+  color: var(--au-ink-2);
 }
 .au[data-scroll-theme='dark'] .au-pricing .au-h2 {
   color: #fff;
 }
 .au[data-scroll-theme='dark'] .au-pricing .au-lede {
-  color: rgba(255, 255, 255, 0.66);
+  color: rgba(255, 255, 255, 0.84);
 }
 
 /* Closing band: on paper (before the page turns dark) its type switches to ink. */
 .au-cta,
 .au-cta__kicker,
 .au-cta__sub {
-  transition: color 0.85s var(--au-ease);
+  transition: color 0.85s var(--au-retint);
 }
 .au-cta__row {
-  transition: border-color 0.85s var(--au-ease);
+  transition: border-color 0.85s var(--au-retint);
 }
 .au[data-scroll-theme='light'] .au-cta {
   color: var(--au-ink);
@@ -2251,7 +2244,36 @@
 
 @media (max-width: 960px) {
   .au-panel__grid {
+    position: relative;
     grid-template-columns: minmax(0, 1fr);
+  }
+  /* Stacked cards make the panel tall, so a paper fade sized in % of its height reaches far down
+     behind the chart card. Here the fade ends a little below the top of the first card instead. */
+  .au-panel__bg::after {
+    background: linear-gradient(0deg, rgba(16, 24, 12, 0.42) 0%, rgba(16, 24, 12, 0) 55%);
+  }
+  .au-panel__grid::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -64px;
+    right: -64px;
+    bottom: calc(100% - 90px);
+    height: 760px;
+    background: linear-gradient(
+      0deg,
+      rgba(251, 251, 248, 0) 0,
+      rgba(251, 251, 248, 0.16) 40px,
+      rgba(251, 251, 248, 0.5) 90px,
+      rgba(251, 251, 248, 0.86) 126px,
+      var(--au-paper) 150px
+    );
+    pointer-events: none;
+  }
+  .au-glass--chart {
+    background:
+      linear-gradient(180deg, rgba(12, 18, 10, 0.56), rgba(12, 18, 10, 0.32) 46%, rgba(12, 18, 10, 0.22)),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.1));
   }
   .au-panel__side {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

@@ -66,7 +66,8 @@ export default function HowItWorks() {
       const a = Math.abs(d);
       const sgn = Math.sign(d);
       // Spread: cards sit on an arc, tilting outward and stepping down and back from the centre.
-      const xs = sgn * w * (a <= 1 ? 0.94 * a : a <= 2 ? 0.94 + 0.74 * (a - 1) : 1.68 + 0.64 * (a - 2));
+      // The outer pair steps far enough out that its neighbour never covers the start of its copy.
+      const xs = sgn * w * (a <= 1 ? 0.94 * a : a <= 2 ? 0.94 + 0.84 * (a - 1) : 1.78 + 0.64 * (a - 2));
       const ys = w * 0.0775 * a * a;
       const rs = d * 7;
       const ss = 1 - 0.11 * a;
@@ -267,34 +268,37 @@ export default function HowItWorks() {
         Stage {active + 1} of {N}: {current.title}
       </p>
 
-      <div className="au-fan__controls" data-reveal="fade" data-reveal-delay="0.15">
-        <button
-          type="button"
-          className="au-round"
-          onClick={() => go(active - 1)}
-          aria-label="Previous stage"
-          disabled={mobile && active === 0}
-        >
-          <ArrowLeft />
-        </button>
-        <PillButton as="a" href="#product" tone="dark">
-          Walk through the loop
-        </PillButton>
-        <button
-          type="button"
-          className="au-round"
-          onClick={() => go(active + 1)}
-          aria-label="Next stage"
-          disabled={mobile && active === N - 1}
-        >
-          <ArrowRight />
-        </button>
+      {/* Arrows, pill and progress dots reveal together, as soon as they reach the bottom of the screen. */}
+      <div data-reveal="fade" data-reveal-delay="0.15" data-reveal-start="top 98%">
+        <div className="au-fan__controls">
+          <button
+            type="button"
+            className="au-round"
+            onClick={() => go(active - 1)}
+            aria-label="Previous stage"
+            disabled={mobile && active === 0}
+          >
+            <ArrowLeft />
+          </button>
+          <PillButton as="a" href="#product" tone="dark">
+            Walk through the loop
+          </PillButton>
+          <button
+            type="button"
+            className="au-round"
+            onClick={() => go(active + 1)}
+            aria-label="Next stage"
+            disabled={mobile && active === N - 1}
+          >
+            <ArrowRight />
+          </button>
+        </div>
+        <ol className="au-fan__dots" aria-hidden="true">
+          {STEPS.map((s, i) => (
+            <li key={s.id} className={i === active ? 'is-on' : ''} />
+          ))}
+        </ol>
       </div>
-      <ol className="au-fan__dots" aria-hidden="true">
-        {STEPS.map((s, i) => (
-          <li key={s.id} className={i === active ? 'is-on' : ''} />
-        ))}
-      </ol>
     </section>
   );
 }
