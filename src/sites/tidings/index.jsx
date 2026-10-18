@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useSiteMeta } from '../../shared/useSiteMeta.js';
 import { ScrollTrigger } from '../../shared/gsap.js';
 import { useMotion } from '../../shared/motion/index.js';
-import { TidingsCtx } from './hooks.jsx';
+import { TidingsCtx, usePageTone } from './hooks.jsx';
 import { IconCheck } from './icons.jsx';
 import Nav from './components/Nav.jsx';
 import Hero from './components/Hero.jsx';
@@ -81,6 +81,8 @@ export default function Page() {
 
   // Shared motion system: masked reveals, fills, page re-tints, magnetic CTAs, parallax.
   useMotion(root);
+  // Section-head text and the nav follow the re-tinted page colour frame by frame.
+  usePageTone(root);
 
   // Accordions, tabs and the builder change page height; keep scroll triggers measured.
   useEffect(() => {

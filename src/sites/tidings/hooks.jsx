@@ -135,6 +135,53 @@ export function useScrolled(threshold = 8) {
   return scrolled;
 }
 
+/* ---------- Page tone during the analytics re-tint ---------- */
+const luminance = color => {
+  const [r, g, b, a = 1] = (color.match(/[\d.]+/g) || []).map(Number);
+  if (!a) return 1;
+  const lin = v => ((v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+};
+
+/**
+ * The shared motion layer re-tints the whole page while Analytics is centred (data-bg). Text and
+ * the nav that sit straight on the page take their colours from `data-tone` on the root
+ * (light | dusk | night | dark), read from the page colour itself on every frame of that fade.
+ * Each band starts where the colours either side of it contrast equally with the page: luminance
+ * 0.38 for the blue eyebrow and grey lead (they go white), 0.2 for the heading and the nav, and
+ * 0.08 where the eyebrow and lead can settle on their softer night colours. So nothing is ever
+ * grey on grey. The nav's own hover transitions are paused (`data-tone-swap`) for the frame it
+ * switches in.
+ */
+export function usePageTone(rootRef) {
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    let raf = 0;
+    const update = () => {
+      const l = luminance(root.style.backgroundColor || getComputedStyle(root).backgroundColor);
+      const tone = l <= 0.08 ? 'dark' : l <= 0.2 ? 'night' : l <= 0.38 ? 'dusk' : 'light';
+      if (root.dataset.tone === tone) return;
+      root.dataset.tone = tone;
+      // Under reduced motion every change already runs as a near-instant transition (base.css);
+      // pausing the nav's would only make it switch a frame ahead of the page.
+      if (prefersReducedMotion()) return;
+      root.dataset.toneSwap = '';
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => (raf = requestAnimationFrame(() => delete root.dataset.toneSwap)));
+    };
+    update();
+    const mo = new MutationObserver(update);
+    mo.observe(root, { attributes: true, attributeFilter: ['style'] });
+    return () => {
+      mo.disconnect();
+      cancelAnimationFrame(raf);
+      delete root.dataset.tone;
+      delete root.dataset.toneSwap;
+    };
+  }, [rootRef]);
+}
+
 /** Copies text to the clipboard, falling back to a hidden textarea. */
 export async function copyText(text) {
   try {

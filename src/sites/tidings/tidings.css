@@ -599,6 +599,7 @@
   color: #fff;
   font-size: 14.5px;
   font-weight: 500;
+  white-space: nowrap;
   transition: background-color 0.2s;
 }
 .ar-btn-start:hover {
@@ -1259,10 +1260,12 @@
   align-items: center;
   gap: 5px;
 }
+/* illustrated avatar (components/Avatar.jsx): an inline SVG cropped to a circle */
 .ar-avatar {
   flex: none;
   border-radius: 50%;
-  object-fit: cover;
+  overflow: hidden;
+  clip-path: circle(50%);
   background: #dfe3ec;
 }
 .ar-ticks {
@@ -2896,6 +2899,14 @@ button.ar-msg-action:hover {
 .ar-kpis > div {
   padding: 14px 16px;
 }
+/* the rate tiles divide by delivered messages, the funnel by sent ones: say so on each */
+.ar-kpi-base {
+  display: block;
+  margin-top: 1px;
+  font-size: 11.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+}
 .ar-kpis dd {
   margin: 4px 0 0;
   font-size: 22px;
@@ -3449,6 +3460,7 @@ button.ar-msg-action:hover {
   border-top: 1px solid var(--ar-line);
   font-size: 13.5px;
   color: var(--ar-muted);
+  text-wrap: pretty;
 }
 
 /* ---------- 15. Modals, wizard, toast ---------- */
@@ -4122,14 +4134,20 @@ button.ar-msg-action:hover {
 @media (max-width: 719px) {
   .ar-hero {
     --u: 0.62px;
-    --ar-stage-h: 560px;
+    /* message cards narrow with the screen so they (and their tilted corners) stay on it. The
+       phone tucks under their lower edge but starts below the left card's timestamp, with room
+       for its 10px idle float; narrower cards run taller, so it drops by as much again */
+    --ar-card-w: min(180px, calc(50vw - 36px));
+    --ar-card-drop: max(0px, 162px - var(--ar-card-w));
+    --ar-stage-h: calc(592px + var(--ar-card-drop));
     --ar-phone-w: 264px;
     --ar-phone-h: 640px;
-    --ar-phone-top: 118px;
+    --ar-phone-top: calc(150px + var(--ar-card-drop));
     padding-top: 104px;
   }
+  /* sized so "Turn WhatsApp into" holds one line down to 320 px; the gradient line balances */
   .ar-h1 {
-    font-size: clamp(36px, 10.4vw, 46px);
+    font-size: clamp(31px, 11.2vw - 5px, 46px);
     line-height: 1.04;
   }
   .ar-h1-line {
@@ -4137,6 +4155,7 @@ button.ar-msg-action:hover {
   }
   .ar-h1-mask {
     display: block;
+    text-wrap: balance;
   }
   .ar-hero-sub {
     margin-top: 16px;
@@ -4155,11 +4174,11 @@ button.ar-msg-action:hover {
     margin-top: 36px;
   }
   .ar-slot.is-left {
-    left: calc(var(--ar-phone-w) / -2 - 64px);
+    left: calc(-16px - var(--ar-card-w));
     top: 8px;
   }
   .ar-slot.is-right {
-    left: calc(var(--ar-phone-w) / 2 - 116px);
+    left: 16px;
     top: -4px;
   }
   .ar-slot.is-left,
@@ -4167,13 +4186,13 @@ button.ar-msg-action:hover {
     z-index: 2;
   }
   .ar-fcard {
-    width: 180px;
+    width: var(--ar-card-w);
     padding: 8px;
     border-radius: 16px;
     --fs: 11.5px;
   }
   .ar-fcard.is-travel {
-    width: 184px;
+    width: min(184px, calc(50vw - 36px));
   }
   .ar-fcard-bubble {
     padding: 10px 12px 7px;
@@ -4235,7 +4254,8 @@ button.ar-msg-action:hover {
     grid-template-columns: 74px minmax(0, 1fr) 58px;
     gap: 10px;
   }
-  .ar-frow-pct {
+  .ar-frow-pct,
+  .ar-funnel-base {
     display: none;
   }
   .ar-kpis {
@@ -4287,14 +4307,17 @@ button.ar-msg-action:hover {
   .ar-hide-sm {
     display: none;
   }
+  /* campaign tabs stack into a one-column picker, so every name stays on one line */
   .ar-tabs {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     width: 100%;
+    border-radius: 24px;
   }
   .ar-tab {
-    padding: 0 6px;
-    font-size: 13px;
+    padding: 0 18px;
+    font-size: 14.5px;
+    white-space: nowrap;
   }
   .ar-btn-start {
     height: 36px;
@@ -4332,11 +4355,69 @@ button.ar-msg-action:hover {
   .ar-hero {
     --ar-phone-w: 252px;
   }
-  .ar-fcard {
-    width: 168px;
+  /* small phones: wordmark, "Book a demo" and the menu button share one 280 px row */
+  .ar-nav-inner {
+    gap: 12px;
   }
-  .ar-fcard.is-travel {
-    width: 172px;
+  .ar-wordmark {
+    font-size: 25px;
+  }
+  .ar-btn-start {
+    gap: 6px;
+    padding-left: 12px;
+    font-size: 13.5px;
+  }
+  .ar-badge {
+    gap: 7px;
+    height: auto;
+    min-height: 38px;
+    padding: 6px 14px 6px 10px;
+    font-size: 13px;
+    text-wrap: balance;
+  }
+  .ar-badge-ico {
+    width: 18px;
+    height: 18px;
+  }
+  /* builder tiles: "≤ 17,240" and "138/1,024" were clipped by a few px */
+  .ar-bstats {
+    gap: 6px;
+  }
+  .ar-bstats div {
+    padding: 8px;
+  }
+  .ar-bstats dd {
+    font-size: 14px;
+  }
+  /* journeys rows: the status pill drops under the name instead of squeezing it to "Lena · bas…" */
+  .ar-runs li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 4px;
+  }
+  .ar-runs li .ar-avatar {
+    grid-row: span 2;
+  }
+  .ar-runs-st {
+    justify-self: start;
+  }
+}
+
+/* the rate tiles become rows once three no longer fit side by side */
+@media (max-width: 374px) {
+  .ar-kpis {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ar-kpis > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+  }
+  .ar-kpis dd {
+    margin: 0;
   }
 }
 
@@ -4355,8 +4436,7 @@ button.ar-msg-action:hover {
    18. Motion layer & premium pass
    ===================================================================== */
 
-/* one consistent, gentle grade for every photo and portrait */
-.ar .ar-avatar,
+/* one consistent, gentle grade for every photo */
 .ar-fcard-photo img,
 .ar-msg-media img,
 .ar-tpl-thumb img {
@@ -4464,18 +4544,19 @@ button.ar-msg-action:hover {
 }
 
 /* ---------- page re-tint: deep-navy analytics interlude ---------- */
-.ar-analytics .ar-eyebrow,
-.ar-analytics .ar-h2,
-.ar-analytics .ar-lead {
-  transition: color 0.7s var(--ar-ease-soft);
-}
-.ar[data-scroll-theme='dark'] .ar-analytics .ar-eyebrow {
-  color: #9aabff;
-}
-.ar[data-scroll-theme='dark'] .ar-analytics .ar-h2 {
+/* Text that sits straight on the page follows the page tone (usePageTone, hooks.jsx), which
+   switches on the frames the fading page colour crosses each mid-tone. A colour fade of its own
+   took text and page through the same grey together, and the heading vanished for a moment.
+   The eyebrow and lead go white first (dusk), the heading once the page is darker than mid-grey
+   (night); the eyebrow and lead settle on their softer colours when the page is nearly navy. */
+.ar:is([data-tone='dusk'], [data-tone='night']) .ar-analytics :is(.ar-eyebrow, .ar-lead),
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-analytics .ar-h2 {
   color: #fff;
 }
-.ar[data-scroll-theme='dark'] .ar-analytics .ar-lead {
+.ar[data-tone='dark'] .ar-analytics .ar-eyebrow {
+  color: #9aabff;
+}
+.ar[data-tone='dark'] .ar-analytics .ar-lead {
   color: rgba(255, 255, 255, 0.68);
 }
 .ar-dash {
@@ -4486,7 +4567,12 @@ button.ar-msg-action:hover {
   box-shadow: 0 0 0 1px rgba(154, 171, 255, 0.14), 0 0 90px -20px rgba(106, 92, 255, 0.45), 0 60px 140px -40px rgba(42, 82, 232, 0.6);
 }
 
-/* nav follows the page theme */
+/* nav follows the page tone: bar, text and buttons switch together in one frame, so it is never
+   grey on grey mid-fade (usePageTone pauses these hover transitions for that frame) */
+.ar[data-tone-swap] .ar-nav,
+.ar[data-tone-swap] .ar-nav * {
+  transition: none;
+}
 .ar-nav,
 .ar-nav .ar-wordmark,
 .ar-nav-link,
@@ -4499,33 +4585,33 @@ button.ar-msg-action:hover {
   transition-duration: 0.6s;
   transition-timing-function: var(--ar-ease-soft);
 }
-.ar[data-scroll-theme='dark'] .ar-nav.is-scrolled {
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-nav.is-scrolled {
   background: rgba(21, 22, 43, 0.72);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 10px 30px -20px rgba(0, 0, 0, 0.6);
 }
-.ar[data-scroll-theme='dark'] .ar-nav .ar-wordmark {
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-nav .ar-wordmark {
   color: #fff;
 }
-.ar[data-scroll-theme='dark'] .ar-nav-link,
-.ar[data-scroll-theme='dark'] .ar-region-btn {
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-nav-link,
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-region-btn {
   color: rgba(255, 255, 255, 0.82);
 }
-.ar[data-scroll-theme='dark'] .ar-nav-link:hover,
-.ar[data-scroll-theme='dark'] .ar-nav-link[aria-expanded='true'],
-.ar[data-scroll-theme='dark'] .ar-region-btn:hover {
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-nav-link:hover,
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-nav-link[aria-expanded='true'],
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-region-btn:hover {
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
 }
-.ar[data-scroll-theme='dark'] .ar-btn-login,
-.ar[data-scroll-theme='dark'] .ar-menu-btn {
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-btn-login,
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-menu-btn {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
-.ar[data-scroll-theme='dark'] .ar-btn-start {
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-btn-start {
   background: #fff;
   color: var(--ar-ink);
 }
-.ar[data-scroll-theme='dark'] .ar-btn-start-dot {
+.ar:is([data-tone='night'], [data-tone='dark']) .ar-btn-start-dot {
   background: var(--ar-ink);
   color: #fff;
 }

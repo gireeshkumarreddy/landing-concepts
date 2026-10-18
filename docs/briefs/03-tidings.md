@@ -16,7 +16,8 @@ copy, every chat name & message, templates, segments, analytics campaigns, price
 - Logo: custom “tidings” wordmark in blue (chat-bubble dot on the i).
 
 ## Imagery
-- Booking card: `1751011983324-fe9d30fe9efd` (bistro table). Avatars: existing Unsplash portraits with new names.
+- Booking card: `1751011983324-fe9d30fe9efd` (bistro table) — the site's only photograph (Unsplash).
+- Avatars: original flat illustrations drawn in code (`components/Avatar.jsx`, one `look` per person in `data.js`) — eight distinct invented people in the blue/violet palette; no photos and no real person's likeness.
 
 ## Copy (all original)
 - Nav: Platform ▾ · Learn ▾ · Pricing · Company — right: “Sign in”, “Book a demo” (opens wizard), region.

@@ -106,7 +106,7 @@ export default function Footer() {
         </div>
         <div className="ar-footer-bottom">
           <p>Tidings is a concept product for a design portfolio. Not affiliated with WhatsApp or Meta.</p>
-          <p>Photography: Unsplash</p>
+          <p>Photography: Unsplash · Avatars: original illustrations</p>
         </div>
       </div>
     </footer>

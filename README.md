@@ -96,4 +96,6 @@ node scripts/qa/<site>-test.mjs <screenshot-dir>           # per-site interactio
   or stored — every success message says so.
 - No real company logos are drawn; brand names are typographic and invented. People, clients,
   messages and metrics are fictional sample data. Ines Morrow and Maren Holt are fictional people.
-- Photography is hotlinked from Unsplash (Unsplash licence).
+- Photography is hotlinked from Unsplash (Unsplash licence). On Tidings that is a single photo, the
+  bistro table; its customer avatars are original illustrations drawn in code
+  (`src/sites/tidings/components/Avatar.jsx`), not photos.

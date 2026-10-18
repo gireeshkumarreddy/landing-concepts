@@ -1,4 +1,3 @@
-import { avatar } from '../data.js';
 import { IconDoubleCheck } from '../icons.jsx';
 
 /** Device shell: emerald metal frame, side buttons, dynamic island, status bar. */
@@ -29,21 +28,6 @@ export function PhoneFrame({ children, className = '', time = '9:41' }) {
         {children}
       </div>
     </div>
-  );
-}
-
-export function Avatar({ person, size = 44, className = '', eager = false }) {
-  return (
-    <img
-      className={`ar-avatar ${className}`}
-      src={avatar(person.img, size * 2)}
-      alt=""
-      width={size}
-      height={size}
-      loading={eager ? 'eager' : 'lazy'}
-      decoding="async"
-      style={{ width: size, height: size }}
-    />
   );
 }
 

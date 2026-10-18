@@ -142,8 +142,9 @@ export default function Analytics() {
   const onKey = e => {
     const n = CAMPAIGNS.length;
     let next = null;
-    if (e.key === 'ArrowRight') next = (sel + 1) % n;
-    if (e.key === 'ArrowLeft') next = (sel - 1 + n) % n;
+    // Up / Down too: on phones the tabs stack into a column.
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (sel + 1) % n;
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (sel - 1 + n) % n;
     if (e.key === 'Home') next = 0;
     if (e.key === 'End') next = n - 1;
     if (next !== null) {
@@ -214,7 +215,8 @@ export default function Analytics() {
                 })}
               </ol>
               <p className="ar-funnel-foot">
-                Every stage counts unique contacts. A conversion is a purchase or booking made within 7 days of tapping the message.
+                Every stage counts unique contacts<span className="ar-funnel-base">; percentages are of messages sent</span>. A conversion is a
+                purchase or booking made within 7 days of tapping the message.
               </p>
             </div>
 
@@ -227,19 +229,28 @@ export default function Analytics() {
               </div>
               <dl className="ar-kpis">
                 <div>
-                  <dt className="ar-kpi-label">Read rate</dt>
+                  <dt className="ar-kpi-label">
+                    Read rate
+                    <span className="ar-kpi-base"> of delivered</span>
+                  </dt>
                   <dd>
                     <Num value={(c.funnel.Read / del) * 100} active={inView} format={v => v.toFixed(1)} suffix="%" />
                   </dd>
                 </div>
                 <div>
-                  <dt className="ar-kpi-label">Tap rate</dt>
+                  <dt className="ar-kpi-label">
+                    Tap rate
+                    <span className="ar-kpi-base"> of delivered</span>
+                  </dt>
                   <dd>
                     <Num value={(c.funnel.Tapped / del) * 100} active={inView} format={v => v.toFixed(1)} suffix="%" />
                   </dd>
                 </div>
                 <div>
-                  <dt className="ar-kpi-label">Conversion</dt>
+                  <dt className="ar-kpi-label">
+                    Conversion
+                    <span className="ar-kpi-base"> of delivered</span>
+                  </dt>
                   <dd>
                     <Num value={(c.funnel.Converted / del) * 100} active={inView} format={v => v.toFixed(1)} suffix="%" />
                   </dd>

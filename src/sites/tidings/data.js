@@ -1,21 +1,60 @@
 // Sample data for the Tidings concept. Everything here is illustrative demo content.
 // Two fictional sample businesses appear throughout: Fern & Field (a homeware and
 // clothing shop) and Casa Verde (a neighbourhood restaurant).
-import { unsplash } from '../../shared/img.js';
-
 export const IMG_BISTRO = '1751011983324-fe9d30fe9efd'; // bistro table with wine glasses
 
-export const avatar = (id, size = 96) => unsplash(id, { w: size, h: size, q: 70, crop: 'faces' });
-
+// Every customer here is invented, so each one gets an original illustrated avatar
+// (components/Avatar.jsx draws it from `look`) rather than a photo of a real person.
+// skin: fair · light · olive · tan · medium · deep · rich   face: oval · round · long · square · heart
 export const PEOPLE = {
-  priya: { id: 'priya', name: 'Priya Nair', first: 'Priya', img: '1609371497456-3a55a205d5eb' },
-  tomas: { id: 'tomas', name: 'Tomás Ortega', first: 'Tomás', img: '1500648767791-00dcc994a43e' },
-  hannah: { id: 'hannah', name: 'Hannah Okafor', first: 'Hannah', img: '1623717217554-72ca676de535' },
-  lena: { id: 'lena', name: 'Lena Fischer', first: 'Lena', img: '1764971591006-b6eb67a8f0cb' },
-  kenji: { id: 'kenji', name: 'Kenji Watanabe', first: 'Kenji', img: '1628619488538-f4ce88739f56' },
-  amina: { id: 'amina', name: 'Amina Diallo', first: 'Amina', img: '1494790108377-be9c29b29330' },
-  daniel: { id: 'daniel', name: 'Daniel Brooks', first: 'Daniel', img: '1758874574397-e56dfcfc116d' },
-  rafael: { id: 'rafael', name: 'Rafael Costa', first: 'Rafael', img: '1592234789031-94bf65f630ed' },
+  priya: {
+    id: 'priya',
+    name: 'Priya Nair',
+    first: 'Priya',
+    look: { bg: '#dbe6ff', skin: 'medium', face: 'oval', hair: { style: 'long', color: '#241a1f' }, top: { color: '#f26b5b', neck: 'scoop' }, earrings: 'stud' },
+  },
+  tomas: {
+    id: 'tomas',
+    name: 'Tomás Ortega',
+    first: 'Tomás',
+    look: { bg: '#e7e2ff', skin: 'olive', face: 'long', hair: { style: 'sweep', color: '#3a2417', shade: '#5a3b2a' }, top: { color: '#2f3f8f', trim: '#eef2ff', neck: 'collar' } },
+  },
+  hannah: {
+    id: 'hannah',
+    name: 'Hannah Okafor',
+    first: 'Hannah',
+    look: { bg: '#d3dcff', skin: 'deep', face: 'round', hair: { style: 'afro', color: '#1f1716' }, top: { color: '#f0b429', trim: '#d4951a', neck: 'crew' }, glasses: 'round' },
+  },
+  lena: {
+    id: 'lena',
+    name: 'Lena Fischer',
+    first: 'Lena',
+    look: { bg: '#c9d2ff', skin: 'fair', face: 'heart', hair: { style: 'bob', color: '#e8c372', shade: '#c9a04d', brow: '#a8813f' }, top: { color: '#7fb89c', trim: '#5f9c80', neck: 'v' } },
+  },
+  kenji: {
+    id: 'kenji',
+    name: 'Kenji Watanabe',
+    first: 'Kenji',
+    look: { bg: '#efe3ff', skin: 'light', face: 'square', hair: { style: 'parted', color: '#16151f', shade: '#34334a' }, top: { color: '#c4573a', trim: '#d9714f', neck: 'turtle' } },
+  },
+  amina: {
+    id: 'amina',
+    name: 'Amina Diallo',
+    first: 'Amina',
+    look: { bg: '#dbe6ff', skin: 'rich', face: 'oval', hair: { style: 'bun', color: '#231614', shade: '#4d332c' }, top: { color: '#c2416b', trim: '#a32f56', neck: 'v' }, earrings: 'hoop' },
+  },
+  daniel: {
+    id: 'daniel',
+    name: 'Daniel Brooks',
+    first: 'Daniel',
+    look: { bg: '#e7e2ff', skin: 'fair', face: 'round', hair: { style: 'crop', color: '#b4532a' }, beard: '#b25a30', freckles: true, top: { color: '#1f9e8f', trim: '#e6fbf6', neck: 'collar' } },
+  },
+  rafael: {
+    id: 'rafael',
+    name: 'Rafael Costa',
+    first: 'Rafael',
+    look: { bg: '#cfd6ff', skin: 'tan', face: 'square', hair: { style: 'receding', color: '#b6b8c3', brow: '#8b8d99' }, beard: '#c3c5ce', top: { color: '#6f7d3c', trim: '#586430', inner: '#f3eee2', neck: 'open' }, glasses: 'square' },
+  },
 };
 
 /* ---------- Region & currency ---------- */

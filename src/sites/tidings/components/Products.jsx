@@ -1,26 +1,30 @@
 import { useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView } from 'motion/react';
 import SectionHead from './SectionHead.jsx';
-import { Avatar, Ticks } from './Phone.jsx';
+import { Ticks } from './Phone.jsx';
+import Avatar from './Avatar.jsx';
 import { copyText, useTidings, useProgress } from '../hooks.jsx';
-import { PEOPLE, fmt, money } from '../data.js';
+import { CAMPAIGNS, PEOPLE, fmt, money } from '../data.js';
 import { IconCart, IconCheck, IconClock, IconCopy, IconReplay, IconSend, Spinner } from '../icons.jsx';
 
 const clamp01 = v => Math.max(0, Math.min(1, v));
 const easeInOut = t => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 
 /* ---------- 1. Broadcasts ---------- */
+// The same campaign as the first Analytics tab, so the counters land on its funnel numbers.
+const LINEN = CAMPAIGNS.find(c => c.id === 'linen').funnel;
+
 function Broadcast() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.4 });
   const [run, setRun] = useState(0);
   const p = useProgress(inView, 5200, run);
-  const total = 15240;
+  const total = LINEN.Sent;
   const aud = easeInOut(clamp01(p / 0.22));
   const sendP = easeInOut(clamp01((p - 0.18) / 0.72));
   const sent = Math.round(total * sendP);
-  const delivered = Math.round(total * 0.97 * easeInOut(clamp01((p - 0.24) / 0.7)));
-  const read = Math.round(total * 0.812 * easeInOut(clamp01((p - 0.34) / 0.66)));
+  const delivered = Math.round(LINEN.Delivered * easeInOut(clamp01((p - 0.24) / 0.7)));
+  const read = Math.round(LINEN.Read * easeInOut(clamp01((p - 0.34) / 0.66)));
   const done = p >= 1;
   return (
     <div className="ar-vig ar-bc" ref={ref}>

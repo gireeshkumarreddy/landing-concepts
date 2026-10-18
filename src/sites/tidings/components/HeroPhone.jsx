@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { PhoneFrame, Avatar, Ticks } from './Phone.jsx';
+import { PhoneFrame, Ticks } from './Phone.jsx';
+import Avatar from './Avatar.jsx';
 import { CHATS } from '../data.js';
 import { richText } from '../hooks.jsx';
 import { unsplash } from '../../../shared/img.js';
@@ -44,7 +45,7 @@ function ChatList({ onOpen, read, query, setQuery }) {
           return (
             <li key={c.id}>
               <button type="button" className="ar-chat" data-chat={c.id} data-cursor="Open" onClick={() => onOpen(c.id)}>
-                <Avatar person={c.person} size={46} eager />
+                <Avatar person={c.person} size={46} />
                 <span className="ar-chat-main">
                   <span className="ar-chat-row">
                     <span className="ar-chat-name">{c.person.name}</span>
@@ -209,7 +210,7 @@ function Conversation({ chat, onBack }) {
         <button type="button" className="ar-conv-back" onClick={onBack} aria-label="Back to chats">
           <IconChevronLeft size={22} sw={2.2} />
         </button>
-        <Avatar person={chat.person} size={36} eager />
+        <Avatar person={chat.person} size={36} />
         <span className="ar-conv-who">
           <span className="ar-conv-name">{chat.person.name}</span>
           <span className={`ar-conv-status ${typing ? 'is-typing' : ''}`}>{typing ? 'typing…' : 'online'}</span>
