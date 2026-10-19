@@ -31,7 +31,15 @@ const Word = ({ text }) => (
   </span>
 );
 
-function Token({ tok, pinkRef }) {
+// `tail` (the resting caret) is glued to the end of the token, so it never wraps onto a line of its own.
+function Token({ tok, pinkRef, tail = null }) {
+  if (tail && !tok.phrase)
+    return (
+      <span className="ch-nowrap">
+        <Token tok={tok} pinkRef={pinkRef} />
+        {tail}
+      </span>
+    );
   if (typeof tok === 'string') return <Word text={tok} />;
   if (tok.phrase) {
     const words = tok.phrase.split(' ');
@@ -45,6 +53,7 @@ function Token({ tok, pinkRef }) {
         ))}
         <span className="ch-nowrap">
           <Word text={last} /> <Token tok={tok.key} pinkRef={pinkRef} />
+          {tail}
         </span>
       </span>
     );
@@ -52,7 +61,10 @@ function Token({ tok, pinkRef }) {
   return <Keycap tone={tok.key} glyph={tok.glyph} data-tw ref={tok.key === 'pink' ? pinkRef : undefined} />;
 }
 
-function Headline({ pinkRef }) {
+function Headline({ pinkRef, restRef }) {
+  // The caret rests where the typing stops: right after the headline's last token.
+  const rest = <span className="ch-caret ch-caret--rest" ref={restRef} />;
+  const tailAt = (li, gi) => (li === LINES.length - 1 && gi === LINES[li].length - 1 ? rest : null);
   return (
     <h1 className="ch-h1" id="ch-hero-title">
       <span className="sr-only">{H1_TEXT}</span>
@@ -67,12 +79,12 @@ function Headline({ pinkRef }) {
                     {group.map((tok, ti) => (
                       <Fragment key={ti}>
                         {ti > 0 && ' '}
-                        <Token tok={tok} pinkRef={pinkRef} />
+                        <Token tok={tok} pinkRef={pinkRef} tail={ti === group.length - 1 ? tailAt(li, gi) : null} />
                       </Fragment>
                     ))}
                   </span>
                 ) : (
-                  <Token tok={group[0]} pinkRef={pinkRef} />
+                  <Token tok={group[0]} pinkRef={pinkRef} tail={tailAt(li, gi)} />
                 )}
               </Fragment>
             ))}
@@ -217,8 +229,7 @@ export default function Hero({ onOpen }) {
           <BookIcon size={15} />
           Editing notes, every Sunday
         </p>
-        <Headline pinkRef={pinkRef} />
-        <span className="ch-caret ch-caret--rest" ref={restCaret} aria-hidden="true" />
+        <Headline pinkRef={pinkRef} restRef={restCaret} />
 
         <div className="ch-hero__row">
           <p className="ch-hero__intro" data-hero-fade>

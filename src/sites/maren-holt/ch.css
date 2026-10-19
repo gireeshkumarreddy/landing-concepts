@@ -655,8 +655,15 @@
   border-radius: 1px;
   background: #4a4a4a;
 }
+/* Rests at the end of the headline, exactly where the typing caret stops (2px after the pink
+   keycap, centred on it), instead of on a line of its own under the headline. */
 .ch-caret--rest {
-  margin-top: 14px;
+  display: inline-block;
+  width: 2px;
+  height: 0.74em;
+  margin-left: calc(2px - 0.04em);
+  vertical-align: 0.02em;
+  background: #3a3a3a;
   animation: ch-blink 1.05s steps(1) infinite;
 }
 .ch-caret--type {
@@ -675,7 +682,7 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 486px);
   align-items: center;
   gap: 24px 40px;
-  margin-top: 18px;
+  margin-top: 56px;
 }
 .ch-hero__intro {
   max-width: 400px;
@@ -2798,7 +2805,7 @@ input[type='date'].ch-field__control {
   }
   .ch-hero__row {
     grid-template-columns: minmax(0, 1fr);
-    margin-top: 14px;
+    margin-top: 52px;
   }
   .ch-news {
     justify-self: stretch;

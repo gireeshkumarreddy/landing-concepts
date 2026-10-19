@@ -19,6 +19,7 @@ const CFG = {
 };
 const VELOCITY_GAIN = 0.9; // deg/s per unit of Lenis velocity
 const MAX_BOOST = 46; // deg/s
+const TEXT_FADE = 36; // px: a card fades out over this distance as it nears the copy
 
 const useMobile = () => {
   const [m, setM] = useState(() => typeof window !== 'undefined' && window.matchMedia(MOBILE_Q).matches);
@@ -46,7 +47,7 @@ export default function EssayArc({ onOpen }) {
     const reduce = prefersReducedMotion();
     const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches && !mobile;
     const step = 360 / cfg.n;
-    const s = { phi: 0, speed: cfg.base, paused: false, focusing: false, R: 0, visible: false, tween: null };
+    const s = { phi: 0, speed: cfg.base, paused: false, focusing: false, R: 0, visible: false, tween: null, copy: [] };
 
     const render = () => {
       for (let i = 0; i < cfg.n; i++) {
@@ -58,7 +59,26 @@ export default function EssayArc({ onOpen }) {
         const rad = (a * Math.PI) / 180;
         const c = Math.cos(rad);
         const scale = cfg.side + (cfg.apex - cfg.side) * Math.max(0, c) ** 2;
-        node.style.transform = `translate3d(${(s.R * Math.sin(rad)).toFixed(2)}px, ${(-s.R * c).toFixed(2)}px, 0) rotate(${a.toFixed(2)}deg) scale(${scale.toFixed(4)})`;
+        const x = s.R * Math.sin(rad);
+        const y = -s.R * c;
+        node.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${a.toFixed(2)}deg) scale(${scale.toFixed(4)})`;
+        // On narrow screens the lower arc runs behind the copy (the facts row, the lede): a card
+        // there fades out before its tilted footprint (bounding box) reaches a copy block, so the
+        // text stays readable. The upper arc framing the heading is left as designed.
+        let o = 1;
+        const lower = Math.min(1, Math.max(0, -c * 10));
+        if (lower > 0) {
+          const sn = Math.abs(Math.sin(rad));
+          const ex = ((cfg.w * -c + cfg.h * sn) / 2) * scale;
+          const ey = ((cfg.w * sn + cfg.h * -c) / 2) * scale;
+          for (const b of s.copy) {
+            const gap = Math.hypot(Math.max(b.l - x - ex, x - ex - b.r, 0), Math.max(b.t - y - ey, y - ey - b.b, 0));
+            o = Math.min(o, gap / TEXT_FADE);
+          }
+          o = 1 - lower * (1 - o);
+        }
+        node.style.opacity = o < 1 ? o.toFixed(3) : '';
+        node.style.pointerEvents = o < 0.5 ? 'none' : '';
       }
     };
 
@@ -70,6 +90,17 @@ export default function EssayArc({ onOpen }) {
       el.style.setProperty('--arc-card-w', `${cfg.w}px`);
       el.style.setProperty('--arc-card-h', `${cfg.h}px`);
       el.style.setProperty('--arc-copy-top', `${Math.round(cfg.h * cfg.apex + 28 + cfg.gap)}px`);
+      // Copy blocks relative to the ring centre, from layout offsets (reveal transforms ignored).
+      const ring = el.querySelector('.ch-arc__ring');
+      const copy = el.querySelector('.ch-arc__copy');
+      const ox = copy.offsetLeft - ring.offsetLeft;
+      const oy = copy.offsetTop - ring.offsetTop;
+      s.copy = [...copy.children].map(n => ({
+        l: ox + n.offsetLeft,
+        r: ox + n.offsetLeft + n.offsetWidth,
+        t: oy + n.offsetTop,
+        b: oy + n.offsetTop + n.offsetHeight,
+      }));
       render();
     };
 

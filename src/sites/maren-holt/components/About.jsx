@@ -14,8 +14,9 @@ export default function About({ onNewsletter }) {
         <h2 className="sr-only" id="ch-about-title">
           About
         </h2>
-        {/* Fictional bio for the Maren Holt persona; words light up as it scrolls through. */}
-        <p className="ch-statement" data-fill data-fill-from="0.16" data-fill-start="top 80%" data-fill-end="bottom 50%">
+        {/* Fictional bio for the Maren Holt persona; words light up as it scrolls through and are all
+            lit by the time it is centred, so the whole sentence reads at once below its label. */}
+        <p className="ch-statement" data-fill data-fill-from="0.16" data-fill-start="top 85%" data-fill-end="center 58%">
           Fourteen years editing <em>fiction</em> and <em>narrative non-fiction</em> from a small studio in Bristol — helping good
           drafts become the books they were meant to be.
         </p>
