@@ -25,27 +25,39 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Highlight the last nav-mapped section whose top has passed 40% of the viewport.
-  // IntersectionObserver tells us when sections cross; the geometry check picks the winner,
-  // so unmapped sections (Services) keep the previous item highlighted.
+  // Highlight the item of the section under the line at 40% of the viewport, re-checked once per
+  // frame while scrolling (a thin IntersectionObserver band could miss the moment a section's top
+  // crossed the line and leave the previous item lit). The statement closes the Reel (data-nav);
+  // a section without a nav item (Services) lights nothing rather than the item before it.
   useEffect(() => {
     const ids = new Set(NAV.map(n => n.id));
-    const sections = [...document.querySelectorAll('.pf main > section[id]')];
+    const sections = [...document.querySelectorAll('.pf main > section')];
+    let raf = 0;
     const pick = () => {
+      raf = 0;
       const line = window.innerHeight * 0.4;
-      let current = 'index';
+      let current = sections[0];
       for (const s of sections) {
-        if (s.getBoundingClientRect().top <= line && ids.has(s.id)) current = s.id;
+        if (s.getBoundingClientRect().top <= line) current = s;
       }
-      setActive(current);
+      const id = current?.dataset.nav || current?.id || 'index';
+      setActive(ids.has(id) ? id : null);
+    };
+    const queue = () => {
+      if (!raf) raf = requestAnimationFrame(pick);
     };
     pick();
-    const io = new IntersectionObserver(pick, {
-      rootMargin: '-40% 0px -59% 0px',
-      threshold: [0, 1],
-    });
-    sections.forEach(el => io.observe(el));
-    return () => io.disconnect();
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    // Filtering the grid or a late image changes section heights without a scroll.
+    const ro = new ResizeObserver(queue);
+    ro.observe(document.querySelector('.pf main'));
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      window.removeEventListener('scroll', queue);
+      window.removeEventListener('resize', queue);
+    };
   }, []);
 
   const closeAndGo = (e, id) => {

@@ -1,7 +1,7 @@
 // A single scroll-filled sentence that closes the dark reel interlude.
 export default function Statement() {
   return (
-    <section className="pf-statement" data-bg="#101010" aria-labelledby="pf-statement-k">
+    <section className="pf-statement" data-bg="#101010" data-nav="reel" aria-labelledby="pf-statement-k">
       <div className="pf-wrap pf-statement-in">
         <p className="pf-statement-k" id="pf-statement-k" data-reveal="fade">
           <span className="pf-eyebrow-n">On editing</span>
