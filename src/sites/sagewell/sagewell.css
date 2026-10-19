@@ -746,9 +746,12 @@
   font-size: 15px;
   line-height: 22px;
   color: #5b5a54;
-  white-space: nowrap;
+  /* Wraps like the question will once typed; three lines is what the empty field holds
+     (66px on phones), and being absolute it never moves the composer while it types in. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 .cr-composer__caret {
   display: inline-block;
@@ -1888,6 +1891,10 @@
   transition: background-color 0.8s var(--cr-ease), color 0.8s var(--cr-ease), border-color 0.8s var(--cr-ease),
     box-shadow 0.8s var(--cr-ease);
 }
+/* A pill on its way out drops its highlight at once instead of easing it out behind the fade. */
+.cr-float__inner.is-leaving .cr-float__links a {
+  transition-property: color;
+}
 .cr[data-scroll-theme='dark'] .cr-float__inner {
   background: rgba(30, 31, 27, 0.72);
   border-color: rgba(255, 255, 255, 0.08);
@@ -1973,7 +1980,20 @@
   gap: 64px;
 }
 .cr-how__head {
+  position: relative;
   max-width: 620px;
+}
+/* A bank of mist pooled behind the heading: the painting's dark bushes sit right where the lede
+   wraps, so the fog thickens around the text (AA on every line) and thins out into the meadow. */
+.cr-how__head::before {
+  content: '';
+  position: absolute;
+  inset: -48px -112px -48px -120px;
+  z-index: -1;
+  border-radius: 80px;
+  background: rgba(246, 243, 236, 0.8);
+  filter: blur(40px);
+  pointer-events: none;
 }
 .cr-how__head .cr-lede {
   color: var(--cr-ink-2);

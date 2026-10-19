@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, useIsPresent } from 'motion/react';
 import { useEscape, useFocusTrap, useScrollLock } from '../../../shared/a11y.js';
 import { NAV_LINKS } from '../data.js';
 import { scrollToId, tx, useSagewell } from '../lib.js';
@@ -71,7 +71,6 @@ export function HeroNav({ menuOpen, onMenu }) {
 
 /** Compact fog-glass pill that appears once the hero has scrolled away. */
 export function FloatingNav({ visible, active, menuOpen, onMenu }) {
-  const { openAccess } = useSagewell();
   return (
     <AnimatePresence>
       {visible && (
@@ -82,26 +81,36 @@ export function FloatingNav({ visible, active, menuOpen, onMenu }) {
           exit={{ opacity: 0, y: -12 }}
           transition={tx({ duration: 0.35, ease: [0.2, 0.7, 0.2, 1] })}
         >
-          <nav className="cr-float__inner" aria-label="Section shortcuts">
-            <Wordmark href="#top" aria-label="Sagewell, back to top" className="cr-wordmark--sm" />
-            <Links className="cr-float__links" active={active} />
-            <button type="button" className="cr-btn cr-btn--ink cr-btn--sm cr-float__cta" data-magnetic="0.25" onClick={openAccess}>
-              Request access
-            </button>
-            <button
-              type="button"
-              className="cr-menu-btn cr-menu-btn--float"
-              aria-label="Open menu"
-              aria-expanded={menuOpen}
-              aria-controls="cr-menu"
-              onClick={onMenu}
-            >
-              <IconMenu />
-            </button>
-          </nav>
+          <FloatingNavInner active={active} menuOpen={menuOpen} onMenu={onMenu} />
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+function FloatingNavInner({ active, menuOpen, onMenu }) {
+  const { openAccess } = useSagewell();
+  // A leaving pill is frozen on the props of its last render (e.g. Journal lit just before a jump
+  // back to the top), so clear the highlight here and let it fade out with nothing lit.
+  const present = useIsPresent();
+  return (
+    <nav className={`cr-float__inner${present ? '' : ' is-leaving'}`} aria-label="Section shortcuts">
+      <Wordmark href="#top" aria-label="Sagewell, back to top" className="cr-wordmark--sm" />
+      <Links className="cr-float__links" active={present ? active : null} />
+      <button type="button" className="cr-btn cr-btn--ink cr-btn--sm cr-float__cta" data-magnetic="0.25" onClick={openAccess}>
+        Request access
+      </button>
+      <button
+        type="button"
+        className="cr-menu-btn cr-menu-btn--float"
+        aria-label="Open menu"
+        aria-expanded={menuOpen}
+        aria-controls="cr-menu"
+        onClick={onMenu}
+      >
+        <IconMenu />
+      </button>
+    </nav>
   );
 }
 
@@ -186,22 +195,29 @@ export function MobileMenu({ open, onClose }) {
   );
 }
 
-/** Tracks which nav section is in view. */
-export function useScrollSpy(ids) {
+/**
+ * Tracks which nav item's section sits on the reading line (45–50% down the viewport).
+ * `sections` maps section id → nav id, so a section can light its parent item. Every section of
+ * the page takes part, so while one without an item holds the line (the statement, In practice,
+ * the closing call) nothing is lit.
+ */
+export function useScrollSpy(sections) {
   const [active, setActive] = useState(null);
   useEffect(() => {
-    const els = ids.map(id => document.getElementById(id)).filter(Boolean);
+    const els = [...document.querySelectorAll('#main > section')];
     if (!els.length) return;
+    const onLine = new Set();
     const io = new IntersectionObserver(
       entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) setActive(e.target.id);
-        });
+        entries.forEach(e => (e.isIntersecting ? onLine.add(e.target) : onLine.delete(e.target)));
+        // Where two sections share the line, the later one (the one scrolling in) wins.
+        const el = els.filter(x => onLine.has(x)).pop();
+        setActive((el && sections[el.id]) || null);
       },
       { rootMargin: '-45% 0px -50% 0px' }
     );
     els.forEach(el => io.observe(el));
     return () => io.disconnect();
-  }, [ids]);
+  }, [sections]);
   return active;
 }

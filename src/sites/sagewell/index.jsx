@@ -20,7 +20,15 @@ import Notes, { NoteReader } from './components/Notes.jsx';
 import AccessModal from './components/AccessModal.jsx';
 import { ClosingCta, Footer } from './components/Closing.jsx';
 
-const SPY_IDS = ['research', 'developers', 'pricing', 'journal'];
+// Section id → the nav item it lights. The playground belongs to Developers; sections without
+// an item of their own (statement, In practice, closing call) light nothing.
+const SPY_SECTIONS = {
+  developers: 'developers',
+  playground: 'developers',
+  research: 'research',
+  pricing: 'pricing',
+  journal: 'journal',
+};
 
 export default function SagewellPage() {
   useSiteMeta({
@@ -38,7 +46,7 @@ export default function SagewellPage() {
   const [noteId, setNoteId] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [pastHero, setPastHero] = useState(false);
-  const active = useScrollSpy(SPY_IDS);
+  const active = useScrollSpy(SPY_SECTIONS);
 
   // Floating nav appears once the hero has scrolled away.
   useEffect(() => {

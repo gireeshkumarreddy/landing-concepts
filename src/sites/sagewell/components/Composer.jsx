@@ -176,7 +176,9 @@ export default function Composer({ ref, onSubmit }) {
   const getValue = useCallback(() => valueRef.current, []);
   const dictation = useDictation(getValue, setValue);
 
-  // Auto-grow up to MAX_LINES, then scroll inside.
+  // Auto-grow up to MAX_LINES, then scroll inside. No data-lenis-prevent on the box: Lenis'
+  // nested-scroll check hands it the wheel only while it can scroll, so the page still scrolls
+  // over the composer (the attribute's overscroll containment also stopped touch swipes here).
   useLayoutEffect(() => {
     const ta = taRef.current;
     if (!ta) return;
@@ -279,7 +281,6 @@ export default function Composer({ ref, onSubmit }) {
           aria-describedby="cr-composer-hint"
           autoComplete="off"
           spellCheck="true"
-          data-lenis-prevent
         />
         {!value && <TypedPlaceholder />}
       </div>
