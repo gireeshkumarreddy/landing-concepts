@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowUp, SearchIcon } from '../icons.jsx';
 import Keycap from './Keycap.jsx';
 import { Monogram } from './Nav.jsx';
 
+import Credit from '../../../shared/Credit.jsx';
 export default function Footer({ onSearch }) {
   return (
     <footer className="ch-footer">
@@ -57,7 +58,7 @@ export default function Footer({ onSearch }) {
         </div>
 
         <div className="ch-footer__base">
-          <p>Concept project for a design portfolio.</p>
+          <p>Concept project by <Credit />.</p>
           <p>
             Photography:{' '}
             <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">

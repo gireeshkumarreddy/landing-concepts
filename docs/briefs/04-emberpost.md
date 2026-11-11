@@ -9,7 +9,7 @@ person, subject, message, notification source. The visual design stays as the fi
 ## Identity
 - **Emberpost** — “email organised around the people behind it”.
 - Wordmark: “emberpost” lowercase, Geist 600, with a small spark mark.
-- Footer line: “Emberpost is a concept product for a design portfolio. People and messages are sample data.”
+- Footer line: “Emberpost is a concept product by TESERACT Creative Studios (linked to https://teseract.pro/). People and messages are sample data.”
 
 ## Visual design — restored first build (light grey, restrained purple)
 - Tokens: `--ta-bg #ececee`, `--ta-bg-2 #f4f4f6`, `--ta-surface #ffffff`, `--ta-ink #0c0c10`, `--ta-ink-2 #3a3a44`, `--ta-muted #75757f`, `--ta-line #dcdce2`, `--ta-violet #5b4cf0`, `--ta-violet-2 #7b6dff`, `--ta-lavender #e8e5ff`, `--ta-lavender-2 #d9d4ff`; sidebar `#efedff → #e3e0ff`.

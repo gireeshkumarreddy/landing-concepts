@@ -7,6 +7,7 @@ import { useSiteMeta } from '../shared/useSiteMeta.js';
 import { useMotion } from '../shared/motion/index.js';
 import './hub.css';
 
+import Credit from '../shared/Credit.jsx';
 const STACK = ['React 19', 'Vite', 'GSAP + ScrollTrigger', 'Lenis smooth scroll', 'Motion', 'Per-site type systems'];
 
 export default function Hub() {
@@ -84,7 +85,7 @@ export default function Hub() {
           ))}
         </ul>
         <p>
-          Concept work for a design portfolio. Brand names are typographic only; products, people and data shown are
+          Concept work by <Credit />. Brand names are typographic only; products, people and data shown are
           samples unless stated. Photography: Unsplash.
         </p>
       </footer>

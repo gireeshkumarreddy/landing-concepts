@@ -32,4 +32,4 @@ prices, features. The visual design (colours, imagery) stays as the first build.
 - Plans: “Plans that *grow with your team*”. **Team $24 / seat / month** (light) and **Business $64 / seat / month** (deep teal card). New feature lists (5 each), e.g. Team: Weekly change briefs, Plain-language explanations, 12 data connectors, Shared workspace, Email support. Business: Everything in Team, Unlimited connectors, Scenario forecasts, Roles & audit log, Priority support. Yearly saves 20%.
 - Dark band: “Make the next call *a clear one*.” + “Try Vantline free”.
 - Drawer title: “Start your workspace”; success: “Workspace request saved in this demo only — no account was created.”
-- Footer line: “Vantline is a concept product for a design portfolio. Chart values are sample data.”
+- Footer line: “Vantline is a concept product by TESERACT Creative Studios (linked to https://teseract.pro/). Chart values are sample data.”

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IconArrowUpRight } from '../icons.jsx';
 
+import Credit from '../../../shared/Credit.jsx';
 const fmt = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Europe/Copenhagen',
   hour: '2-digit',
@@ -66,8 +67,7 @@ export default function Footer() {
       <div className="pf-wrap">
         <div className="pf-foot-bottom">
           <p>
-            Ines Morrow is a fictional editor created for this portfolio concept. Concept project for a design
-            portfolio.
+            Ines Morrow is a fictional editor created for this portfolio concept. Concept project by <Credit />.
           </p>
           <p>Photography: Unsplash</p>
           <a href="#index" className="pf-foot-top-link">

@@ -5,6 +5,7 @@ import { LEARN_LINKS, PLATFORM_LINKS, REGIONS, REGION_ORDER } from '../data.js';
 import { IconArrow } from '../icons.jsx';
 import Wordmark from './Wordmark.jsx';
 
+import Credit from '../../../shared/Credit.jsx';
 export function FinalCta() {
   const { openWizard, openContact } = useTidings();
   return (
@@ -105,7 +106,7 @@ export default function Footer() {
           </nav>
         </div>
         <div className="ar-footer-bottom">
-          <p>Tidings is a concept product for a design portfolio. Not affiliated with WhatsApp or Meta.</p>
+          <p>Tidings is a concept product by <Credit />. Not affiliated with WhatsApp or Meta.</p>
           <p>Photography: Unsplash · Avatars: original illustrations</p>
         </div>
       </div>

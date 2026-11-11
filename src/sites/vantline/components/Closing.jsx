@@ -5,6 +5,7 @@ import { ArrowUp } from '../icons.jsx';
 import Logo from './Logo.jsx';
 import { PillButton } from './ui.jsx';
 
+import Credit from '../../../shared/Credit.jsx';
 export const CtaBand = forwardRef(function CtaBand({ onSignup }, ref) {
   return (
     <section className="au-cta" aria-labelledby="au-cta-title" ref={ref} data-bg="#111511">
@@ -83,7 +84,7 @@ export function Footer({ onSignup, onChoose }) {
         </nav>
       </div>
       <div className="au-footer__base">
-        <p>Vantline is a concept product for a design portfolio. Chart values are sample data.</p>
+        <p>Vantline is a concept product by <Credit />. Chart values are sample data.</p>
         <p>Photography: Unsplash</p>
       </div>
       <p className="au-footer__mega" aria-hidden="true">

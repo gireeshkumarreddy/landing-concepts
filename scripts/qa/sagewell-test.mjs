@@ -265,7 +265,7 @@ await wait(400);
 ok('access modal closes', !(await page.locator('[role="dialog"]').count()));
 
 ok('footer links to concept index', (await page.locator('.cr-footer a[href="/"]').count()) >= 1);
-ok('footer concept line', await page.getByText('Sagewell is a concept product for a design portfolio.', { exact: false }).isVisible());
+ok('footer concept line', await page.getByText('Sagewell is a concept product by', { exact: false }).isVisible());
 await page.context().close();
 
 /* ---------------- No speech support ---------------- */

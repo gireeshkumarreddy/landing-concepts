@@ -5,6 +5,7 @@ import { scrollToId, useSagewell } from '../lib.js';
 import { IconArrowRight, IconArrowUp } from '../icons.jsx';
 import { Wordmark } from './Nav.jsx';
 
+import Credit from '../../../shared/Credit.jsx';
 export function ClosingCta() {
   const { openAccess } = useSagewell();
   return (
@@ -112,7 +113,7 @@ export function Footer() {
           </nav>
         </div>
         <div className="cr-footer__bottom">
-          <p>Sagewell is a concept product for a design portfolio. Nothing you type leaves this page.</p>
+          <p>Sagewell is a concept product by <Credit />. Nothing you type leaves this page.</p>
           <p>Photography: Unsplash</p>
           <p className="cr-footer__links">
             <Link to="/">All concepts</Link>

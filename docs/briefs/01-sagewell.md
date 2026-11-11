@@ -37,4 +37,4 @@ name, every line of copy, sample prompts/answers, model ids, prices. The visual 
 - Journal (nav “Journal”): three new notes, e.g. “Introducing Sagewell 2”, “Reading a reasoning trace”, “When the right answer is ‘it depends’” — new body text.
 - Closing: “Ask something difficult.” + “Request access” / “Read the docs”.
 - Access modal title: “Request early access”; success: “Request saved in this demo only — no account was created and nothing was sent.”
-- Footer line: “Sagewell is a concept product for a design portfolio.”
+- Footer line: “Sagewell is a concept product by TESERACT Creative Studios (linked to https://teseract.pro/).”

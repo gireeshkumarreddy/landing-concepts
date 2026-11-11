@@ -3,6 +3,7 @@ import { goToWaitlist } from '../lib.js';
 import { ArrowUpRight } from '../icons.jsx';
 import Wordmark from './Wordmark.jsx';
 
+import Credit from '../../../shared/Credit.jsx';
 const COLS = [
   {
     title: 'Product',
@@ -59,7 +60,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="ta-footer__bottom">
-          <p>Emberpost is a concept product for a design portfolio. People and messages are sample data.</p>
+          <p>Emberpost is a concept product by <Credit />. People and messages are sample data.</p>
           <p>Photography: Unsplash</p>
         </div>
       </div>

@@ -9,7 +9,7 @@ copy, every chat name & message, templates, segments, analytics campaigns, price
 ## Identity
 - **Tidings** — “WhatsApp campaigns customers actually want to open”.
 - Wordmark: “tidings” custom wordmark in the v1 blue.
-- Footer line: “Tidings is a concept product for a design portfolio. Not affiliated with WhatsApp or Meta.”
+- Footer line: “Tidings is a concept product by TESERACT Creative Studios (linked to https://teseract.pro/). Not affiliated with WhatsApp or Meta.”
 
 ## Visual design — restored first build (white → vivid blue-violet, light columns)
 - Tokens: `--ar-ink #15162b`, `--ar-ink-2 #3b3d58`, `--ar-muted #6a6d85`, `--ar-bg #ffffff`, `--ar-cloud #f3f5fb`, `--ar-line #e6e8f2`, `--ar-blue #2a52e8`, `--ar-blue-deep #1b33b8`, `--ar-violet #6a5cff`, `--ar-sky #dbe6ff`, chat green `#25d366` / `#128c4b` inside the phone only.
